@@ -1,12 +1,11 @@
 package by.it_academy.afisha.controllers;
 
-import by.it_academy.afisha.dao.entity.FilmEvent;
+import by.it_academy.afisha.dao.entity.AbstractEvent;
 import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dto.EventDto;
 import by.it_academy.afisha.services.api.IAfishaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
@@ -47,7 +46,7 @@ public class EventController {
     }
 
     @GetMapping("/{type}")
-    public List<FilmEvent> get() {
-        return service.getFilmEvents();
+    public List<AbstractEvent> get(@PathVariable Type type) {
+        return service.getEvents(type);
     }
 }

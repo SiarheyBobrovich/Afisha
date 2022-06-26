@@ -1,7 +1,9 @@
 package by.it_academy.afisha.services;
 
+import by.it_academy.afisha.dao.api.IAbstractDao;
 import by.it_academy.afisha.dao.api.IConcertEventDao;
 import by.it_academy.afisha.dao.api.IFilmEventDao;
+import by.it_academy.afisha.dao.entity.AbstractEvent;
 import by.it_academy.afisha.dao.entity.ConcertEvent;
 import by.it_academy.afisha.dao.entity.FilmEvent;
 import by.it_academy.afisha.dao.entity.enums.Type;
@@ -10,35 +12,32 @@ import by.it_academy.afisha.services.api.IAfishaService;
 import by.it_academy.afisha.services.mappers.EventMapper;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 public class EventService implements IAfishaService {
 
-    private final IFilmEventDao filmEventDao;
+    private final IAbstractDao abstractDao;
     private final IConcertEventDao concertEventDao;
+    private final IFilmEventDao filmEventDao;
     private final EventMapper mapper;
 
-    public EventService(IFilmEventDao filmEventDao, IConcertEventDao concertEventDao, EventMapper mapper) {
-        this.filmEventDao = filmEventDao;
+    public EventService(IAbstractDao abstractDao, IConcertEventDao concertEventDao, IFilmEventDao filmEventDao, EventMapper mapper) {
+        this.abstractDao = abstractDao;
         this.concertEventDao = concertEventDao;
+        this.filmEventDao = filmEventDao;
         this.mapper = mapper;
     }
 
     @Override
     public void save(EventDto dto, Type type) {
 
-        if (Type.FILMS.equals(type)) {
-            filmEventDao.save(mapper.getFilmEvent(dto));
-
-        }else if (Type.CONCERTS.equals(type)) {
-            concertEventDao.save(mapper.getConcertEvent(dto));
-
-        }else {
-            throw new IllegalArgumentException();
-        }
+        AbstractEvent abstractEvent = mapper.getAbstractEvent(dto, type);
+        abstractDao.save(abstractEvent);
     }
 
     @Override
@@ -60,7 +59,7 @@ public class EventService implements IAfishaService {
             filmEvent.getFilm().setTitle(event.getTitle());
             filmEvent.getFilm().setDescription(event.getDescription());
 
-            filmEventDao.save(filmEvent);
+            abstractDao.save(filmEvent);
 
         }else if (Type.CONCERTS.equals(type)) {
             ConcertEvent concertEvent = concertEventDao.findById(uuid).orElseThrow();
@@ -77,7 +76,7 @@ public class EventService implements IAfishaService {
             concertEvent.getConcert().setTitle(event.getTitle());
             concertEvent.getConcert().setDescription(event.getDescription());
 
-            concertEventDao.save(concertEvent);
+            abstractDao.save(concertEvent);
 
         }else {
             throw new IllegalArgumentException("Такого типа не обнаружено");
@@ -85,12 +84,21 @@ public class EventService implements IAfishaService {
     }
 
     @Override
-    public List<FilmEvent> getFilmEvents() {
-        return filmEventDao.findAll();
-    }
+    public List<AbstractEvent> getEvents(Type type) {
 
-    @Override
-    public List<ConcertEvent> getConcertEvents() {
-        return concertEventDao.findAll();
+        if (Type.FILMS.equals(type)) {
+            return new ArrayList<>(filmEventDao.findAll()).stream()
+                    .filter(x -> x.getFilm() != null)
+                    .collect(Collectors.toList());
+
+        }else if (Type.CONCERTS.equals(type)){
+            return new ArrayList<>(concertEventDao.findAll())
+                    .stream()
+                    .filter(x -> x.getConcert() != null)
+                    .collect(Collectors.toList());
+
+        }else {
+            throw new IllegalArgumentException();
+        }
     }
 }

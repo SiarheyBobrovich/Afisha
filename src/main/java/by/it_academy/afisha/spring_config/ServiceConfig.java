@@ -1,5 +1,6 @@
 package by.it_academy.afisha.spring_config;
 
+import by.it_academy.afisha.dao.api.IAbstractDao;
 import by.it_academy.afisha.dao.api.IConcertEventDao;
 import by.it_academy.afisha.dao.api.IFilmEventDao;
 import by.it_academy.afisha.services.EventService;
@@ -15,11 +16,12 @@ import org.springframework.context.annotation.Import;
 public class ServiceConfig {
 
     @Bean
-    public IAfishaService getService(@Autowired IFilmEventDao filmEventDao,
+    public IAfishaService getService(@Autowired IAbstractDao abstractDao,
+                                     @Autowired IFilmEventDao filmEventDao,
                                      @Autowired IConcertEventDao concertEventDao,
                                      @Autowired EventMapper mapper) {
 
-        return new EventService(filmEventDao, concertEventDao, mapper);
+        return new EventService(abstractDao, concertEventDao, filmEventDao, mapper);
     }
 
     @Bean

@@ -1,9 +1,6 @@
 package by.it_academy.afisha.dao.entity;
 
-import by.it_academy.afisha.controllers.utils.LocalDateTimeSerializer;
 import by.it_academy.afisha.dao.entity.enums.Status;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,51 +8,15 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "events", schema = "afisha")
-
-public class FilmEvent {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    private UUID uuid;
+public class FilmEvent extends AbstractEvent {
 
     @OneToOne(targetEntity = Film.class, cascade = CascadeType.ALL)
     @JoinTable(name = "events_films",
             joinColumns = @JoinColumn(name = "event_uuid", referencedColumnName = "uuid"),
             inverseJoinColumns = @JoinColumn(name = "film_uuid", referencedColumnName = "uuid")
     )
+
     private Film film;
-
-    @Column(name = "status", nullable = false)
-    private Status status;
-
-    @Column(name = "currency", nullable = false)
-    private String currency;
-
-    @Column(name = "dt_create", updatable = false)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime dtCreate;
-    @Version
-    @Column(name = "dt_update")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime dtUpdate;
-
-    @Column(name = "dt_event", nullable = false)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime dtEvent;
-    @Column(name = "dt_end_of_sale")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime dtEndOfState;
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
 
     public Action getFilm() {
         return film;
@@ -63,54 +24,6 @@ public class FilmEvent {
 
     public void setFilm(Film film) {
         this.film = film;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public LocalDateTime getDtCreate() {
-        return dtCreate;
-    }
-
-    public void setDtCreate(LocalDateTime dtCreate) {
-        this.dtCreate = dtCreate;
-    }
-
-    public LocalDateTime getDtUpdate() {
-        return dtUpdate;
-    }
-
-    public void setDtUpdate(LocalDateTime dtUpdate) {
-        this.dtUpdate = dtUpdate;
-    }
-
-    public LocalDateTime getDtEndOfState() {
-        return dtEndOfState;
-    }
-
-    public void setDtEndOfState(LocalDateTime dtEndOfState) {
-        this.dtEndOfState = dtEndOfState;
-    }
-
-    public LocalDateTime getDtEvent() {
-        return dtEvent;
-    }
-
-    public void setDtEvent(LocalDateTime dtEvent) {
-        this.dtEvent = dtEvent;
     }
 
     public static Builder create() {
