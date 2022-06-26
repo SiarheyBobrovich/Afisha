@@ -1,49 +1,68 @@
 package by.it_academy.afisha.dao.entity;
 
-import by.it_academy.afisha.dao.entity.api.AbstractEntity;
-import by.it_academy.afisha.dao.entity.api.IBaseEntity;
+import by.it_academy.afisha.controllers.utils.LocalDateTimeSerializer;
 import by.it_academy.afisha.dao.entity.enums.Status;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "events", schema = "afisha")
-public class Event {
+
+public class FilmEvent {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String uuid;
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private IBaseEntity action;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    private UUID uuid;
+
+    @OneToOne(targetEntity = Film.class, cascade = CascadeType.ALL)
+    @JoinTable(name = "events_films",
+            joinColumns = @JoinColumn(name = "event_uuid", referencedColumnName = "uuid"),
+            inverseJoinColumns = @JoinColumn(name = "film_uuid", referencedColumnName = "uuid")
+    )
+    private Film film;
 
     @Column(name = "status", nullable = false)
     private Status status;
 
-    @Column(table = "base_event", name = "dt_create")
+    @Column(name = "currency", nullable = false)
+    private String currency;
+
+    @Column(name = "dt_create", updatable = false)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtCreate;
     @Version
-    @Column(table = "base_event", name = "dt_update")
+    @Column(name = "dt_update")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtUpdate;
 
     @Column(name = "dt_event", nullable = false)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtEvent;
-    @Column(name = "dt_end_of_state")
+    @Column(name = "dt_end_of_sale")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtEndOfState;
 
-    public String getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
+    public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
 
-    public IBaseEntity getAction() {
-        return action;
+    public Action getFilm() {
+        return film;
     }
 
-    public void setAction(IBaseEntity action) {
-        this.action = action;
+    public void setFilm(Film film) {
+        this.film = film;
     }
 
     public Status getStatus() {
@@ -52,6 +71,14 @@ public class Event {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public LocalDateTime getDtCreate() {
@@ -91,9 +118,11 @@ public class Event {
     }
 
     public static class Builder {
-        private String uuid;
-        private IBaseEntity action;
+        private UUID uuid;
+        private Film film;
         private Status status;
+        private String currency;
+
 
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
@@ -101,13 +130,13 @@ public class Event {
         private LocalDateTime dtEndOfState;
         private LocalDateTime dtEvent;
 
-        public Builder setUuid(String uuid) {
+        public Builder setUuid(UUID uuid) {
             this.uuid = uuid;
             return this;
         }
 
-        public Builder setAction(IBaseEntity action) {
-            this.action = action;
+        public Builder setFilm(Film film) {
+            this.film = film;
             return this;
         }
 
@@ -136,16 +165,22 @@ public class Event {
             return this;
         }
 
-        public Event build() {
-            Event event = new Event();
+        public Builder setCurrency(String currency) {
+            this.currency = currency;
+            return this;
+        }
+
+        public FilmEvent build() {
+            FilmEvent event = new FilmEvent();
 
             event.setUuid(this.uuid);
-            event.setAction(this.action);
+            event.setFilm(this.film);
             event.setStatus(this.status);
             event.setDtEvent(this.dtEvent);
             event.setDtEndOfState(this.dtEndOfState);
             event.setDtCreate(this.dtCreate);
             event.setDtUpdate(this.dtUpdate);
+            event.setCurrency(currency);
 
             return event;
         }

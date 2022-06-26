@@ -1,10 +1,13 @@
 package by.it_academy.afisha.dao.api;
 
-import by.it_academy.afisha.dao.entity.Concert;
+import by.it_academy.afisha.dao.entity.Action;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-@org.springframework.stereotype.Repository
-public interface IConcertDao extends JpaRepository<Concert, String> {
+import java.util.UUID;
+
+@Repository
+public interface IConcertDao extends JpaRepository<Action, UUID> {
 
 
 }

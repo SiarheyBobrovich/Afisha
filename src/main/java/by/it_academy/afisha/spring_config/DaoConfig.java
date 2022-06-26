@@ -17,7 +17,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories("by.it_academy.afisha.dao.entity")
+@EnableJpaRepositories("by.it_academy.afisha.dao")
 @PropertySource(value = "classpath:hibernate.properties")
 public class DaoConfig {
 
@@ -28,7 +28,7 @@ public class DaoConfig {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
 
         factoryBean.setDataSource(dataSource);
-        factoryBean.setPackagesToScan("org.it_academy.currency.dao.entity");
+        factoryBean.setPackagesToScan("by.it_academy.afisha.dao.entity");
         factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         Properties properties = new Properties(2);
