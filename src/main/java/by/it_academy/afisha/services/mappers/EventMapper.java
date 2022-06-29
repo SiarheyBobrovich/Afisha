@@ -1,11 +1,11 @@
 package by.it_academy.afisha.services.mappers;
 
 import by.it_academy.afisha.dao.entity.*;
-import by.it_academy.afisha.dao.entity.enums.Status;
 import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dto.EventDto;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class EventMapper {
 
@@ -15,12 +15,13 @@ public class EventMapper {
                 .setDtEndOfState(dto.getDtEndOfSale())
                 .setStatus(dto.getStatus())
                 .setDtCreate(LocalDateTime.now())
-                .setCurrency(dto.getCurrency())
+                .setUuid(UUID.randomUUID())
                 .build();
 
         filmEvent.setDtUpdate(filmEvent.getDtCreate());
 
         Film film = new Film();
+        film.setUuid(UUID.randomUUID());
         film.setDescription(dto.getDescription());
         film.setTitle(dto.getTitle());
 
@@ -31,18 +32,20 @@ public class EventMapper {
 
     public ConcertEvent getConcertEvent(EventDto dto) {
         ConcertEvent concertEvent = ConcertEvent.create()
+                .setUuid(UUID.randomUUID())
                 .setDtEvent(dto.getDtEvent())
                 .setDtEndOfState(dto.getDtEndOfSale())
                 .setStatus(dto.getStatus())
                 .setDtCreate(LocalDateTime.now())
-                .setCurrency(dto.getCurrency())
                 .build();
 
         concertEvent.setDtUpdate(concertEvent.getDtCreate());
 
         Concert concert = new Concert();
+        concert.setUuid(UUID.randomUUID());
         concert.setDescription(dto.getDescription());
         concert.setTitle(dto.getTitle());
+
 
         concertEvent.setConcert(concert);
 
@@ -53,16 +56,17 @@ public class EventMapper {
         if (Type.FILMS.equals(type)) {
 
             FilmEvent filmEvent = FilmEvent.create()
+                    .setUuid(UUID.randomUUID())
                     .setDtEvent(dto.getDtEvent())
                     .setDtEndOfState(dto.getDtEndOfSale())
                     .setStatus(dto.getStatus())
                     .setDtCreate(LocalDateTime.now())
-                    .setCurrency(dto.getCurrency())
                     .build();
 
             filmEvent.setDtUpdate(filmEvent.getDtCreate());
 
             Film film = new Film();
+            film.setUuid(UUID.randomUUID());
             film.setDescription(dto.getDescription());
             film.setTitle(dto.getTitle());
 
@@ -72,16 +76,17 @@ public class EventMapper {
 
         }else if (Type.CONCERTS.equals(type)) {
             ConcertEvent concertEvent = ConcertEvent.create()
+                    .setUuid(UUID.randomUUID())
                     .setDtEvent(dto.getDtEvent())
                     .setDtEndOfState(dto.getDtEndOfSale())
                     .setStatus(dto.getStatus())
                     .setDtCreate(LocalDateTime.now())
-                    .setCurrency(dto.getCurrency())
                     .build();
 
             concertEvent.setDtUpdate(concertEvent.getDtCreate());
 
             Concert concert = new Concert();
+            concert.setUuid(UUID.randomUUID());
             concert.setDescription(dto.getDescription());
             concert.setTitle(dto.getTitle());
 

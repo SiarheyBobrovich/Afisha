@@ -10,6 +10,7 @@ import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dto.EventDto;
 import by.it_academy.afisha.services.api.IAfishaService;
 import by.it_academy.afisha.services.mappers.EventMapper;
+import by.it_academy.afisha.validators.ValidatorFactory;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,23 +19,26 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-
 public class EventService implements IAfishaService {
 
     private final IAbstractDao abstractDao;
     private final IConcertEventDao concertEventDao;
     private final IFilmEventDao filmEventDao;
     private final EventMapper mapper;
+    private final ValidatorFactory factory;
 
-    public EventService(IAbstractDao abstractDao, IConcertEventDao concertEventDao, IFilmEventDao filmEventDao, EventMapper mapper) {
+    public EventService(IAbstractDao abstractDao, IConcertEventDao concertEventDao,
+                        IFilmEventDao filmEventDao, EventMapper mapper, ValidatorFactory factory) {
         this.abstractDao = abstractDao;
         this.concertEventDao = concertEventDao;
         this.filmEventDao = filmEventDao;
         this.mapper = mapper;
+        this.factory = factory;
     }
 
     @Override
     public void save(EventDto dto, Type type) {
+        factory.getValidatorByClass(dto).validate(dto);
 
         AbstractEvent abstractEvent = mapper.getAbstractEvent(dto, type);
         abstractDao.save(abstractEvent);
@@ -55,7 +59,6 @@ public class EventService implements IAfishaService {
             filmEvent.setDtEvent(event.getDtEvent());
             filmEvent.setDtEndOfState(event.getDtEndOfSale());
             filmEvent.setStatus(event.getStatus());
-            filmEvent.setCurrency(event.getCurrency());
             filmEvent.getFilm().setTitle(event.getTitle());
             filmEvent.getFilm().setDescription(event.getDescription());
 
@@ -72,7 +75,6 @@ public class EventService implements IAfishaService {
             concertEvent.setDtEvent(event.getDtEvent());
             concertEvent.setDtEndOfState(event.getDtEndOfSale());
             concertEvent.setStatus(event.getStatus());
-            concertEvent.setCurrency(event.getCurrency());
             concertEvent.getConcert().setTitle(event.getTitle());
             concertEvent.getConcert().setDescription(event.getDescription());
 

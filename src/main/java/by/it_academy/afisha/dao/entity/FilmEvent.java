@@ -34,8 +34,6 @@ public class FilmEvent extends AbstractEvent {
         private UUID uuid;
         private Film film;
         private Status status;
-        private String currency;
-
 
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
@@ -78,10 +76,6 @@ public class FilmEvent extends AbstractEvent {
             return this;
         }
 
-        public Builder setCurrency(String currency) {
-            this.currency = currency;
-            return this;
-        }
 
         public FilmEvent build() {
             FilmEvent event = new FilmEvent();
@@ -93,7 +87,6 @@ public class FilmEvent extends AbstractEvent {
             event.setDtEndOfState(this.dtEndOfState);
             event.setDtCreate(this.dtCreate);
             event.setDtUpdate(this.dtUpdate);
-            event.setCurrency(currency);
 
             return event;
         }

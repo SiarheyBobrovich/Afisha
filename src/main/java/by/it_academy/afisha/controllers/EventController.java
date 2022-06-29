@@ -4,7 +4,9 @@ import by.it_academy.afisha.dao.entity.AbstractEvent;
 import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dto.EventDto;
 import by.it_academy.afisha.services.api.IAfishaService;
+import by.it_academy.afisha.validators.api.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +25,7 @@ public class EventController {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
 
-    private IAfishaService service;
+    private final IAfishaService service;
 
     public EventController(@Autowired IAfishaService service) {
         this.service = service;

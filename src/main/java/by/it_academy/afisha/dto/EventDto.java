@@ -2,6 +2,7 @@ package by.it_academy.afisha.dto;
 
 import by.it_academy.afisha.dao.entity.enums.Status;
 import by.it_academy.afisha.controllers.utils.LocalDateTimeDeserializer;
+import by.it_academy.afisha.dto.api.IDto;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
@@ -9,22 +10,21 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @JsonDeserialize(builder = EventDto.Builder.class)
-public class EventDto {
+public class EventDto implements IDto {
 
     private final String title;
     private final String description;
     private final LocalDateTime dtEvent;
     private final LocalDateTime dtEndOfSale;
     private final Status status;
-    private final String currency;
 
-    public EventDto(String title, String description, LocalDateTime dtEvent, LocalDateTime dtEndOfSale, Status status, String currency) {
+    public EventDto(String title, String description, LocalDateTime dtEvent,
+                    LocalDateTime dtEndOfSale, Status status) {
         this.title = title;
         this.description = description;
         this.dtEvent = dtEvent;
         this.dtEndOfSale = dtEndOfSale;
         this.status = status;
-        this.currency = currency;
     }
 
     public String getTitle() {
@@ -47,10 +47,6 @@ public class EventDto {
         return status;
     }
 
-    public String getCurrency() {
-        return currency;
-    }
-
     public static Builder create() {
         return new Builder();
     }
@@ -60,12 +56,16 @@ public class EventDto {
         if (this == o) return true;
         if (!(o instanceof EventDto)) return false;
         EventDto eventDto = (EventDto) o;
-        return Objects.equals(title, eventDto.title) && Objects.equals(description, eventDto.description) && Objects.equals(dtEvent, eventDto.dtEvent) && Objects.equals(dtEndOfSale, eventDto.dtEndOfSale) && status == eventDto.status && Objects.equals(currency, eventDto.currency);
+        return Objects.equals(title, eventDto.title) &&
+                Objects.equals(description, eventDto.description) &&
+                Objects.equals(dtEvent, eventDto.dtEvent) &&
+                Objects.equals(dtEndOfSale, eventDto.dtEndOfSale) &&
+                status == eventDto.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, dtEvent, dtEndOfSale, status, currency);
+        return Objects.hash(title, description, dtEvent, dtEndOfSale, status);
     }
 
     @Override
@@ -76,7 +76,6 @@ public class EventDto {
                 ", dtEvent=" + dtEvent +
                 ", dtEndOfSale=" + dtEndOfSale +
                 ", status=" + status +
-                ", currency='" + currency + '\'' +
                 '}';
     }
 
@@ -91,8 +90,6 @@ public class EventDto {
         @JsonDeserialize(using = LocalDateTimeDeserializer.class)
         private LocalDateTime dtEndOfSale;
         private Status status;
-        private String currency;
-
         public Builder setTitle(String title) {
             this.title = title;
             return this;
@@ -118,13 +115,8 @@ public class EventDto {
             return this;
         }
 
-        public Builder setCurrency(String currency) {
-            this.currency = currency;
-            return this;
-        }
-
         public EventDto build() {
-            return new EventDto(title, description, dtEvent, dtEndOfSale, status, currency);
+            return new EventDto(title, description, dtEvent, dtEndOfSale, status);
         }
     }
 

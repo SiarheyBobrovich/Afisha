@@ -14,11 +14,6 @@ import java.util.UUID;
 public abstract class Action {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
     private UUID uuid;
     private String title;
 

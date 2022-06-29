@@ -1,7 +1,6 @@
 package by.it_academy.afisha.dao.entity;
 
 import by.it_academy.afisha.dao.entity.enums.Status;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -34,8 +33,6 @@ public class ConcertEvent extends AbstractEvent{
         private UUID uuid;
         private Concert concert;
         private Status status;
-        private String currency;
-
 
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
@@ -78,10 +75,6 @@ public class ConcertEvent extends AbstractEvent{
             return this;
         }
 
-        public Builder setCurrency(String currency) {
-            this.currency = currency;
-            return this;
-        }
 
         public ConcertEvent build() {
             ConcertEvent concertEvent = new ConcertEvent();
@@ -93,7 +86,6 @@ public class ConcertEvent extends AbstractEvent{
             concertEvent.setDtEndOfState(this.dtEndOfState);
             concertEvent.setDtCreate(this.dtCreate);
             concertEvent.setDtUpdate(this.dtUpdate);
-            concertEvent.setCurrency(currency);
 
             return concertEvent;
         }

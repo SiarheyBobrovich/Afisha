@@ -3,7 +3,6 @@ package by.it_academy.afisha.dao.entity;
 import by.it_academy.afisha.controllers.utils.LocalDateTimeSerializer;
 import by.it_academy.afisha.dao.entity.enums.Status;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,18 +12,11 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class AbstractEvent {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )    private UUID uuid;
+    private UUID uuid;
 
     @Column(name = "status", nullable = false, length = 9)
     @Enumerated(EnumType.STRING)
     private Status status;
-
-    @Column(name = "currency", nullable = false)
-    private String currency;
 
     @Column(name = "dt_create", updatable = false)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -55,14 +47,6 @@ public class AbstractEvent {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public LocalDateTime getDtCreate() {

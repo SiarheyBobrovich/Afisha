@@ -1,15 +1,11 @@
 package by.it_academy.afisha.spring_config;
 
 import by.it_academy.afisha.controllers.utils.LocalDateTimeDeserializer;
-import by.it_academy.afisha.controllers.utils.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean;
@@ -51,7 +47,6 @@ public class ControllerConfig implements WebMvcConfigurer {
 
     @Autowired
     private ObjectMapper mapper;
-
 
     @Bean("jsonHttpMessageConverter")
     public MappingJackson2HttpMessageConverter converter(@Qualifier("objectMapper") Jackson2ObjectMapperFactoryBean objectMapper) {
