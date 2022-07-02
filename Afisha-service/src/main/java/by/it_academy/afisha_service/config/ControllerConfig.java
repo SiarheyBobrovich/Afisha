@@ -1,9 +1,9 @@
-package by.it_academy.afisha.spring_config;
+package by.it_academy.afisha_service.config;
 
-import by.it_academy.afisha.controllers.utils.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean;
@@ -11,9 +11,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 import static com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE;
 
@@ -39,7 +37,6 @@ public class ControllerConfig implements WebMvcConfigurer {
         factoryBean.setObjectMapper(new ObjectMapper());
         factoryBean.setPropertyNamingStrategy(SNAKE_CASE);
         factoryBean.setModulesToInstall(JavaTimeModule.class);
-        factoryBean.setDeserializersByType(Map.of(LocalDateTime.class , new LocalDateTimeDeserializer()));
 
         return factoryBean;
     }
