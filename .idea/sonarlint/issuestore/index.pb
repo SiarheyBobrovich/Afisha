@@ -1,6 +1,4 @@
 
-‡
-WAfisha-service/src/main/java/by/it_academy/afisha_service/AfishaServiceApplication.java,1\d\1d106536ce95216ee8c229bcb1ae90a9807add46
 Œ
 \Afisha-service/src/test/java/by/it_academy/afisha_service/AfishaServiceApplicationTests.java,2\2\221d24d8e86857027f7332e5e7ab2ca69d861357
 h
