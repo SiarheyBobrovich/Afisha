@@ -1,12 +1,10 @@
 package by.it_academy.afisha.controllers;
 
-import by.it_academy.afisha.dao.entity.AbstractEvent;
+import by.it_academy.afisha.dao.entity.Event;
 import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dto.EventDto;
 import by.it_academy.afisha.services.api.IAfishaService;
-import by.it_academy.afisha.validators.api.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +46,7 @@ public class EventController {
     }
 
     @GetMapping("/{type}")
-    public List<AbstractEvent> get(@PathVariable Type type) {
+    public List<Event> get(@PathVariable Type type) {
         return service.getEvents(type);
     }
 }

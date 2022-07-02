@@ -3,21 +3,25 @@ package by.it_academy.afisha.dao.entity;
 
 import by.it_academy.afisha.dao.entity.enums.Type;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.UUID;
 
-@MappedSuperclass
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @JsonSerialize
-public abstract class Action {
+@Entity(name = "actions")
+@Table(name = "actions", schema = "afisha", catalog = "events")
+public class Action implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Id
     private UUID uuid;
     private String title;
 
     private String description;
+
+    @Enumerated(value = EnumType.STRING)
+    private Type type;
 
     public UUID getUuid() {
         return uuid;
@@ -25,9 +29,6 @@ public abstract class Action {
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
-    }
-
-    protected Action() {
     }
 
     @Column(name = "description", nullable = false)
@@ -48,6 +49,13 @@ public abstract class Action {
         this.description = description;
     }
 
-    abstract Type getType();
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
 
 }

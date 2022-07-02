@@ -1,29 +1,20 @@
 CREATE SCHEMA IF NOT EXISTS afisha
     AUTHORIZATION postgres;
 
-CREATE TABLE IF NOT EXISTS afisha.films
+CREATE TABLE IF NOT EXISTS afisha.actions
 (
-    uuid uuid NOT NULL,
+    uuid uuid NOT NULL UNIQUE,
     title text COLLATE pg_catalog."default" NOT NULL,
     description text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT films_pkey PRIMARY KEY (uuid)
-)
-
-TABLESPACE pg_default;
-
-CREATE TABLE IF NOT EXISTS afisha.concerts
-(
-    uuid uuid NOT NULL,
-    title text COLLATE pg_catalog."default" NOT NULL,
-    description text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT concerts_pkey PRIMARY KEY (uuid)
+    type character varying(8) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT actions_pkey PRIMARY KEY (uuid)
 )
 
 TABLESPACE pg_default;
 
 CREATE TABLE IF NOT EXISTS afisha.events
 (
-    uuid uuid NOT NULL,
+    uuid uuid NOT NULL UNIQUE,
     dt_event timestamp without time zone NOT NULL,
     dt_end_of_sale timestamp without time zone NOT NULL,
     status character varying(9) COLLATE pg_catalog."default" NOT NULL,
@@ -34,62 +25,34 @@ CREATE TABLE IF NOT EXISTS afisha.events
 
 TABLESPACE pg_default;
 
-CREATE TABLE IF NOT EXISTS afisha.events_films
+CREATE TABLE IF NOT EXISTS afisha.events_actions
 (
     event_uuid uuid NOT NULL,
-    film_uuid uuid NOT NULL
+    action_uuid uuid NOT NULL
 )
 
 TABLESPACE pg_default;
 
-CREATE TABLE IF NOT EXISTS afisha.events_concerts
-(
-    event_uuid uuid NOT NULL,
-    concert_uuid uuid NOT NULL
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS afisha.films
+ALTER TABLE IF EXISTS afisha.actions
     OWNER to postgres;
-ALTER TABLE IF EXISTS afisha.concerts
-    OWNER to postgres;
-ALTER TABLE IF EXISTS afisha.events_films
-    OWNER to postgres;
-ALTER TABLE IF EXISTS afisha.events_concerts
+ALTER TABLE IF EXISTS afisha.events_actions
     OWNER to postgres;
 ALTER TABLE IF EXISTS afisha.events
 	OWNER to postgres;
 
 ALTER TABLE
-	afisha.events_films
+	afisha.events_actions
 	ADD CONSTRAINT
-		events_films_event_uuid_Event_uuid
+		events_actions_event_uuid_event_uuid
 		FOREIGN KEY
 			(event_uuid)
 		REFERENCES
-			afisha.Events(uuid);
+			afisha.events(uuid);
 ALTER TABLE
-	afisha.events_films
+	afisha.events_actions
 	ADD CONSTRAINT
-		events_films_film_uuid_Films_uuid
+		events_actions_actions_uuid_actions_uuid
 		FOREIGN KEY
-			(film_uuid)
+			(action_uuid)
 		REFERENCES
-			afisha.Films(uuid);
-ALTER TABLE
-	afisha.events_concerts
-	ADD CONSTRAINT
-		events_concerts_event_uuid_Event_uuid
-		FOREIGN KEY
-			(event_uuid)
-		REFERENCES
-			afisha.Events(uuid);
-ALTER TABLE
-	afisha.events_concerts
-	ADD CONSTRAINT
-		events_concerts_concert_uuid_Concerts_uuid
-		FOREIGN KEY
-			(concert_uuid)
-		REFERENCES
-			afisha.Concerts(uuid);
+			afisha.actions(uuid);

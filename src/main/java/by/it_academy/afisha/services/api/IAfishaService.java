@@ -1,6 +1,6 @@
 package by.it_academy.afisha.services.api;
 
-import by.it_academy.afisha.dao.entity.AbstractEvent;
+import by.it_academy.afisha.dao.entity.Event;
 import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dto.EventDto;
 
@@ -14,6 +14,6 @@ public interface IAfishaService {
 
     void update(EventDto event, Type type, UUID uuid, LocalDateTime dtUpdate);
 
-    List<AbstractEvent> getEvents(Type type);
+    List<Event> getEvents(Type type);
 
 }

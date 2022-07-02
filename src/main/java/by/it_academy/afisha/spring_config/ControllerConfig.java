@@ -21,19 +21,21 @@ import java.util.Map;
 import static com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE;
 
 @Configuration
-@EnableWebMvc
-@Import(value = ServiceConfig.class)
-@ComponentScan(basePackages = "by.it_academy.afisha.controllers")
 public class ControllerConfig implements WebMvcConfigurer {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(mapper);
+        converter.setObjectMapper(mapperFactoryBean().getObject());
         converters.add(converter);
     }
 
-    @Bean("objectMapper")
+    @Bean
+    public ObjectMapper objectMapper(Jackson2ObjectMapperFactoryBean mapperFactoryBean) {
+        return mapperFactoryBean.getObject();
+    }
+
+    @Bean
     public Jackson2ObjectMapperFactoryBean mapperFactoryBean() {
         Jackson2ObjectMapperFactoryBean factoryBean = new Jackson2ObjectMapperFactoryBean();
 
@@ -45,11 +47,8 @@ public class ControllerConfig implements WebMvcConfigurer {
         return factoryBean;
     }
 
-    @Autowired
-    private ObjectMapper mapper;
-
-    @Bean("jsonHttpMessageConverter")
-    public MappingJackson2HttpMessageConverter converter(@Qualifier("objectMapper") Jackson2ObjectMapperFactoryBean objectMapper) {
+    @Bean
+    public MappingJackson2HttpMessageConverter converter(Jackson2ObjectMapperFactoryBean objectMapper) {
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
         mappingJackson2HttpMessageConverter.setSupportedMediaTypes(List.of(MediaType.APPLICATION_JSON));
         mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper.getObject());
@@ -58,7 +57,7 @@ public class ControllerConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public RequestMappingHandlerAdapter adapter(@Qualifier("jsonHttpMessageConverter") MappingJackson2HttpMessageConverter converter) {
+    public RequestMappingHandlerAdapter adapter( MappingJackson2HttpMessageConverter converter) {
         RequestMappingHandlerAdapter requestMappingHandlerAdapter = new RequestMappingHandlerAdapter();
         requestMappingHandlerAdapter.setMessageConverters(List.of(converter));
 
