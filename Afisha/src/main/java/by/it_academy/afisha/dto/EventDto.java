@@ -1,7 +1,6 @@
 package by.it_academy.afisha.dto;
 
 import by.it_academy.afisha.dao.entity.enums.Status;
-import by.it_academy.afisha.controllers.utils.LocalDateTimeDeserializer;
 import by.it_academy.afisha.dto.api.IDto;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -84,10 +83,8 @@ public class EventDto implements IDto {
         private String title;
         private String description;
 
-        @JsonDeserialize(using = LocalDateTimeDeserializer.class)
         private LocalDateTime dtEvent;
 
-        @JsonDeserialize(using = LocalDateTimeDeserializer.class)
         private LocalDateTime dtEndOfSale;
         private Status status;
         public Builder setTitle(String title) {

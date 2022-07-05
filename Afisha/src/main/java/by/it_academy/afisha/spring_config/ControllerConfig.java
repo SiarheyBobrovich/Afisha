@@ -1,6 +1,7 @@
 package by.it_academy.afisha.spring_config;
 
 import by.it_academy.afisha.controllers.utils.LocalDateTimeDeserializer;
+import by.it_academy.afisha.controllers.utils.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.*;
@@ -40,6 +41,7 @@ public class ControllerConfig implements WebMvcConfigurer {
         factoryBean.setPropertyNamingStrategy(SNAKE_CASE);
         factoryBean.setModulesToInstall(JavaTimeModule.class);
         factoryBean.setDeserializersByType(Map.of(LocalDateTime.class , new LocalDateTimeDeserializer()));
+        factoryBean.setSerializersByType(Map.of(LocalDateTime.class , new LocalDateTimeSerializer()));
 
         return factoryBean;
     }

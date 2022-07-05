@@ -7,10 +7,12 @@ import by.it_academy.afisha.dto.EventDto;
 import by.it_academy.afisha.services.api.IAfishaService;
 import by.it_academy.afisha.services.mappers.EventMapper;
 import by.it_academy.afisha.validators.ValidatorContainer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -61,7 +63,7 @@ public class EventService implements IAfishaService {
     }
 
     @Override
-    public List<Event> getEvents(Type type) {
-        return dao.findAllByActionType(type);
+    public Page<Event> getEvents(Type type, Pageable page) {
+        return dao.findAllByActionType(type, page);
     }
 }

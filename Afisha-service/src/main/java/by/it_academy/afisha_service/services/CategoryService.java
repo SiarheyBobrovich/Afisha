@@ -5,6 +5,8 @@ import by.it_academy.afisha_service.dao.entity.Category;
 import by.it_academy.afisha_service.dto.CategoryDto;
 import by.it_academy.afisha_service.mappers.ClassifiersMapper;
 import by.it_academy.afisha_service.services.api.IService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +28,7 @@ public class CategoryService implements IService<CategoryDto, Category> {
     }
 
     @Override
-    public List<Category> getAll() {
-        return dao.findAll();
+    public Page<Category> getAll(Pageable page) {
+        return dao.findAll(page);
     }
 }

@@ -2,7 +2,6 @@ package by.it_academy.afisha_service.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
 
 public class CountryDto {
 
@@ -11,8 +10,9 @@ public class CountryDto {
     private final String description;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public CountryDto(@JsonSetter(value = "title", nulls = Nulls.FAIL) String title,
-                      @JsonSetter(value = "description", nulls = Nulls.FAIL) String description) {
+    public CountryDto(@JsonSetter(value = "title") String title,
+                      @JsonSetter(value = "description") String description) {
+
         this.title = title;
         this.description = description;
     }

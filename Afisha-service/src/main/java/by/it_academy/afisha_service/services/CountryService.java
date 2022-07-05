@@ -5,9 +5,9 @@ import by.it_academy.afisha_service.dao.entity.Country;
 import by.it_academy.afisha_service.dto.CountryDto;
 import by.it_academy.afisha_service.mappers.ClassifiersMapper;
 import by.it_academy.afisha_service.services.api.IService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CountryService implements IService<CountryDto, Country> {
@@ -27,7 +27,7 @@ public class CountryService implements IService<CountryDto, Country> {
     }
 
     @Override
-    public List<Country> getAll() {
-        return  dao.findAll();
+    public Page<Country> getAll(Pageable page) {
+        return dao.findAll(page);
     }
 }

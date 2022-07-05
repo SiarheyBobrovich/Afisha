@@ -1,8 +1,6 @@
 package by.it_academy.afisha.dao.entity;
 
-import by.it_academy.afisha.controllers.utils.LocalDateTimeSerializer;
 import by.it_academy.afisha.dao.entity.enums.Status;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,11 +21,9 @@ public class Event implements Serializable {
     private Status status;
 
     @Column(name = "dt_create", updatable = false, nullable = false)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtCreate;
     @Version
     @Column(name = "dt_update", nullable = false)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtUpdate;
 
     @OneToOne(targetEntity = Action.class, cascade = CascadeType.ALL)
@@ -38,11 +34,9 @@ public class Event implements Serializable {
     private Action action;
 
     @Column(name = "dt_event", nullable = false)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtEvent;
 
     @Column(name = "dt_end_of_sale", nullable = false)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtEndOfSale;
 
     public UUID getUuid() {
