@@ -4,7 +4,6 @@ import by.it_academy.afisha.dao.entity.Event;
 import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dto.EventDto;
 import by.it_academy.afisha.services.api.IAfishaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +24,7 @@ public class EventController {
 
     private final IAfishaService service;
 
-    public EventController(@Autowired IAfishaService service) {
+    public EventController(IAfishaService service) {
         this.service = service;
     }
 
