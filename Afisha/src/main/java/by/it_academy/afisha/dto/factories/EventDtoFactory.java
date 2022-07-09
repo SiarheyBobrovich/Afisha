@@ -1,6 +1,7 @@
 package by.it_academy.afisha.dto.factories;
 
 import by.it_academy.afisha.dao.entity.enums.Status;
+import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dto.EventConcertDto;
 import by.it_academy.afisha.dto.EventFilmDto;
 import by.it_academy.afisha.dto.api.IEventDto;
@@ -21,6 +22,8 @@ public class EventDtoFactory {
     private Status status;
     private UUID country;
     private Integer releaseYear;
+
+    private Type type;
 
     @JsonFormat(pattern = "dd MMMM yyyy")
     private LocalDate releaseDate;
@@ -44,6 +47,10 @@ public class EventDtoFactory {
 
     public void setDtEndOfSale(LocalDateTime dtEndOfSale) {
         this.dtEndOfSale = dtEndOfSale;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public void setStatus(Status status) {
@@ -70,58 +77,25 @@ public class EventDtoFactory {
         this.category = category;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public LocalDateTime getDtEvent() {
-        return dtEvent;
-    }
-
-    public LocalDateTime getDtEndOfSale() {
-        return dtEndOfSale;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public UUID getCountry() {
-        return country;
-    }
-
-    public Integer getReleaseYear() {
-        return releaseYear;
-    }
-
-    public LocalDate getReleaseDate() {
-        return releaseDate;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public UUID getCategory() {
-        return category;
+    public Type getType() {
+        return type;
     }
 
     public IEventDto getDto() {
         final IEventDto eventDto;
 
-        if (category != null) {
+        if (Type.CONCERTS.equals(type)) {
             eventDto = new EventConcertDto(
                     title, description, dtEvent, dtEndOfSale, status, category
             );
 
-        } else {
+        } else if (Type.FILMS.equals(type)){
             eventDto = new EventFilmDto(
                     title, description, dtEvent, dtEndOfSale, status, country, releaseYear, releaseDate, duration
             );
+
+        } else {
+            throw new IllegalArgumentException("Тип: " + type + " не обслуживается");
         }
 
         return eventDto;

@@ -5,11 +5,9 @@ import by.it_academy.afisha.controllers.converters.PageEventFilmxToPageEventDtoC
 import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dao.entity.events.EventConcert;
 import by.it_academy.afisha.dao.entity.events.EventFilm;
-import by.it_academy.afisha.dto.EventDto;
 import by.it_academy.afisha.dto.api.IEventDto;
 import by.it_academy.afisha.dto.factories.EventDtoFactory;
 import by.it_academy.afisha.services.api.IAfishaService;
-import org.aspectj.lang.annotation.RequiredTypes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -42,8 +40,11 @@ public class EventController {
     public void save(@RequestBody EventDtoFactory factory,
                      @PathVariable Type type) {
 
-        IEventDto eventDto = factory.getDto();
+        if (!type.equals(factory.getType())) {
+            throw new IllegalArgumentException("Типы не соотвествуют");
+        }
 
+        IEventDto eventDto = factory.getDto();
         service.save(eventDto, type);
     }
 
