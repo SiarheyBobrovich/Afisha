@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableJpaRepositories(
         basePackageClasses = {
-                IEventDao.class, IEventDao.class
+                IEvenConcertDao.class, IEvenConcertDao.class
         }
 )
 public class ApplicationMain {

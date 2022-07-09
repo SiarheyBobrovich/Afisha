@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE;
 
@@ -24,7 +25,7 @@ public class ControllerConfig implements WebMvcConfigurer {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(mapperFactoryBean().getObject());
+        converter.setObjectMapper(Objects.requireNonNull(mapperFactoryBean().getObject()));
         converters.add(converter);
     }
 
@@ -50,7 +51,7 @@ public class ControllerConfig implements WebMvcConfigurer {
     public MappingJackson2HttpMessageConverter converter(Jackson2ObjectMapperFactoryBean objectMapper) {
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
         mappingJackson2HttpMessageConverter.setSupportedMediaTypes(List.of(MediaType.APPLICATION_JSON));
-        mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper.getObject());
+        mappingJackson2HttpMessageConverter.setObjectMapper(Objects.requireNonNull(objectMapper.getObject()));
 
         return mappingJackson2HttpMessageConverter;
     }
@@ -62,4 +63,5 @@ public class ControllerConfig implements WebMvcConfigurer {
 
         return requestMappingHandlerAdapter;
     }
+
 }

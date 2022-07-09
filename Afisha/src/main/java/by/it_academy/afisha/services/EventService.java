@@ -1,69 +1,112 @@
 package by.it_academy.afisha.services;
 
-import by.it_academy.afisha.dao.api.IEventDao;
-import by.it_academy.afisha.dao.entity.Event;
+import by.it_academy.afisha.dao.api.IEvenConcertDao;
+import by.it_academy.afisha.dao.api.IEventFilmDao;
 import by.it_academy.afisha.dao.entity.enums.Type;
-import by.it_academy.afisha.dto.EventDto;
+import by.it_academy.afisha.dao.entity.events.EventConcert;
+import by.it_academy.afisha.dao.entity.events.EventFilm;
+import by.it_academy.afisha.dto.api.IEventDto;
 import by.it_academy.afisha.services.api.IAfishaService;
-import by.it_academy.afisha.services.mappers.EventMapper;
-import by.it_academy.afisha.validators.ValidatorContainer;
+import org.modelmapper.Conditions;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
+@Validated
 public class EventService implements IAfishaService {
 
-    private final IEventDao dao;
-    private final EventMapper mapper;
-    private final ValidatorContainer factory;
+    private final IEvenConcertDao concertDao;
+    private final IEventFilmDao filmDao;
+    private final ModelMapper mapper;
 
-    public EventService(IEventDao dao, EventMapper mapper, ValidatorContainer factory) {
-        this.dao = dao;
+    public EventService(IEvenConcertDao concertDao, IEventFilmDao filmDao, ModelMapper mapper) {
+        this.concertDao = concertDao;
+        this.filmDao = filmDao;
         this.mapper = mapper;
-        this.factory = factory;
     }
 
     @Override
-    public void save(EventDto dto, Type type) {
-        factory.getValidatorByClass(dto).validate(dto);
+    public void save(@Valid IEventDto newEventDto, Type type) {
+        
+        switch (type) {
+            case CONCERTS:
+                EventConcert newEventConcert = mapper.map(newEventDto, EventConcert.class);
 
-        final Event event = mapper.getEvent(dto, type);
+                newEventConcert.setUuid(UUID.randomUUID());
+                newEventConcert.getConcert().setUuid(UUID.randomUUID());
+                newEventConcert.setDtCreate(LocalDateTime.now());
+                newEventConcert.setDtUpdate(newEventConcert.getDtCreate());
 
-        dao.save(event);
+                concertDao.save(newEventConcert);
+                break;
+
+            case FILMS:
+                EventFilm newEventFilm = mapper.map(newEventDto, EventFilm.class);
+
+                newEventFilm.setUuid(UUID.randomUUID());
+                newEventFilm.getFilm().setUuid(UUID.randomUUID());
+                newEventFilm.setDtCreate(LocalDateTime.now());
+                newEventFilm.setDtUpdate(newEventFilm.getDtCreate());
+
+                filmDao.save(newEventFilm);
+                break;
+
+            default:
+                throw new IllegalArgumentException("Тип не обслуживается");
+        }
     }
 
     @Override
-    public void update(EventDto dto, Type type, UUID uuid, LocalDateTime dtUpdate) {
-        factory.getValidatorByClass(dto).validate(dto);
+    public void update(@Valid IEventDto updateSource, Type type, UUID uuid, LocalDateTime dtUpdate) {
+       mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
 
-        Event event = dao.findById(uuid)
-                .orElseThrow(() -> new IllegalStateException("Такого события не обнаружено: Проверьте uuid."));
+        switch (type) {
+            case CONCERTS:
+                EventConcert eventConcert = concertDao.findById(uuid).orElseThrow(() ->
+                        new IllegalArgumentException("Такого события не обнаружено: Проверьте uuid.")
+                );
 
-        if (!event.getAction().getType().equals(type)) {
-            throw new IllegalArgumentException("Не верно указан тип события.");
+                if (!eventConcert.getDtUpdate().equals(dtUpdate)) {
+                   throw new IllegalStateException("Кто-то уже успел обновить событие.");
+                }
+
+                mapper.map(updateSource, eventConcert);
+                concertDao.save(eventConcert);
+                break;
+
+            case FILMS:
+                EventFilm eventFilm = filmDao.findById(uuid).orElseThrow(() ->
+                        new IllegalArgumentException("Такого события не обнаружено: Проверьте uuid.")
+                );
+
+                if (!eventFilm.getDtUpdate().equals(dtUpdate)) {
+                    throw new IllegalStateException("Кто-то уже успел обновить событие.");
+                }
+
+                mapper.map(updateSource, eventFilm);
+                filmDao.save(eventFilm);
+                break;
+
+            default:
+                throw new IllegalArgumentException("Тип не обслуживается");
         }
 
-        if (!event.getDtUpdate().equals(dtUpdate)) {
-            throw new IllegalArgumentException("Кто-то уже успел обновить событие.");
-        }
-
-        event.setDtEvent(dto.getDtEvent());
-        event.setDtEvent(dto.getDtEvent());
-        event.setDtEndOfSale(dto.getDtEndOfSale());
-        event.setStatus(dto.getStatus());
-        event.getAction().setTitle(dto.getTitle());
-        event.getAction().setDescription(dto.getDescription());
-
-        dao.save(event);
     }
 
     @Override
-    public Page<Event> getEvents(Type type, Pageable page) {
-        return dao.findAllByActionType(type, page);
+    public Page<EventFilm> getFilmEvents(Type type, Pageable page) {
+        return filmDao.findAllByFilmType(type, page);
+    }
+
+    @Override
+    public Page<EventConcert> getConcertEvents(Type type, Pageable pageable) {
+        return concertDao.findAllByConcertType(type, pageable);
     }
 }

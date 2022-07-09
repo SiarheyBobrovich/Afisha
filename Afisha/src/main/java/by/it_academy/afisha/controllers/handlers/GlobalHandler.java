@@ -16,10 +16,11 @@ public class GlobalHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Map<String, Object> handle(RuntimeException exception) {
+    public Map<String, Object> handle(Throwable exception) {
         return Map.of(
                 "logref", "error",
-                "message", "Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору"
+                "message", exception.getMessage()
+//                "message", "Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору"
         );
     }
 

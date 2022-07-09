@@ -1,24 +1,42 @@
 package by.it_academy.afisha.dto;
 
 import by.it_academy.afisha.dao.entity.enums.Status;
-import by.it_academy.afisha.dto.api.IDto;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import by.it_academy.afisha.dto.api.IEventDto;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
-@JsonDeserialize(builder = EventDto.Builder.class)
-public class EventDto implements IDto {
+@Validated
+public class EventDto implements IEventDto {
 
+    @NotNull
+    @NotEmpty
+    @Pattern(regexp = "[\\p{Alpha}\\p{Digit}\\p{Punct}]++",
+            message = "Не верно введён титульный лист")
     private final String title;
+
+    @NotNull
+    @Pattern(regexp = "[\\p{Alpha}\\p{Digit}\\p{Punct}]++",
+            message = "Не верно введено описание")
     private final String description;
+
+    @NotNull(message = "Введите дату мероприятия")
     private final LocalDateTime dtEvent;
+
+    @NotNull(message = "Введите дату конца продажи билетов")
     private final LocalDateTime dtEndOfSale;
+
+    @NotNull(message = "Не верно введён статус")
     private final Status status;
 
-    public EventDto(String title, String description, LocalDateTime dtEvent,
-                    LocalDateTime dtEndOfSale, Status status) {
+    public EventDto(String title,
+                    String description,
+                    LocalDateTime dtEvent,
+                    LocalDateTime dtEndOfSale,
+                    Status status) {
         this.title = title;
         this.description = description;
         this.dtEvent = dtEvent;
@@ -26,95 +44,29 @@ public class EventDto implements IDto {
         this.status = status;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
     public LocalDateTime getDtEvent() {
         return dtEvent;
     }
 
+    @Override
     public LocalDateTime getDtEndOfSale() {
         return dtEndOfSale;
     }
 
+    @Override
     public Status getStatus() {
         return status;
-    }
-
-    public static Builder create() {
-        return new Builder();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof EventDto)) return false;
-        EventDto eventDto = (EventDto) o;
-        return Objects.equals(title, eventDto.title) &&
-                Objects.equals(description, eventDto.description) &&
-                Objects.equals(dtEvent, eventDto.dtEvent) &&
-                Objects.equals(dtEndOfSale, eventDto.dtEndOfSale) &&
-                status == eventDto.status;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, description, dtEvent, dtEndOfSale, status);
-    }
-
-    @Override
-    public String toString() {
-        return "EventDto{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", dtEvent=" + dtEvent +
-                ", dtEndOfSale=" + dtEndOfSale +
-                ", status=" + status +
-                '}';
-    }
-
-    @JsonPOJOBuilder(withPrefix = "set")
-    public static class Builder {
-        private String title;
-        private String description;
-
-        private LocalDateTime dtEvent;
-
-        private LocalDateTime dtEndOfSale;
-        private Status status;
-        public Builder setTitle(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public Builder setDescription(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public Builder setDtEvent(LocalDateTime dtEvent) {
-            this.dtEvent = dtEvent;
-            return this;
-        }
-
-        public Builder setDtEndOfSale(LocalDateTime dtEndOfSale) {
-            this.dtEndOfSale = dtEndOfSale;
-            return this;
-        }
-
-        public Builder setStatus(Status status) {
-            this.status = status;
-            return this;
-        }
-
-        public EventDto build() {
-            return new EventDto(title, description, dtEvent, dtEndOfSale, status);
-        }
     }
 
 }

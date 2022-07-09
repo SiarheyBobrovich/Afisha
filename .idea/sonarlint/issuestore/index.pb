@@ -1,14 +1,10 @@
 
 I
 Afisha-service/.gitignore,d\c\dc19cac3e30a1c892992c3928d72d12f96aed63e
-w
-G.idea/sonarlint/issuestore/7/e/7e4bb0431e8c48a91be044bc906330b0ae0c5454,0\4\04ccaa5faf8652d44b469c6cdb86776d81f6b1d6
 o
 ?Afisha/src/main/java/by/it_academy/afisha/dao/entity/Event.java,3\b\3b796efcdc81e927e1b1816048a551383525e120
 p
 @Afisha/src/main/test/by/it_academy/afisha/URLConnectionTest.java,3\b\3b06c0263b6d5f87e81573f83f2035af6703cff4
-w
-G.idea/sonarlint/issuestore/8/c/8c1a88b3585501f8b752a556ecfde56721cb2062,7\7\77ba98848ef01a9bd9eb58c626ffcbb56e7b475f
 p
 @Afisha/src/main/java/by/it_academy/afisha/dao/api/IEventDao.java,e\4\e42fd244ca2b8f6239b2478362043caaed56c5bd
 p
@@ -27,8 +23,6 @@ x
 HAfisha/src/main/java/by/it_academy/afisha/validators/api/IValidator.java,2\4\24013e2b40fc3a4b16cc5b59935f520b67bb2d14
 z
 JAfisha/src/main/java/by/it_academy/afisha/dao/containers/DaoContainer.java,5\6\56b099777922e76da58a60087cc137906fad4956
-w
-G.idea/sonarlint/issuestore/d/3/d38671664789fd6c3a41f5375c78df889327be14,c\8\c8cf528071815f788a2b6b04a47264b1d710ef29
 z
 JAfisha/src/main/java/by/it_academy/afisha/spring_config/ServiceConfig.java,2\9\291e80a360f8e710108be6b3807e1106350cfb14
 {
@@ -45,8 +39,6 @@ KAfisha/src/main/java/by/it_academy/afisha/services/mappers/EventMapper.java,8\
 QAfisha/src/main/java/by/it_academy/afisha/controllers/handlers/GlobalHandler.java,8\8\8863f9c40d4906d31ee14a1a4dccc84181b5cdad
 }
 MAfisha/src/main/java/by/it_academy/afisha/spring_config/ControllerConfig.java,a\7\a7b5c672b8398ab10230cac8866942e2fd5aa304
-w
-G.idea/sonarlint/issuestore/0/f/0f6269ba19b27b7b4c5944d650fee15d789bbfef,2\b\2bd28421e6d01838949ee91435a38c72c0d6e4ba
 A
 Afisha/.gitignore,5\1\5189238c64035572f9d581b04753fba71fe5a698
 >

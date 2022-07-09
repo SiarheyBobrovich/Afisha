@@ -1,8 +1,9 @@
 package by.it_academy.afisha.services.api;
 
-import by.it_academy.afisha.dao.entity.Event;
 import by.it_academy.afisha.dao.entity.enums.Type;
-import by.it_academy.afisha.dto.EventDto;
+import by.it_academy.afisha.dao.entity.events.EventConcert;
+import by.it_academy.afisha.dao.entity.events.EventFilm;
+import by.it_academy.afisha.dto.api.IEventDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,10 +12,12 @@ import java.util.UUID;
 
 public interface IAfishaService {
 
-    void save(EventDto event, Type type);
+    void save(IEventDto newEventDto, Type type);
 
-    void update(EventDto event, Type type, UUID uuid, LocalDateTime dtUpdate);
+    void update(IEventDto updateEventDto, Type type, UUID uuid, LocalDateTime dtUpdate);
 
-    Page<Event> getEvents(Type type, Pageable pageable);
+    Page<EventFilm> getFilmEvents(Type type, Pageable pageable);
+
+    Page<EventConcert> getConcertEvents(Type type, Pageable pageable);
 
 }
