@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Path;
+import java.util.*;
 
 @RestControllerAdvice
 public class GlobalHandler {
@@ -22,6 +22,38 @@ public class GlobalHandler {
                 "message", exception.getMessage()
 //                "message", "Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору"
         );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, Object> handle(ConstraintViolationException exception) {
+        Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
+
+        final Map<String, Object> map = new HashMap<>();
+
+        map.put("logref", "structured_error");
+
+        final Map<String, String> errors = new HashMap<>(constraintViolations.size());
+
+        constraintViolations.forEach(x ->  {
+            final String[] split = x.getPropertyPath().toString().split("\\.");
+
+            errors.put(split[split.length - 1], x.getMessage());
+        });
+
+        final List<Map<String, String>> listErrors = new ArrayList<>();
+
+        for (Map.Entry<String, String> stringStringEntry : errors.entrySet()) {
+            listErrors.add(Map.of(
+                    "logref", stringStringEntry.getKey(),
+                    "message", stringStringEntry.getValue())
+            );
+        }
+
+        map.put("errors", listErrors);
+
+
+        return map;
     }
 
     @ExceptionHandler

@@ -28,6 +28,11 @@ public class ControllerConfig implements WebMvcConfigurer {
         converter.setObjectMapper(Objects.requireNonNull(mapperFactoryBean().getObject()));
         converters.add(converter);
     }
+//
+//    @Override
+//    public void addFormatters(FormatterRegistry registry) {
+//        registry.addConverterFactory(new SpringRequestDtoFactory(mapperFactoryBean().getObject()));
+//    }
 
     @Bean
     public ObjectMapper objectMapper(Jackson2ObjectMapperFactoryBean mapperFactoryBean) {

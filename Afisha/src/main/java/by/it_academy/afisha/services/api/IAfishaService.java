@@ -7,14 +7,15 @@ import by.it_academy.afisha.dto.api.IEventDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface IAfishaService {
 
-    void save(IEventDto newEventDto, Type type);
+    void save(@Valid IEventDto newEventDto, Type type);
 
-    void update(IEventDto updateEventDto, Type type, UUID uuid, LocalDateTime dtUpdate);
+    void update(@Valid IEventDto updateEventDto, Type type, UUID uuid, LocalDateTime dtUpdate);
 
     Page<EventFilm> getFilmEvents(Type type, Pageable pageable);
 

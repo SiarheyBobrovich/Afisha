@@ -6,6 +6,7 @@ import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dao.entity.events.EventConcert;
 import by.it_academy.afisha.dao.entity.events.EventFilm;
 import by.it_academy.afisha.dto.api.IEventDto;
+import by.it_academy.afisha.exceptions.ValidationException;
 import by.it_academy.afisha.services.api.IAfishaService;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
@@ -14,8 +15,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validator;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -26,15 +32,27 @@ public class EventService implements IAfishaService {
     private final IEventFilmDao filmDao;
     private final ModelMapper mapper;
 
-    public EventService(IEvenConcertDao concertDao, IEventFilmDao filmDao, ModelMapper mapper) {
+    private final Validator validator;
+
+    public EventService(IEvenConcertDao concertDao, IEventFilmDao filmDao, ModelMapper mapper, Validator validator) {
         this.concertDao = concertDao;
         this.filmDao = filmDao;
         this.mapper = mapper;
+        this.validator = validator;
     }
 
     @Override
     public void save(@Valid IEventDto newEventDto, Type type) {
-        
+//        Set<ConstraintViolation<IEventDto>> validate = validator.validate(newEventDto);
+//
+//        if (!validate.isEmpty()) {
+//            Map<String, String> invalidFields = new HashMap<>(validate.size());
+//
+//            validate.forEach(x -> invalidFields.put(x.getPropertyPath().toString(), x.getMessage()));
+//
+//            throw new ValidationException(invalidFields);
+//        }
+
         switch (type) {
             case CONCERTS:
                 EventConcert newEventConcert = mapper.map(newEventDto, EventConcert.class);
@@ -64,7 +82,7 @@ public class EventService implements IAfishaService {
     }
 
     @Override
-    public void update(@Valid IEventDto updateSource, Type type, UUID uuid, LocalDateTime dtUpdate) {
+    public void update(IEventDto updateSource, Type type, UUID uuid, LocalDateTime dtUpdate) {
        mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
 
         switch (type) {

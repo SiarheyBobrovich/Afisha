@@ -21,7 +21,6 @@ public class EventFilmDto extends EventDto implements IEventFilmDto {
     private final Integer releaseYear;
 
     @NotNull(message = "Введите дату выпуска")
-    @Min(1900)
     private final LocalDate releaseDate;
 
     @NotNull(message = "Введите продолжительность")

@@ -13,20 +13,19 @@ import java.time.LocalDateTime;
 public class EventDto implements IEventDto {
 
     @NotNull
-    @NotEmpty
-    @Pattern(regexp = "[\\p{Alpha}\\p{Digit}\\p{Punct}]++",
-            message = "Не верно введён титульный лист")
+    @Pattern(regexp = "[\\p{Alpha}\\p{Digit}\\p{Punct}\\p{Blank}]++",
+            message = "не верно введён титульный лист")
     private final String title;
 
     @NotNull
-    @Pattern(regexp = "[\\p{Alpha}\\p{Digit}\\p{Punct}]++",
-            message = "Не верно введено описание")
+    @Pattern(regexp = "[\\p{Alpha}\\p{Digit}\\p{Punct}\\p{Blank}]++",
+            message = "не верно введено описание")
     private final String description;
 
-    @NotNull(message = "Введите дату мероприятия")
+    @NotNull(message = "введите дату мероприятия")
     private final LocalDateTime dtEvent;
 
-    @NotNull(message = "Введите дату конца продажи билетов")
+    @NotNull
     private final LocalDateTime dtEndOfSale;
 
     @NotNull(message = "Не верно введён статус")
