@@ -1,7 +1,10 @@
 package by.it_academy.afisha.controllers.handlers;
 
 import by.it_academy.afisha.exceptions.ValidationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,6 +24,16 @@ public class GlobalHandler {
                 "logref", "error",
                 "message", exception.getMessage()
 //                "message", "Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору"
+        );
+    }
+
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, Object> handle(HttpMessageNotReadableException exception) {
+        return Map.of(
+                "logref", "error",
+                "message", exception.getCause().getMessage()
         );
     }
 

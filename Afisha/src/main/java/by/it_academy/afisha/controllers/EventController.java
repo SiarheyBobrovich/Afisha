@@ -6,7 +6,9 @@ import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dao.entity.events.EventConcert;
 import by.it_academy.afisha.dao.entity.events.EventFilm;
 import by.it_academy.afisha.dto.EventDto;
+import by.it_academy.afisha.dto.api.IEventConcertDto;
 import by.it_academy.afisha.dto.api.IEventDto;
+import by.it_academy.afisha.dto.api.IEventFilmDto;
 import by.it_academy.afisha.dto.factories.EventDtoFactory;
 import by.it_academy.afisha.services.api.IAfishaService;
 import org.aspectj.lang.annotation.RequiredTypes;
@@ -42,8 +44,11 @@ public class EventController {
     public void save(@RequestBody EventDtoFactory factory,
                      @PathVariable Type type) {
 
-        IEventDto eventDto = factory.getDto();
+        if (!type.equals(factory.getType())) {
+            throw new IllegalArgumentException("Типы не соотвествуют");
+        }
 
+        IEventDto eventDto = factory.getDto();
         service.save(eventDto, type);
     }
 
