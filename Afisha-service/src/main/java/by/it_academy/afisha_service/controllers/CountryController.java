@@ -1,8 +1,10 @@
 package by.it_academy.afisha_service.controllers;
 
+import by.it_academy.afisha_service.converters.CountryToCountryOutDtoConverter;
 import by.it_academy.afisha_service.converters.PageToClassifiersPageConverter;
 import by.it_academy.afisha_service.dao.entity.Country;
 import by.it_academy.afisha_service.dto.CountryDto;
+import by.it_academy.afisha_service.dto.CountryOutDto;
 import by.it_academy.afisha_service.pagination.ClassifiersPage;
 import by.it_academy.afisha_service.services.api.IService;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.TimeZone;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/classifier/country")
@@ -48,5 +51,11 @@ public class CountryController {
         return ResponseEntity.ok().body(
                 new PageToClassifiersPageConverter<Country>().convert(allCountries)
         );
+    }
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity<Object> isValidCountry(@PathVariable UUID uuid) {
+        CountryOutDto convert = new CountryToCountryOutDtoConverter().convert((Country) service.get(uuid));
+        return ResponseEntity.ok(convert);
     }
 }

@@ -25,7 +25,7 @@ public class PageEventFilmxToPageEventDtoConverter implements Converter<Page<Eve
                 source.getNumberOfElements(),
                 source.isLast(),
                 source.get().map(x -> {
-                    Film film = x.getFilm();
+                    Film film = x.getAction();
                     return new PageEventDto(
                             film.getTitle(),
                             film.getDescription(),

@@ -3,10 +3,12 @@ package by.it_academy.afisha.services;
 import by.it_academy.afisha.dao.api.IEvenConcertDao;
 import by.it_academy.afisha.dao.api.IEventFilmDao;
 import by.it_academy.afisha.dao.entity.enums.Type;
+import by.it_academy.afisha.dao.entity.events.Event;
 import by.it_academy.afisha.dao.entity.events.EventConcert;
 import by.it_academy.afisha.dao.entity.events.EventFilm;
 import by.it_academy.afisha.dto.api.IEventDto;
 import by.it_academy.afisha.services.api.IAfishaService;
+import by.it_academy.afisha.services.api.IClassifiersConnectService;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -25,24 +27,24 @@ public class EventService implements IAfishaService {
     private final IEvenConcertDao concertDao;
     private final IEventFilmDao filmDao;
     private final ModelMapper mapper;
+    private final IClassifiersConnectService classifiersService;
 
-    public EventService(IEvenConcertDao concertDao, IEventFilmDao filmDao, ModelMapper mapper) {
+    public EventService(IEvenConcertDao concertDao, IEventFilmDao filmDao, ModelMapper mapper, ClassifiersService classifiersService) {
         this.concertDao = concertDao;
         this.filmDao = filmDao;
         this.mapper = mapper;
+        this.classifiersService = classifiersService;
     }
 
     @Override
     public void save(@Valid IEventDto newEventDto, Type type) {
-
         switch (type) {
             case CONCERTS:
                 EventConcert newEventConcert = mapper.map(newEventDto, EventConcert.class);
 
-                newEventConcert.setUuid(UUID.randomUUID());
-                newEventConcert.getConcert().setUuid(UUID.randomUUID());
-                newEventConcert.setDtCreate(LocalDateTime.now());
-                newEventConcert.setDtUpdate(newEventConcert.getDtCreate());
+                classifiersService.isValidCategory(newEventConcert.getAction().getCategory());
+
+                setDefaultFields(newEventConcert);
 
                 concertDao.save(newEventConcert);
                 break;
@@ -50,10 +52,9 @@ public class EventService implements IAfishaService {
             case FILMS:
                 EventFilm newEventFilm = mapper.map(newEventDto, EventFilm.class);
 
-                newEventFilm.setUuid(UUID.randomUUID());
-                newEventFilm.getFilm().setUuid(UUID.randomUUID());
-                newEventFilm.setDtCreate(LocalDateTime.now());
-                newEventFilm.setDtUpdate(newEventFilm.getDtCreate());
+                classifiersService.isValidCountry(newEventFilm.getAction().getCountry());
+
+                setDefaultFields(newEventFilm);
 
                 filmDao.save(newEventFilm);
                 break;
@@ -108,5 +109,12 @@ public class EventService implements IAfishaService {
     @Override
     public Page<EventConcert> getConcertEvents(Type type, Pageable pageable) {
         return concertDao.findAllByConcertType(type, pageable);
+    }
+
+    private void setDefaultFields(Event event) {
+        event.setUuid(UUID.randomUUID());
+        event.getAction().setUuid(UUID.randomUUID());
+        event.setDtCreate(LocalDateTime.now());
+        event.setDtUpdate(event.getDtCreate());
     }
 }

@@ -25,7 +25,7 @@ public class PageEventConcertToPageEventDtoConverter implements Converter<Page<E
                 source.getNumberOfElements(),
                 source.isLast(),
                 source.get().map(x -> {
-                    Concert concert = x.getConcert();
+                    Concert concert = x.getAction();
 
                     return new PageEventDto(
                             concert.getTitle(),

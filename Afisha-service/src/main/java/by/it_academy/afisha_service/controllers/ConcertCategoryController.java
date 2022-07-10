@@ -1,8 +1,10 @@
 package by.it_academy.afisha_service.controllers;
 
+import by.it_academy.afisha_service.converters.CategoryToCategoryOutDtoConverter;
 import by.it_academy.afisha_service.converters.PageToClassifiersPageConverter;
 import by.it_academy.afisha_service.dao.entity.Category;
 import by.it_academy.afisha_service.dto.CategoryDto;
+import by.it_academy.afisha_service.dto.CategoryOutDto;
 import by.it_academy.afisha_service.pagination.ClassifiersPage;
 import by.it_academy.afisha_service.services.api.IService;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.TimeZone;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/classifier/concert/category")
@@ -48,5 +51,11 @@ public class ConcertCategoryController {
         return ResponseEntity.ok().body(
                 new PageToClassifiersPageConverter<Category>().convert(allCategories)
         );
+    }
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity<Object> isValidCategory(@PathVariable UUID uuid) {
+        CategoryOutDto outDto = new CategoryToCategoryOutDtoConverter().convert((Category) service.get(uuid));
+        return ResponseEntity.ok(outDto);
     }
 }

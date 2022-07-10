@@ -1,5 +1,6 @@
 package by.it_academy.afisha.dao.entity.events;
 
+import by.it_academy.afisha.dao.entity.actions.Action;
 import by.it_academy.afisha.dao.entity.enums.Status;
 
 import javax.persistence.*;
@@ -78,5 +79,7 @@ public abstract class Event implements Serializable {
     public void setDtEndOfSale(LocalDateTime dtEndOfSale) {
         this.dtEndOfSale = dtEndOfSale;
     }
+
+    public abstract Action getAction();
 
 }

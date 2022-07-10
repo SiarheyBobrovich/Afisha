@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CategoryService implements IService<CategoryDto, Category> {
@@ -30,5 +31,10 @@ public class CategoryService implements IService<CategoryDto, Category> {
     @Override
     public Page<Category> getAll(Pageable page) {
         return dao.findAll(page);
+    }
+
+    @Override
+    public Category get(UUID uuid) {
+        return dao.getReferenceById(uuid);
     }
 }

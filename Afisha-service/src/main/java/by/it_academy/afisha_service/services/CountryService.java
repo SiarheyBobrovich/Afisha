@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class CountryService implements IService<CountryDto, Country> {
 
@@ -29,5 +31,10 @@ public class CountryService implements IService<CountryDto, Country> {
     @Override
     public Page<Country> getAll(Pageable page) {
         return dao.findAll(page);
+    }
+
+    @Override
+    public Country get(UUID uuid) {
+        return dao.getReferenceById(uuid);
     }
 }

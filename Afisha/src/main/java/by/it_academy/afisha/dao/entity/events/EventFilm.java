@@ -15,7 +15,7 @@ public class EventFilm extends Event {
     )
     private Film film;
 
-    public Film getFilm() {
+    public Film getAction() {
         return film;
     }
 

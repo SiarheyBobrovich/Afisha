@@ -22,7 +22,8 @@ public class EventConcert extends Event {
         this.concert = concert;
     }
 
-    public Concert getConcert() {
+    @Override
+    public Concert getAction() {
         return concert;
     }
 
