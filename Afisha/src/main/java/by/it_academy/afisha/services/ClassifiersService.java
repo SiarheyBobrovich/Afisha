@@ -2,14 +2,19 @@ package by.it_academy.afisha.services;
 
 import by.it_academy.afisha.services.api.IClassifiersConnectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
 import java.util.UUID;
 
 @Service
@@ -17,39 +22,43 @@ import java.util.UUID;
 public class ClassifiersService implements IClassifiersConnectService {
 
     @Autowired
-    Environment env;
-    @Override
-    public boolean isValidUuid(String url, UUID uuid) {
-        boolean result;
-        final HttpURLConnection connection;
+    private Environment env;
 
-        try {
-            connection = (HttpURLConnection) new URL(url + uuid)
-                    .openConnection();
+    private RestTemplate template;
 
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Content-Type", "application/json");
-
-            result = connection.getResponseCode() == 200;
-
-        }catch (IOException e) {
-            result = false;
-        }
-
-        return result;
+    public ClassifiersService(RestTemplateBuilder templateBuilder) {
+        this.template = templateBuilder.build();
     }
 
     @Override
-    public void isValidCountry(UUID uuid) {
-        if (!isValidUuid(env.getProperty("country"), uuid)) {
+    public void isValidUuid(String url, UUID uuid) {
+        HttpStatus statusCode;
+        ClientHttpRequest request;
+
+        try {
+            request = template.getRequestFactory()
+                .createRequest(URI.create(url + uuid), HttpMethod.GET);
+
+            try (ClientHttpResponse response = request.execute()) {
+                statusCode = response.getStatusCode();
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (!statusCode.is2xxSuccessful()) {
             throw new EntityNotFoundException("Uuid страны не найден");
         }
     }
 
     @Override
+    public void isValidCountry(UUID uuid) {
+        isValidUuid(env.getProperty("country"), uuid);
+    }
+
+    @Override
     public void isValidCategory(UUID uuid) {
-        if (!isValidUuid(env.getProperty("category"), uuid)) {
-            throw new EntityNotFoundException("Uuid категории не найден");
-        }
+        isValidUuid(env.getProperty("category"), uuid);
     }
 }
