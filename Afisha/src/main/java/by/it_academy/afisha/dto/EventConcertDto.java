@@ -2,13 +2,11 @@ package by.it_academy.afisha.dto;
 
 import by.it_academy.afisha.dao.entity.enums.Status;
 import by.it_academy.afisha.dto.api.IEventConcertDto;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Validated
 public class EventConcertDto extends EventDto implements IEventConcertDto {
 
     @NotNull(message = "Введите uuid категории")

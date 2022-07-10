@@ -2,14 +2,11 @@ package by.it_academy.afisha.dto;
 
 import by.it_academy.afisha.dao.entity.enums.Status;
 import by.it_academy.afisha.dto.api.IEventDto;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
-@Validated
 public class EventDto implements IEventDto {
 
     @NotNull

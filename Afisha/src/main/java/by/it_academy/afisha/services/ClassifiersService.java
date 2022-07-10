@@ -48,7 +48,7 @@ public class ClassifiersService implements IClassifiersConnectService {
         }
 
         if (!statusCode.is2xxSuccessful()) {
-            throw new EntityNotFoundException("Uuid страны не найден");
+            throw new EntityNotFoundException("В справочнике отсутствует uuid");
         }
     }
 

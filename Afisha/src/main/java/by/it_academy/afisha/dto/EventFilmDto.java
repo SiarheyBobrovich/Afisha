@@ -2,7 +2,6 @@ package by.it_academy.afisha.dto;
 
 import by.it_academy.afisha.dao.entity.enums.Status;
 import by.it_academy.afisha.dto.api.IEventFilmDto;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -10,7 +9,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Validated
 public class EventFilmDto extends EventDto implements IEventFilmDto {
 
     @NotNull(message = "Введите uuid страны")

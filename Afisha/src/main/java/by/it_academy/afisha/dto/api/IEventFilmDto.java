@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public interface IEventFilmDto {
-
     UUID getCountry();
 
     Integer getReleaseYear();
