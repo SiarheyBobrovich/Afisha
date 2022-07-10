@@ -6,11 +6,12 @@ import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dao.entity.events.Event;
 import by.it_academy.afisha.dao.entity.events.EventConcert;
 import by.it_academy.afisha.dao.entity.events.EventFilm;
+import by.it_academy.afisha.dto.api.IEventConcertDto;
 import by.it_academy.afisha.dto.api.IEventDto;
+import by.it_academy.afisha.dto.api.IEventFilmDto;
 import by.it_academy.afisha.services.api.IAfishaService;
 import by.it_academy.afisha.services.api.IClassifiersConnectService;
-import org.modelmapper.Conditions;
-import org.modelmapper.ModelMapper;
+import org.modelmapper.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -66,7 +67,6 @@ public class EventService implements IAfishaService {
 
     @Override
     public void update(IEventDto updateSource, Type type, UUID uuid, LocalDateTime dtUpdate) {
-       mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
 
         switch (type) {
             case CONCERTS:
@@ -78,7 +78,12 @@ public class EventService implements IAfishaService {
                    throw new IllegalStateException("Кто-то уже успел обновить событие.");
                 }
 
+                classifiersService.isValidCategory(((IEventConcertDto)updateSource).getCategory());
+                UUID savedConcertUuid = eventConcert.getAction().getUuid();
+
                 mapper.map(updateSource, eventConcert);
+                eventConcert.getAction().setUuid(savedConcertUuid);
+
                 concertDao.save(eventConcert);
                 break;
 
@@ -91,7 +96,13 @@ public class EventService implements IAfishaService {
                     throw new IllegalStateException("Кто-то уже успел обновить событие.");
                 }
 
+                classifiersService.isValidCountry(((IEventFilmDto)updateSource).getCountry());
+
+                UUID savedFilmUuid = eventFilm.getAction().getUuid();
+
                 mapper.map(updateSource, eventFilm);
+                eventFilm.getAction().setUuid(savedFilmUuid);
+
                 filmDao.save(eventFilm);
                 break;
 

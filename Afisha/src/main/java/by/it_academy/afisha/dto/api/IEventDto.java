@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 public interface IEventDto {
 
-
     String getTitle();
 
     String getDescription();
@@ -16,5 +15,4 @@ public interface IEventDto {
     LocalDateTime getDtEndOfSale();
 
     Status getStatus();
-
 }
