@@ -8,6 +8,9 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Abstract actions class
+ */
 @MappedSuperclass
 public abstract class Action implements Serializable {
 

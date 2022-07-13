@@ -13,6 +13,12 @@ import java.util.UUID;
 @Repository
 public interface IEvenConcertDao extends JpaRepository<EventConcert, UUID> {
 
+    /**
+     * Method to get page of Events(concert)
+     * @param type Action's type parameter
+     * @param pageable Current page
+     * @return Page of Events(concert) that are found
+     */
     @Query
     Page<EventConcert> findAllByConcertType(Type type, Pageable pageable);
 }

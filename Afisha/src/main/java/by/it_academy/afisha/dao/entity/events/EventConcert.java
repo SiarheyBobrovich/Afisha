@@ -4,6 +4,9 @@ import by.it_academy.afisha.dao.entity.actions.Concert;
 
 import javax.persistence.*;
 
+/**
+ * Concrete event class
+ */
 @Entity
 @Table(schema = "afisha", name = "events")
 public class EventConcert extends Event {

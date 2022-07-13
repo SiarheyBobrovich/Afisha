@@ -8,6 +8,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * Abstract event class
+ */
 @MappedSuperclass
 public abstract class Event implements Serializable {
 

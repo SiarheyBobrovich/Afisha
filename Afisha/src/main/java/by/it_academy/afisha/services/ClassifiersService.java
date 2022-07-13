@@ -24,7 +24,7 @@ public class ClassifiersService implements IClassifiersConnectService {
     @Autowired
     private Environment env;
 
-    private RestTemplate template;
+    private final RestTemplate template;
 
     public ClassifiersService(RestTemplateBuilder templateBuilder) {
         this.template = templateBuilder.build();
