@@ -7,6 +7,9 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Concrete action class
+ */
 @Entity
 @Table(schema = "afisha", name = "actions")
 @SecondaryTable(schema = "afisha", name = "films_descriptions",

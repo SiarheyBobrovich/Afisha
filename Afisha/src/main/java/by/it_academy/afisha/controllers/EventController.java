@@ -1,12 +1,10 @@
 package by.it_academy.afisha.controllers;
 
 import by.it_academy.afisha.dao.entity.enums.Type;
-import by.it_academy.afisha.dao.entity.events.EventFilm;
 import by.it_academy.afisha.dto.EventConcertDto;
 import by.it_academy.afisha.dto.EventDto;
 import by.it_academy.afisha.dto.EventFilmDto;
 import by.it_academy.afisha.services.api.IAfishaService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -19,6 +17,9 @@ import java.time.ZoneId;
 import java.util.TimeZone;
 import java.util.UUID;
 
+/**
+ * Afisha-events controller
+ */
 @RestController
 @RequestMapping("/api/v1/afisha/event")
 public class EventController {
@@ -83,10 +84,10 @@ public class EventController {
         final ResponseEntity<Object> body;
 
         if (Type.FILMS.equals(type)) {
-            body = ResponseEntity.ok(service.getFilmEvents(type, pageRequest));
+            body = ResponseEntity.ok(service.getFilmEvents(pageRequest));
 
         }else if (Type.CONCERTS.equals(type)) {
-            body = ResponseEntity.ok(service.getConcertEvents(type, pageRequest));
+            body = ResponseEntity.ok(service.getConcertEvents(pageRequest));
 
         }else {
             throw new IllegalArgumentException("Данный тип не обслуживается");

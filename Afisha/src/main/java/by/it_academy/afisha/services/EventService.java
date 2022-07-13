@@ -92,18 +92,18 @@ public class EventService implements IAfishaService {
     }
 
     @Override
-    public PageDtos<PageEventDto> getFilmEvents(Type type, Pageable page) {
+    public PageDtos<PageEventDto> getFilmEvents(Pageable page) {
 
         return new PageDtos<>(
-                filmDao.findAllByFilmType(type, page)
+                filmDao.findAllByFilmType(Type.FILMS, page)
                         .map(entity -> mapper.map(entity, PageEventDto.class))
         );
     }
 
     @Override
-    public PageDtos<PageEventDto> getConcertEvents(Type type, Pageable page) {
+    public PageDtos<PageEventDto> getConcertEvents(Pageable page) {
         return new PageDtos<>(
-                concertDao.findAllByConcertType(type, page)
+                concertDao.findAllByConcertType(Type.CONCERTS, page)
                         .map(entity -> mapper.map(entity, PageEventDto.class))
         );
     }

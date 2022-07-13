@@ -29,30 +29,4 @@ public class GlobalHandler {
         );
     }
 
-//
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public Map<String, Object> handle(ValidationException exception) {
-//
-//        final Map<String, Object> map = new HashMap<>();
-//
-//        map.put("logref", "structured_error");
-//
-//        final Map<String, String> errors = exception.getErrors();
-//
-//        final List<Map<String, String>> listErrors = new ArrayList<>();
-//
-//        for (Map.Entry<String, String> stringStringEntry : errors.entrySet()) {
-//            listErrors.add(Map.of(
-//                    "logref", stringStringEntry.getKey(),
-//                    "message", stringStringEntry.getValue())
-//            );
-//        }
-//
-//        map.put("errors", listErrors);
-//
-//
-//        return map;
-//    }
-
 }

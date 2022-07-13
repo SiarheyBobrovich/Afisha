@@ -7,6 +7,9 @@ import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 import org.springframework.stereotype.Component;
 
+/**
+ * Converter from EventConcert(entity) class to PageEventDto class
+ */
 @Component
 public class PageEventConcertToPageEventDtoConverter implements Converter<EventConcert, PageEventDto> {
 

@@ -7,6 +7,9 @@ import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 import org.springframework.stereotype.Component;
 
+/**
+ * Converter from EventFilm(entity) class to PageEventDto class
+ */
 @Component
 public class PageEventFilmToPageEventDtoConverter implements Converter<EventFilm, PageEventDto> {
 

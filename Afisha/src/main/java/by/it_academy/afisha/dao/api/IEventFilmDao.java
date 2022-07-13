@@ -13,7 +13,12 @@ import java.util.UUID;
 @Repository
 public interface IEventFilmDao extends JpaRepository<EventFilm, UUID> {
 
+    /**
+     * Method to get page of Events(film)
+     * @param type Action's type parameter
+     * @param pageable Current page
+     * @return Current page of Events(film) that are found
+     */
     @Query
     Page<EventFilm> findAllByFilmType(Type type,Pageable pageable);
-
 }
