@@ -1,13 +1,20 @@
 package by.it_academy.afisha.dto;
 
 import by.it_academy.afisha.dao.entity.enums.Status;
-import by.it_academy.afisha.dto.api.IEventDto;
+import by.it_academy.afisha.dao.entity.enums.Type;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
-public class EventDto implements IEventDto {
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = EventFilmDto.class, name = "FILMS"),
+        @JsonSubTypes.Type(value = EventConcertDto.class, name = "CONCERTS")
+})
+public abstract class EventDto {
 
     @NotNull
     @Pattern(regexp = "[\\p{Alpha}\\p{Digit}\\p{Punct}\\p{Blank}]++",
@@ -28,7 +35,7 @@ public class EventDto implements IEventDto {
     @NotNull(message = "Не верно введён статус")
     private final Status status;
 
-    public EventDto(String title,
+    protected EventDto(String title,
                     String description,
                     LocalDateTime dtEvent,
                     LocalDateTime dtEndOfSale,
@@ -40,29 +47,26 @@ public class EventDto implements IEventDto {
         this.status = status;
     }
 
-    @Override
     public String getTitle() {
         return title;
     }
 
-    @Override
     public String getDescription() {
         return description;
     }
 
-    @Override
     public LocalDateTime getDtEvent() {
         return dtEvent;
     }
 
-    @Override
     public LocalDateTime getDtEndOfSale() {
         return dtEndOfSale;
     }
 
-    @Override
     public Status getStatus() {
         return status;
     }
+
+    public abstract Type getType();
 
 }

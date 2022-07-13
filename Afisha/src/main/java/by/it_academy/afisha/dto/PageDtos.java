@@ -1,8 +1,10 @@
 package by.it_academy.afisha.dto;
 
+import org.springframework.data.domain.Page;
+
 import java.util.List;
 
-public class ClassifiersPage<T> {
+public class PageDtos<T> {
     private final int page;
     private final int size;
     private final int totalPages;
@@ -12,14 +14,25 @@ public class ClassifiersPage<T> {
     private final boolean last;
     private final List<T> content;
 
-    public ClassifiersPage(int page,
-                           int size,
-                           int totalPages,
-                           long totalElements,
-                           boolean first,
-                           int numberOfElements,
-                           boolean last,
-                           List<T> content) {
+    public PageDtos(Page<T> page) {
+        this.page = page.getNumber();
+        this.size = page.getSize();
+        this.totalPages = page.getTotalPages();
+        this.totalElements = page.getTotalElements();
+        this.first = page.isFirst();
+        this.numberOfElements = page.getNumberOfElements();
+        this.last = page.isLast();
+        this.content = page.getContent();
+    }
+
+    public PageDtos(int page,
+                    int size,
+                    int totalPages,
+                    long totalElements,
+                    boolean first,
+                    int numberOfElements,
+                    boolean last,
+                    List<T> content) {
         this.page = page;
         this.size = size;
         this.totalPages = totalPages;

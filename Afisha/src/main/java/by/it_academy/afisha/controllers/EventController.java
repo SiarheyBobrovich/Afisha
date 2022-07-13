@@ -1,12 +1,10 @@
 package by.it_academy.afisha.controllers;
 
-import by.it_academy.afisha.controllers.converters.PageEventConcertToPageEventDtoConverter;
-import by.it_academy.afisha.controllers.converters.PageEventFilmxToPageEventDtoConverter;
 import by.it_academy.afisha.dao.entity.enums.Type;
-import by.it_academy.afisha.dao.entity.events.EventConcert;
 import by.it_academy.afisha.dao.entity.events.EventFilm;
-import by.it_academy.afisha.dto.api.IEventDto;
-import by.it_academy.afisha.dto.factories.EventDtoFactory;
+import by.it_academy.afisha.dto.EventConcertDto;
+import by.it_academy.afisha.dto.EventDto;
+import by.it_academy.afisha.dto.EventFilmDto;
 import by.it_academy.afisha.services.api.IAfishaService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,29 +33,42 @@ public class EventController {
         this.service = service;
     }
 
-    @PostMapping(value = "/{type}")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void save(@RequestBody EventDtoFactory factory,
-                     @PathVariable Type type) {
+    public void save(@RequestBody EventDto dto) {
 
-        if (!type.equals(factory.getType())) {
-            throw new IllegalArgumentException("Типы не соотвествуют");
+        switch (dto.getType()) {
+            case FILMS:
+                service.save((EventFilmDto) dto);
+                break;
+
+            case CONCERTS:
+                service.save((EventConcertDto) dto);
+                break;
+
+            default: throw new IllegalArgumentException("Данный тип не обслуживается");
         }
-
-        IEventDto eventDto = factory.getDto();
-        service.save(eventDto, type);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PutMapping("/{type}/{uuid}/dt_update/{dt_update}")
-    public void update(@RequestBody EventDtoFactory factory,
-                       @PathVariable Type type,
+    @PutMapping("/{uuid}/dt_update/{dt_update}")
+    public void update(@RequestBody EventDto dto,
                        @PathVariable UUID uuid,
                        @PathVariable("dt_update") Long dtUpdate) {
 
         LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneId.of("UTC"));
 
-        service.update(factory.getDto(), type, uuid, date);
+        switch (dto.getType()) {
+            case FILMS:
+                service.update((EventFilmDto) dto, uuid, date);
+                break;
+
+            case CONCERTS:
+                service.update((EventConcertDto) dto, uuid, date);
+                break;
+
+            default: throw new IllegalArgumentException("Данный тип не обслуживается");
+        }
     }
 
     @GetMapping("/{type}")
@@ -71,13 +82,11 @@ public class EventController {
 
         final ResponseEntity<Object> body;
 
-        if (Type.CONCERTS.equals(type)) {
-            Page<EventConcert> concertEvents = service.getConcertEvents(type, pageRequest);
-            body = ResponseEntity.ok(new PageEventConcertToPageEventDtoConverter().convert(concertEvents));
+        if (Type.FILMS.equals(type)) {
+            body = ResponseEntity.ok(service.getFilmEvents(type, pageRequest));
 
-        } else if (Type.FILMS.equals(type)) {
-            Page<EventFilm> filmEvents = service.getFilmEvents(type, pageRequest);
-            body = ResponseEntity.ok(new PageEventFilmxToPageEventDtoConverter().convert(filmEvents));
+        }else if (Type.CONCERTS.equals(type)) {
+            body = ResponseEntity.ok(service.getConcertEvents(type, pageRequest));
 
         }else {
             throw new IllegalArgumentException("Данный тип не обслуживается");

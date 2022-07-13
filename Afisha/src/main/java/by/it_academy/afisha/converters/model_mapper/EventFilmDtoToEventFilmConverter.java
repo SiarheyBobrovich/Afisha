@@ -1,12 +1,14 @@
-package by.it_academy.afisha.controllers.converters;
+package by.it_academy.afisha.converters.model_mapper;
 
 import by.it_academy.afisha.dao.entity.actions.Film;
 import by.it_academy.afisha.dao.entity.events.EventFilm;
 import by.it_academy.afisha.dto.EventFilmDto;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
+import org.springframework.stereotype.Component;
 
-public class EventFilmDtoToEventFilmModelConverter implements Converter<EventFilmDto, EventFilm> {
+@Component
+public class EventFilmDtoToEventFilmConverter implements Converter<EventFilmDto, EventFilm> {
 
     @Override
     public EventFilm convert(MappingContext<EventFilmDto, EventFilm> context) {
