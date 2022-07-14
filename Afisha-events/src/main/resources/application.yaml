@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    sql-format: true
+    hibernate:
+      ddl-auto: none
+  datasource:
+    username: postgres
+    password: 172143
+    url: jdbc:postgresql://localhost:5432/events?currentSchema=afisha
+    port: 5432
+    driver-class-name: org.postgresql.Driver
+
+server:
+  port: 80
