@@ -7,10 +7,11 @@ import by.it_academy.afisha.dao.entity.events.Event;
 import by.it_academy.afisha.dao.entity.events.EventConcert;
 import by.it_academy.afisha.dao.entity.events.EventFilm;
 import by.it_academy.afisha.dto.*;
+import by.it_academy.afisha.exceptions.EntityNotFoundException;
+import by.it_academy.afisha.exceptions.InvalidVersionException;
 import by.it_academy.afisha.services.api.IAfishaService;
 import by.it_academy.afisha.services.api.IClassifiersConnectService;
 import org.modelmapper.*;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -62,11 +63,11 @@ public class EventService implements IAfishaService {
         classifiersService.isValidCountry(updateSource.getCountry());
 
         EventFilm eventFilm = filmDao.findById(uuid).orElseThrow(() ->
-                new IllegalArgumentException("Такого события не обнаружено: Проверьте uuid.")
+                new EntityNotFoundException(uuid, "Фильма не обнаружено: Проверьте uuid.")
         );
 
         if (!eventFilm.getDtUpdate().equals(dtUpdate)) {
-            throw new IllegalStateException("Кто-то уже успел обновить событие.");
+            throw new InvalidVersionException();
         }
 
         mapper.map(updateSource, eventFilm);
@@ -79,11 +80,11 @@ public class EventService implements IAfishaService {
         classifiersService.isValidCategory(updateSource.getCategory());
 
         EventConcert eventConcert = concertDao.findById(uuid).orElseThrow(() ->
-                new IllegalArgumentException("Такого события не обнаружено: Проверьте uuid.")
+                new EntityNotFoundException(uuid, "Концерта не обнаружено: Проверьте uuid.")
         );
 
         if (!eventConcert.getDtUpdate().equals(dtUpdate)) {
-            throw new IllegalStateException("Кто-то уже успел обновить событие.");
+            throw new InvalidVersionException();
         }
 
         mapper.map(updateSource, eventConcert);
@@ -108,6 +109,10 @@ public class EventService implements IAfishaService {
         );
     }
 
+    /**
+     * Method for generating UUID and date for new entities
+     * @param event a new entities
+     */
     private void setDefaultFields(Event event) {
         event.setUuid(UUID.randomUUID());
         event.getAction().setUuid(UUID.randomUUID());

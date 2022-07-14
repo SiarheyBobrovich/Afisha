@@ -3,12 +3,14 @@ package by.it_academy.afisha_service.services;
 import by.it_academy.afisha_service.dao.api.ICategoryDao;
 import by.it_academy.afisha_service.dao.entity.Category;
 import by.it_academy.afisha_service.dto.CategoryDto;
+import by.it_academy.afisha_service.exceptions.ValidationException;
 import by.it_academy.afisha_service.mappers.ClassifiersMapper;
 import by.it_academy.afisha_service.services.api.IService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -24,6 +26,13 @@ public class CategoryService implements IService<CategoryDto, Category> {
 
     @Override
     public void save(CategoryDto categoryDto) {
+        if (!categoryDto.getTitle().matches("[\\p{L}\\d\\p{Punct}\\t]++")) {
+            ValidationException exception = new ValidationException();
+            exception.add(Map.entry("title", "не верный формат."));
+
+            throw exception;
+        }
+
         dao.save(mapper.getCategory(categoryDto));
     }
 
