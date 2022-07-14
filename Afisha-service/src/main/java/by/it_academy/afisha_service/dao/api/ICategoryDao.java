@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+/**
+ * Concert's category JPA
+ */
 @Repository
 public interface ICategoryDao extends JpaRepository<Category, UUID> {
 }

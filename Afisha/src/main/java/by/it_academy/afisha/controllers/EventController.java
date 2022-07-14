@@ -4,6 +4,7 @@ import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dto.EventConcertDto;
 import by.it_academy.afisha.dto.EventDto;
 import by.it_academy.afisha.dto.EventFilmDto;
+import by.it_academy.afisha.exceptions.TypeNotSupportedException;
 import by.it_academy.afisha.services.api.IAfishaService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -47,7 +48,7 @@ public class EventController {
                 service.save((EventConcertDto) dto);
                 break;
 
-            default: throw new IllegalArgumentException("Данный тип не обслуживается");
+            default: throw new TypeNotSupportedException(dto.getType());
         }
     }
 
@@ -68,7 +69,7 @@ public class EventController {
                 service.update((EventConcertDto) dto, uuid, date);
                 break;
 
-            default: throw new IllegalArgumentException("Данный тип не обслуживается");
+            default: throw new TypeNotSupportedException(dto.getType());
         }
     }
 
@@ -90,7 +91,7 @@ public class EventController {
             body = ResponseEntity.ok(service.getConcertEvents(pageRequest));
 
         }else {
-            throw new IllegalArgumentException("Данный тип не обслуживается");
+            throw new TypeNotSupportedException(type);
         }
 
         return body;

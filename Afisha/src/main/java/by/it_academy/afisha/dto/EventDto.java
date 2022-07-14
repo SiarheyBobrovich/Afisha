@@ -17,12 +17,12 @@ import java.time.LocalDateTime;
 public abstract class EventDto {
 
     @NotNull
-    @Pattern(regexp = "[\\p{Alpha}\\p{Digit}\\p{Punct}\\p{Blank}]++",
+    @Pattern(regexp = "[\\p{L}\\d\\p{Punct}\\t]++",
             message = "не верно введён титульный лист")
     private final String title;
 
     @NotNull
-    @Pattern(regexp = "[\\p{Alpha}\\p{Digit}\\p{Punct}\\p{Blank}]++",
+    @Pattern(regexp = "[\\p{L}\\d\\p{Punct}\\t]++",
             message = "не верно введено описание")
     private final String description;
 

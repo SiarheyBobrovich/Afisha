@@ -1,5 +1,6 @@
 package by.it_academy.afisha.services;
 
+import by.it_academy.afisha.exceptions.EntityNotFoundException;
 import by.it_academy.afisha.services.api.IClassifiersConnectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -12,7 +13,6 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.util.UUID;
@@ -31,7 +31,7 @@ public class ClassifiersService implements IClassifiersConnectService {
     }
 
     @Override
-    public void isValidUuid(String url, UUID uuid) {
+    public void isValidUuid(String url, UUID uuid) throws EntityNotFoundException {
         HttpStatus statusCode;
         ClientHttpRequest request;
 
@@ -48,7 +48,7 @@ public class ClassifiersService implements IClassifiersConnectService {
         }
 
         if (!statusCode.is2xxSuccessful()) {
-            throw new EntityNotFoundException("В справочнике отсутствует uuid");
+            throw new EntityNotFoundException(uuid, "В справочнике отсутствует uuid");
         }
     }
 
