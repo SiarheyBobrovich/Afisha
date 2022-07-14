@@ -6,8 +6,7 @@ CREATE TABLE IF NOT EXISTS afisha.actions
     uuid uuid NOT NULL UNIQUE,
     title text COLLATE pg_catalog."default" NOT NULL,
     description text COLLATE pg_catalog."default" NOT NULL,
-    type character varying(8) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT actions_pkey PRIMARY KEY (uuid)
+    type character varying(8) COLLATE pg_catalog."default" NOT NULL
 )
 
 TABLESPACE pg_default;
@@ -19,8 +18,7 @@ CREATE TABLE IF NOT EXISTS afisha.events
     dt_end_of_sale timestamp without time zone NOT NULL,
     status character varying(9) COLLATE pg_catalog."default" NOT NULL,
     dt_create timestamp without time zone NOT NULL,
-    dt_update timestamp(3) without time zone NOT NULL,
-    CONSTRAINT event_pkey PRIMARY KEY (uuid)
+    dt_update timestamp(3) without time zone NOT NULL
 )
 
 TABLESPACE pg_default;
@@ -33,12 +31,49 @@ CREATE TABLE IF NOT EXISTS afisha.events_actions
 
 TABLESPACE pg_default;
 
+CREATE TABLE IF NOT EXISTS afisha.concerts_descriptions
+(
+    uuid uuid NOT NULL,
+    category uuid NOT NULL
+)
+
+TABLESPACE pg_default;
+
+CREATE TABLE IF NOT EXISTS afisha.films_descriptions
+(
+    country uuid NOT NULL,
+    release_year integer NOT NULL,
+    release_date date NOT NULL,
+    duration integer NOT NULL,
+    uuid uuid NOT NULL
+)
+
+TABLESPACE pg_default;
+
 ALTER TABLE IF EXISTS afisha.actions
     OWNER to postgres;
 ALTER TABLE IF EXISTS afisha.events_actions
     OWNER to postgres;
 ALTER TABLE IF EXISTS afisha.events
 	OWNER to postgres;
+ALTER TABLE IF EXISTS afisha.concerts_descriptions
+    OWNER to postgres;
+ALTER TABLE IF EXISTS afisha.films_descriptions
+    OWNER to postgres;
+
+ALTER TABLE
+    afisha.events
+    ADD CONSTRAINT
+        event_pkey
+        PRIMARY KEY
+            (uuid);
+
+ALTER TABLE
+    afisha.actions
+    ADD CONSTRAINT
+        actions_pkey
+        PRIMARY KEY
+            (uuid);
 
 ALTER TABLE
 	afisha.events_actions
@@ -48,6 +83,21 @@ ALTER TABLE
 			(event_uuid)
 		REFERENCES
 			afisha.events(uuid);
+
+ALTER TABLE
+    afisha.concerts_descriptions
+    ADD CONSTRAINT
+        categories_concert_uuid_key
+        UNIQUE
+            (uuid);
+
+ALTER TABLE
+    afisha.films_descriptions
+    ADD CONSTRAINT
+        films_descriptions_film_uuid_key
+        UNIQUE
+            (uuid);
+
 ALTER TABLE
 	afisha.events_actions
 	ADD CONSTRAINT

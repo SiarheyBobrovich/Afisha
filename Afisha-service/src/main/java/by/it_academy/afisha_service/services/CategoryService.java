@@ -26,7 +26,7 @@ public class CategoryService implements IService<CategoryDto, Category> {
 
     @Override
     public void save(CategoryDto categoryDto) {
-        if (!categoryDto.getTitle().matches("[\\p{L}\\d\\p{Punct}\\t]++")) {
+        if (!categoryDto.getTitle().matches("[\\p{L}\\d\\p{Punct}\\p{Blank}]++")) {
             ValidationException exception = new ValidationException();
             exception.add(Map.entry("title", "не верный формат."));
 

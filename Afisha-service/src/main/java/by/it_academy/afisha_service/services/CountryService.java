@@ -28,11 +28,11 @@ public class CountryService implements IService<CountryDto, Country> {
     public void save(CountryDto countryDto) {
         ValidationException exception = new ValidationException();
 
-        if (!countryDto.getTitle().matches("[\\p{L}\\d\\p{Punct}\\t]++")) {
+        if (!countryDto.getTitle().matches("[\\p{L}\\d\\p{Punct}\\p{Blank}]++")) {
             exception.add(Map.entry("title", "не верный формат."));
         }
 
-        if (!countryDto.getDescription().matches("[\\p{L}\\d\\p{Punct}\\t]++")) {
+        if (!countryDto.getDescription().matches("[\\p{L}\\d\\p{Punct}\\p{Blank}]++")) {
             exception.add(Map.entry("description", "не верный формат."));
         }
 
