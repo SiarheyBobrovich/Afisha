@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Path;
 import java.util.*;
 
 @RestControllerAdvice
@@ -29,7 +30,7 @@ public class GlobalHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handle(EntityNotFoundException exception) {
         return Map.of(
-                "logref", "uuid: " + exception.getUuid(),
+                "logref", "error",
                 "message", exception.getMessage()
         );
     }
@@ -38,7 +39,7 @@ public class GlobalHandler {
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     public Map<String, Object> handle(TypeNotSupportedException exception) {
         return Map.of(
-                "logref", "тип: " + exception.getType(),
+                "logref", "error",
                 "message", exception.getMessage()
         );
     }
@@ -47,7 +48,7 @@ public class GlobalHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handle(InvalidVersionException exception) {
         return Map.of(
-                "logref", "version_error",
+                "logref", "error",
                 "message", exception.getMessage()
         );
     }
@@ -64,31 +65,23 @@ public class GlobalHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handle(ConstraintViolationException exception) {
-        Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
-
         final Map<String, Object> map = new HashMap<>();
-
         map.put("logref", "structured_error");
 
-        final Map<String, String> errors = new HashMap<>(constraintViolations.size());
+        final List<Map<String, Object>> errors = new ArrayList<>();
 
-        constraintViolations.forEach(x ->  {
-            final String[] split = x.getPropertyPath().toString().split("\\.");
+        exception.getConstraintViolations().forEach(x ->  {
 
-            errors.put(split[split.length - 1], x.getMessage());
+            final String path = x.getPropertyPath().toString();
+            final int pointIndex = x.getPropertyPath().toString().lastIndexOf(".");
+
+            errors.add(Map.of(
+                    "field", path.substring(pointIndex + 1),
+                    "message", x.getMessage()
+            ));
         });
 
-        final List<Map<String, String>> listErrors = new ArrayList<>();
-
-        for (Map.Entry<String, String> stringStringEntry : errors.entrySet()) {
-            listErrors.add(Map.of(
-                    "logref", stringStringEntry.getKey(),
-                    "message", stringStringEntry.getValue())
-            );
-        }
-
-        map.put("errors", listErrors);
-
+        map.put("errors", errors);
 
         return map;
     }
