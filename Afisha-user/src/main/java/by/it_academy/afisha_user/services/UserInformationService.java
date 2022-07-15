@@ -8,11 +8,13 @@ import by.it_academy.afisha_user.pagination.ResponseUserDtoPage;
 import by.it_academy.afisha_user.services.api.IUserService;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Service
 public class UserInformationService implements IUserService {
 
     private final ConversionService conversionService;
