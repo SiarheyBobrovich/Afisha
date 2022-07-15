@@ -1,13 +1,10 @@
 package by.it_academy.afisha_service.controllers;
 
-import by.it_academy.afisha_service.converters.CountryToCountryOutDtoConverter;
-import by.it_academy.afisha_service.converters.PageToClassifiersPageConverter;
+import by.it_academy.afisha_service.converters.CountryToResponseCountryDtoDtoConverter;
 import by.it_academy.afisha_service.dao.entity.Country;
 import by.it_academy.afisha_service.dto.CountryDto;
-import by.it_academy.afisha_service.dto.CountryOutDto;
-import by.it_academy.afisha_service.pagination.ClassifiersPage;
+import by.it_academy.afisha_service.dto.ResponseCountryDto;
 import by.it_academy.afisha_service.services.api.IService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -21,9 +18,9 @@ import java.util.UUID;
 @RequestMapping("/api/v1/classifier/country")
 public class CountryController {
 
-    private final IService<CountryDto, Country> service;
+    private final IService<CountryDto, ResponseCountryDto> service;
 
-    public CountryController(IService<CountryDto, Country> service) {
+    public CountryController(IService<CountryDto, ResponseCountryDto> service) {
         this.service = service;
     }
 
@@ -38,7 +35,7 @@ public class CountryController {
     }
 
     @GetMapping
-    public ResponseEntity<ClassifiersPage<Country>> getCountry(
+    public ResponseEntity<Object> getCountry(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "25") Integer size) {
 
@@ -46,16 +43,13 @@ public class CountryController {
                 page, size, Sort.by("title")
         );
 
-        Page<Country> allCountries = service.getAll(pageRequest);
+        return ResponseEntity.ok().body(service.getAll(pageRequest));
 
-        return ResponseEntity.ok().body(
-                new PageToClassifiersPageConverter<Country>().convert(allCountries)
-        );
     }
 
     @GetMapping("/{uuid}")
     public ResponseEntity<Object> isValidCountry(@PathVariable UUID uuid) {
-        CountryOutDto convert = new CountryToCountryOutDtoConverter().convert((Country) service.get(uuid));
+        ResponseCountryDto convert = new CountryToResponseCountryDtoDtoConverter().convert((Country) service.get(uuid));
         return ResponseEntity.ok(convert);
     }
 }

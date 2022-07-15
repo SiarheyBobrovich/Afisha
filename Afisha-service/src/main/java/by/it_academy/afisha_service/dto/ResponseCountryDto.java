@@ -3,7 +3,7 @@ package by.it_academy.afisha_service.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class CountryOutDto {
+public class ResponseCountryDto {
 
     private final UUID uuid;
     private final String title;
@@ -11,7 +11,7 @@ public class CountryOutDto {
     private final LocalDateTime dtUpdate;
     private final String description;
 
-    public CountryOutDto(UUID uuid, String title, LocalDateTime dtCreate, LocalDateTime dtUpdate, String description) {
+    public ResponseCountryDto(UUID uuid, String title, LocalDateTime dtCreate, LocalDateTime dtUpdate, String description) {
         this.uuid = uuid;
         this.title = title;
         this.dtCreate = dtCreate;

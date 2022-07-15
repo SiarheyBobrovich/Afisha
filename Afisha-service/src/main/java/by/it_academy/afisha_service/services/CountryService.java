@@ -3,10 +3,12 @@ package by.it_academy.afisha_service.services;
 import by.it_academy.afisha_service.dao.api.ICountryDao;
 import by.it_academy.afisha_service.dao.entity.Country;
 import by.it_academy.afisha_service.dto.CountryDto;
+import by.it_academy.afisha_service.dto.ResponseCountryDto;
 import by.it_academy.afisha_service.exceptions.ValidationException;
-import by.it_academy.afisha_service.mappers.ClassifiersMapper;
+import by.it_academy.afisha_service.pagination.ResponseCountryPage;
 import by.it_academy.afisha_service.services.api.IService;
-import org.springframework.data.domain.Page;
+import by.it_academy.afisha_service.services.utils.DefaultParamsUtil;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +16,13 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class CountryService implements IService<CountryDto, Country> {
+public class CountryService implements IService<CountryDto, ResponseCountryDto> {
 
-    private final ClassifiersMapper mapper;
+    private final ConversionService conversionService;
     private final ICountryDao dao;
 
-    public CountryService(ClassifiersMapper mapper, ICountryDao dao) {
-        this.mapper = mapper;
+    public CountryService(ConversionService conversionService, ICountryDao dao) {
+        this.conversionService = conversionService;
         this.dao = dao;
     }
 
@@ -40,14 +42,15 @@ public class CountryService implements IService<CountryDto, Country> {
             throw exception;
         }
 
-        Country country = mapper.getCountry(countryDto);
+        Country country = conversionService.convert(countryDto, Country.class);
+        DefaultParamsUtil.setDefaultParams(country);
 
         dao.save(country);
     }
 
     @Override
-    public Page<Country> getAll(Pageable page) {
-        return dao.findAll(page);
+    public ResponseCountryPage getAll(Pageable page) {
+        return conversionService.convert(dao.findAll(page), ResponseCountryPage.class);
     }
 
     @Override

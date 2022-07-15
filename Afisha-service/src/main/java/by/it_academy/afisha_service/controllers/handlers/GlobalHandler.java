@@ -28,7 +28,7 @@ public class GlobalHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, Object> handle(EntityNotFoundException exception) {
         return Map.of(
-                "logref", "Not found",
+                "logref", "error",
                 "message", "uuid не существует" //"Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору"
         );
     }

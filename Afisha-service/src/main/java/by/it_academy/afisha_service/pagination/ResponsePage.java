@@ -2,7 +2,7 @@ package by.it_academy.afisha_service.pagination;
 
 import java.util.List;
 
-public class ClassifiersPage<T> {
+public class ResponsePage<T> {
     private final int page;
     private final int size;
     private final int totalPages;
@@ -12,14 +12,14 @@ public class ClassifiersPage<T> {
     private final boolean last;
     private final List<T> content;
 
-    public ClassifiersPage(int page,
-                           int size,
-                           int totalPages,
-                           long totalElements,
-                           boolean first,
-                           int numberOfElements,
-                           boolean last,
-                           List<T> content) {
+    public ResponsePage(int page,
+                        int size,
+                        int totalPages,
+                        long totalElements,
+                        boolean first,
+                        int numberOfElements,
+                        boolean last,
+                        List<T> content) {
         this.page = page;
         this.size = size;
         this.totalPages = totalPages;

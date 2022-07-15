@@ -3,10 +3,12 @@ package by.it_academy.afisha_service.services;
 import by.it_academy.afisha_service.dao.api.ICategoryDao;
 import by.it_academy.afisha_service.dao.entity.Category;
 import by.it_academy.afisha_service.dto.CategoryDto;
+import by.it_academy.afisha_service.dto.ResponseCategoryDto;
 import by.it_academy.afisha_service.exceptions.ValidationException;
-import by.it_academy.afisha_service.mappers.ClassifiersMapper;
+import by.it_academy.afisha_service.pagination.ResponseCategoryPage;
 import by.it_academy.afisha_service.services.api.IService;
-import org.springframework.data.domain.Page;
+import by.it_academy.afisha_service.services.utils.DefaultParamsUtil;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +16,13 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class CategoryService implements IService<CategoryDto, Category> {
+public class CategoryService implements IService<CategoryDto, ResponseCategoryDto> {
 
-    private final ClassifiersMapper mapper;
+    private final ConversionService conversionService;
     private final ICategoryDao dao;
 
-    public CategoryService(ClassifiersMapper mapper, ICategoryDao dao) {
-        this.mapper = mapper;
+    public CategoryService(ConversionService conversionService, ICategoryDao dao) {
+        this.conversionService = conversionService;
         this.dao = dao;
     }
 
@@ -33,12 +35,16 @@ public class CategoryService implements IService<CategoryDto, Category> {
             throw exception;
         }
 
-        dao.save(mapper.getCategory(categoryDto));
+        Category newCategory = conversionService.convert(categoryDto, Category.class);
+
+        DefaultParamsUtil.setDefaultParams(newCategory);
+
+        dao.save(newCategory);
     }
 
     @Override
-    public Page<Category> getAll(Pageable page) {
-        return dao.findAll(page);
+    public ResponseCategoryPage getAll(Pageable page) {
+        return conversionService.convert(dao.findAll(page), ResponseCategoryPage.class);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package by.it_academy.afisha_service.services.api;
 
 import by.it_academy.afisha_service.dao.entity.AbstractClassifier;
-import org.springframework.data.domain.Page;
+import by.it_academy.afisha_service.pagination.ResponsePage;
 import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;
@@ -20,7 +20,7 @@ public interface IService<T, E> {
      * @param page A current page
      * @return The current page of E objects
      */
-    Page<E> getAll(Pageable page);
+    ResponsePage<E> getAll(Pageable page);
 
     /**
      * Method to get a classifier by id
