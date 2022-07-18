@@ -28,33 +28,32 @@ public class Authority implements GrantedAuthority {
     private Authority(String authority) {
         this.authority = authority;
     }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
 
-    @ManyToMany(mappedBy = "authorities")
-    public Set<User> getUsers() {
-        return users;
-    }
-
     @Override
-    @Column(name = "authority")
+    @Column(name = "authority", nullable = false)
     public String getAuthority() {
         return authority;
+    }
+
+    @ManyToMany(mappedBy = "authorities", targetEntity = User.class, fetch = FetchType.LAZY)
+    public Set<User> getUsers() {
+        return users;
     }
 
     public void setUsers(Set<User> users) {
         this.users = users;
     }
 
-    void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    void setAuthority(String authority) {
+    public void setAuthority(String authority) {
         this.authority = authority;
     }
 

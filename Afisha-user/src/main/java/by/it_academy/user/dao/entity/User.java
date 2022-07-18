@@ -59,11 +59,7 @@ public class User implements UserDetails {
     }
 
     @Override
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_authorities",
-        joinColumns = @JoinColumn(name = "user_uuid"),
-        inverseJoinColumns = @JoinColumn(name = "authorities_id")
-    )
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Authority.class, cascade = CascadeType.ALL)
     public Set<Authority> getAuthorities() {
         return authorities;
     }
