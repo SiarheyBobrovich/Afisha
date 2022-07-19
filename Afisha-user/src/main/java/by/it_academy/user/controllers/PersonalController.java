@@ -8,11 +8,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.Map;
 import java.util.TimeZone;
 
 @RestController
@@ -42,7 +40,7 @@ public class PersonalController {
         return ResponseEntity.ok().headers(headers).build();
     }
 
-    @GetMapping
+    @GetMapping("/me")
     public ResponseEntity<Object> getInformationAbout(Principal principal) {
 
         return ResponseEntity.ok().body(service.getByMail(principal.getName()));

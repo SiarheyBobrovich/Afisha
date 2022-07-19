@@ -1,6 +1,7 @@
 package by.it_academy.afisha;
 
-import by.it_academy.afisha.dao.api.*;
+import by.it_academy.afisha.dao.api.IEvenConcertDao;
+import by.it_academy.afisha.dao.api.IEventFilmDao;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -8,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableJpaRepositories(
         basePackageClasses = {
-                IEvenConcertDao.class, IEvenConcertDao.class
+                IEventFilmDao.class, IEvenConcertDao.class
         }
 )
 public class EventApplicationMain {

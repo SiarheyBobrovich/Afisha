@@ -14,12 +14,12 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(name = "/api/v1/users")
-public class UserInfoController {
+@RequestMapping("/api/v1/users")
+public class AdministrationController {
 
     private final IUserInformationService service;
 
-    public UserInfoController(IUserInformationService service) {
+    public AdministrationController(IUserInformationService service) {
         this.service = service;
     }
 

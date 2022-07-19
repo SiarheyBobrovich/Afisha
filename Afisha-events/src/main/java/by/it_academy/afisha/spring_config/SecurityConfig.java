@@ -1,9 +1,6 @@
-package by.it_academy.user.spring_config;
+package by.it_academy.afisha.spring_config;
 
-import by.it_academy.user.controllers.filters.JwtFilter;
-import by.it_academy.user.services.JpaUserDetailsManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import by.it_academy.afisha.controllers.filter.JwtFilter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,38 +11,22 @@ import javax.servlet.http.HttpServletResponse;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     private final JwtFilter filter;
 
-    private final JpaUserDetailsManager manager;
-
-    private final DaoAuthenticationProvider provider;
-
-    //number2
-    public SecurityConfig(JwtFilter filter, JpaUserDetailsManager manager, DaoAuthenticationProvider provider) {
+    public SecurityConfig(JwtFilter filter) {
         this.filter = filter;
-        this.manager = manager;
-        this.provider = provider;
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(provider);
-    }
-
-    //number3
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // Enable CORS and disable CSRF
         http = http.cors().and().csrf().disable();
 
-        // Set session management to stateless
         http = http
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and();
 
-        // Set unauthorized requests exception handler
+
         http = http
                 .exceptionHandling()
                 .authenticationEntryPoint(
@@ -58,13 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 )
                 .and();
 
-        // Set permissions on endpoints
         http.authorizeRequests()
                 // Our public endpoints
-                .antMatchers("/api/v1/users/registration").anonymous()
-                .antMatchers("/api/v1/users/login").anonymous()
+                .antMatchers("/api/v1/afisha/event/*").permitAll()
                 // Our private endpoints
-                .anyRequest().hasAnyAuthority("ADMIN");
+                .anyRequest().hasAuthority("ADMIN");
 
         // Add JWT token filter
         http.addFilterBefore(

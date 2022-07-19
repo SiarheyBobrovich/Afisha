@@ -46,7 +46,6 @@ public class UsersStorageConfig {
                     .setAccountNonExpired(true)
                     .setAccountNonLocked(true)
                     .setDtCreate(now)
-                    .setDtUpdate(now)
                     .build();
 
             try {

@@ -1,5 +1,6 @@
 package by.it_academy.user.services;
 
+import by.it_academy.user.dao.api.IUserDao;
 import by.it_academy.user.dao.entity.User;
 import by.it_academy.user.dto.request.UserCreateDto;
 import by.it_academy.user.dto.response.ResponseUserDto;
@@ -14,13 +15,13 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
-public class UserInformationInformationService implements IUserInformationService {
+public class AdministrationUserService implements IUserInformationService {
 
     private final ConversionService conversionService;
 
-    private final IUserAuthenticateService manager;
+    private final IUserDao userDao;
 
-    public UserInformationInformationService(ConversionService service, IUserAuthenticateService manager) {
+    public AdministrationUserService(ConversionService service, IUserAuthenticateService manager) {
         this.conversionService = service;
         this.manager = manager;
     }

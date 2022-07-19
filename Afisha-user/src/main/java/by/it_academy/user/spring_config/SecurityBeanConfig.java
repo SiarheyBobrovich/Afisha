@@ -1,5 +1,6 @@
 package by.it_academy.user.spring_config;
 
+import by.it_academy.user.services.DetailsService;
 import by.it_academy.user.services.JpaUserDetailsManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,7 @@ public class SecurityBeanConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(PasswordEncoder encoder, JpaUserDetailsManager manager) {
+    public DaoAuthenticationProvider daoAuthenticationProvider(PasswordEncoder encoder, DetailsService manager) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(encoder);
         provider.setUserDetailsService(manager);

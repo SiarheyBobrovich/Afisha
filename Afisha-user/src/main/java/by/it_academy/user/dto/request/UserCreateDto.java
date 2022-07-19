@@ -2,6 +2,8 @@ package by.it_academy.user.dto.request;
 
 import by.it_academy.user.dao.entity.Role;
 import by.it_academy.user.dao.enums.Status;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -26,7 +28,12 @@ public class UserCreateDto {
     @NotNull(message = "Не верно введён status")
     private final Status status;
 
-    public UserCreateDto(String nick, String mail, String password, Role role, Status status) {
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public UserCreateDto(@JsonProperty("nick") String nick,
+                         @JsonProperty("mail") String mail,
+                         @JsonProperty("password") String password,
+                         @JsonProperty("role") Role role,
+                         @JsonProperty("status") Status status) {
         this.nick = nick;
         this.mail = mail;
         this.password = password;
