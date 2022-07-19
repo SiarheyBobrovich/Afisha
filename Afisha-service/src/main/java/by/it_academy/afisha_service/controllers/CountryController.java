@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.TimeZone;
 import java.util.UUID;
 
 @RestController
@@ -22,10 +21,6 @@ public class CountryController {
 
     public CountryController(IService<CountryDto, ResponseCountryDto> service) {
         this.service = service;
-    }
-
-    {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
 
     @PostMapping

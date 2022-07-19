@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.TimeZone;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -20,7 +19,6 @@ public class PersonalController {
     private final IUserPersonalService service;
 
     public PersonalController(IUserPersonalService service, PasswordEncoder encoder) {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         this.service = service;
     }
 

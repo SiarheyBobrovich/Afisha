@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.TimeZone;
 import java.util.UUID;
 
 @RestController
@@ -21,10 +20,6 @@ public class AdministrationController {
 
     public AdministrationController(IAdministrationService service) {
         this.service = service;
-    }
-
-    {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
 
     @PostMapping

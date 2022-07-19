@@ -1,10 +1,11 @@
 spring:
   jpa:
     database: POSTGRESQL
-    show-sql: true
-    sql_format: true
-    hibernate:
-      ddl-auto: none
+      properties:
+        hibernate:
+          ddl_auto: none
+          show_sql: true
+          format_sql: true
   datasource:
     username: postgres
     password: 172143

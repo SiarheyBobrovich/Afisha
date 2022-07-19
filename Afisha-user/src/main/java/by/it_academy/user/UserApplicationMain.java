@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import java.util.TimeZone;
+
 @SpringBootApplication
 @EnableJpaRepositories(
         basePackageClasses = {
@@ -14,5 +16,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class UserApplicationMain {
     public static void main(String[] args) {
         SpringApplication.run(UserApplicationMain.class, args);
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
 }

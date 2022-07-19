@@ -12,10 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.TimeZone;
 import java.util.UUID;
 
 /**
@@ -24,10 +24,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/afisha/event")
 public class EventController {
-
-    {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-    }
 
     private final IAfishaService service;
 

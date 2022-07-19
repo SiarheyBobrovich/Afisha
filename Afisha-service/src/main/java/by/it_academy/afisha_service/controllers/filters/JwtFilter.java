@@ -1,7 +1,7 @@
-package by.it_academy.afisha.controllers.filter;
+package by.it_academy.afisha_service.controllers.filters;
 
-import by.it_academy.afisha.controllers.utils.JwtTokenUtil;
-import by.it_academy.afisha.dto.UserDto;
+import by.it_academy.afisha_service.controllers.utils.JwtTokenUtil;
+import by.it_academy.afisha_service.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;
