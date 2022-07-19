@@ -2,9 +2,8 @@ package by.it_academy.user.spring_config;
 
 import by.it_academy.user.dao.api.IRoleDao;
 import by.it_academy.user.dao.api.IUserDao;
-import by.it_academy.user.dao.entity.Authority;
+import by.it_academy.user.dao.entity.Role;
 import by.it_academy.user.dao.entity.User;
-import by.it_academy.user.dao.enums.Role;
 import by.it_academy.user.dao.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -32,11 +31,14 @@ public class UsersStorageConfig {
 
             LocalDateTime now = LocalDateTime.now();
 
-             User user = User.builder()
+            Role byAuthority = roleDao.findByAuthority(by.it_academy.user.dao.enums.Role.ADMIN.name());
+            Role byAuthority1 = roleDao.findByAuthority(by.it_academy.user.dao.enums.Role.USER.name());
+
+            User user = User.builder()
                     .setUuid(UUID.randomUUID())
                     .setMail("admin@admin.admin")
                     .setNick("admin")
-                    .setAuthorities(Set.of(Authority.of(Role.USER), Authority.of(Role.ADMIN)))
+                    .setAuthorities(Set.of(byAuthority, byAuthority1))
                     .setStatus(Status.ACTIVATED)
                     .setEnabled(true)
                     .setPassword(encoder.encode("123"))
@@ -46,8 +48,6 @@ public class UsersStorageConfig {
                     .setDtCreate(now)
                     .setDtUpdate(now)
                     .build();
-
-
 
             try {
                 userDao.save(user);

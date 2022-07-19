@@ -18,7 +18,7 @@ public class User implements UserDetails {
     private String mail;
     private String password;
     private String nick;
-    private Set<Authority> authorities;
+    private Set<Role> authorities;
     private Status status;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
@@ -59,8 +59,8 @@ public class User implements UserDetails {
     }
 
     @Override
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Authority.class, cascade = CascadeType.ALL)
-    public Set<Authority> getAuthorities() {
+    @ManyToMany(fetch = FetchType.EAGER)
+    public Set<Role> getAuthorities() {
         return authorities;
     }
 
@@ -121,8 +121,8 @@ public class User implements UserDetails {
         this.nick = nick;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
+    public void setAuthorities(Set<Role> roles) {
+        this.authorities = roles;
     }
 
     public void setStatus(Status status) {
@@ -163,7 +163,7 @@ public class User implements UserDetails {
         private String mail;
         private String password;
         private String nick;
-        private Set<Authority> authorities;
+        private Set<Role> authorities;
         private Status status;
         private boolean accountNonExpired;
         private boolean accountNonLocked;
@@ -192,7 +192,7 @@ public class User implements UserDetails {
             return this;
         }
 
-        public Builder setAuthorities(Set<Authority> authorities) {
+        public Builder setAuthorities(Set<Role> authorities) {
             this.authorities = authorities;
             return this;
         }

@@ -2,8 +2,7 @@ package by.it_academy.user.converters;
 
 import by.it_academy.user.converters.api.AbstractConverterWithEncoder;
 import by.it_academy.user.dao.entity.User;
-import by.it_academy.user.dao.entity.Authority;
-import by.it_academy.user.dao.enums.Role;
+import by.it_academy.user.dao.entity.Role;
 import by.it_academy.user.dao.enums.Status;
 import by.it_academy.user.dto.request.UserRegistrationDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +28,7 @@ public class UserRegistrationDtoToUserConverter extends AbstractConverterWithEnc
                 .setNick(source.getNick())
                 .setMail(source.getMail())
                 .setPassword(encoder.encode(source.getPassword()))
-                .setAuthorities(Set.of(Authority.of(Role.USER)))
+                .setAuthorities(Set.of(Role.of(by.it_academy.user.dao.enums.Role.USER)))
                 .setDtCreate(now)
                 .setDtUpdate(now)
                 .setStatus(Status.ACTIVATED)

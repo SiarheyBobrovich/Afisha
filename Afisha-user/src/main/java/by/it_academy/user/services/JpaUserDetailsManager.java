@@ -24,6 +24,7 @@ public class JpaUserDetailsManager implements IUserAuthenticateService {
     public void createUser(UserDetails user) {
         repository.save((User) user);
     }
+
     @Override
     public void updateUser(UserDetails user) {
         repository.save((User)user);

@@ -1,6 +1,6 @@
 package by.it_academy.user.dto.request;
 
-import by.it_academy.user.dao.entity.Authority;
+import by.it_academy.user.dao.entity.Role;
 import by.it_academy.user.dao.enums.Status;
 
 import javax.validation.constraints.Email;
@@ -22,11 +22,11 @@ public class UserCreateDto {
             message = "Не верно введён password")
     private final String password;
     @NotNull(message = "Не верно введена role")
-    private final Authority role;
+    private final Role role;
     @NotNull(message = "Не верно введён status")
     private final Status status;
 
-    public UserCreateDto(String nick, String mail, String password, Authority role, Status status) {
+    public UserCreateDto(String nick, String mail, String password, Role role, Status status) {
         this.nick = nick;
         this.mail = mail;
         this.password = password;
@@ -46,7 +46,7 @@ public class UserCreateDto {
         return password;
     }
 
-    public Authority getRole() {
+    public Role getRole() {
         return role;
     }
 

@@ -5,13 +5,18 @@ import by.it_academy.user.dto.response.ResponseUserDto;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
-
 @Component
 public class UserToResponseUserDtoConverter implements Converter<User, ResponseUserDto> {
 
     @Override
     public ResponseUserDto convert(User source) {
+        final StringBuilder roleBuilder = new StringBuilder();
+
+        source.getAuthorities().forEach(x ->
+                roleBuilder.append(x.getAuthority())
+                        .append(", ")
+        );
+
         return ResponseUserDto.create()
                 .setUuid(source.getUuid())
                 .setMail(source.getMail())
@@ -19,7 +24,7 @@ public class UserToResponseUserDtoConverter implements Converter<User, ResponseU
                 .setStatus(source.getStatus())
                 .setDtCreate(source.getDtCreate())
                 .setDtUpdate(source.getDtUpdate())
-                .setRole(source.getAuthorities().stream().max((x, y) -> (int) (x.getId() - y.getId())).get().getAuthority())
+                .setRole(roleBuilder.substring(0, roleBuilder.length() - 2))
                 .build();
     }
 }

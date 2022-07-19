@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/users/registration").anonymous()
                 .antMatchers("/api/v1/users/login").anonymous()
                 // Our private endpoints
-                .anyRequest().authenticated();
+                .anyRequest().hasAnyAuthority("USER");
 
         // Add JWT token filter
         http.addFilterBefore(

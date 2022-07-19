@@ -1,6 +1,5 @@
 package by.it_academy.user.dao.entity;
 
-import by.it_academy.user.dao.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -12,8 +11,8 @@ import java.util.Set;
  */
 
 @Entity
-@Table(schema = "security", name = "authorities")
-public class Authority implements GrantedAuthority {
+@Table(schema = "security", name = "roles")
+public class Role implements GrantedAuthority {
 
     private static final long serialVersionUID = 1L;
     private Long id;
@@ -22,10 +21,10 @@ public class Authority implements GrantedAuthority {
 
     private Set<User> users;
 
-    private Authority() {
+    public Role() {
     }
 
-    private Authority(String authority) {
+    private Role(String authority) {
         this.authority = authority;
     }
     @Id
@@ -35,18 +34,14 @@ public class Authority implements GrantedAuthority {
     }
 
     @Override
-    @Column(name = "authority", nullable = false)
+    @Column(name = "role", nullable = false)
     public String getAuthority() {
         return authority;
     }
 
-    @ManyToMany(mappedBy = "authorities", targetEntity = User.class, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "authorities")
     public Set<User> getUsers() {
         return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
     }
 
     public void setId(Long id) {
@@ -57,11 +52,15 @@ public class Authority implements GrantedAuthority {
         this.authority = authority;
     }
 
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Authority)) return false;
-        Authority role1 = (Authority) o;
+        if (!(o instanceof Role)) return false;
+        Role role1 = (Role) o;
         return Objects.equals(id, role1.id) && Objects.equals(authority, role1.authority);
     }
 
@@ -78,8 +77,8 @@ public class Authority implements GrantedAuthority {
                 '}';
     }
 
-    public static Authority of(Role role) {
-        return new Authority(role.name());
+    public static Role of(by.it_academy.user.dao.enums.Role role) {
+        return new Role(role.name());
     }
 
 }
