@@ -4,19 +4,16 @@ import by.it_academy.user.dao.api.IRoleDao;
 import by.it_academy.user.dao.api.IUserDao;
 import by.it_academy.user.dao.entity.Role;
 import by.it_academy.user.dao.entity.User;
-import by.it_academy.user.services.api.IUserAuthenticateService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.OptimisticLockException;
 import java.util.*;
 
-@Service
+@Deprecated
 public class JpaUserDetailsManager {
     private final IUserDao repository;
     private final IRoleDao roleDao;
@@ -59,17 +56,17 @@ public class JpaUserDetailsManager {
         repository.save(updatedUser);
     }
 
-    public void deleteUser(String username) {
-            repository.deleteByUserName(username);
-    }
-
-    public void changePassword(String oldPassword, String newPassword) {
-        User modifiedUser = repository.findFirstByPassword(oldPassword);
-
-        modifiedUser.setPassword(newPassword);
-
-        repository.save(modifiedUser);
-    }
+//    public void deleteUser(String username) {
+//            repository.deleteByUserName(username);
+//    }
+//
+//    public void changePassword(String oldPassword, String newPassword) {
+//        User modifiedUser = repository.findFirstByPassword(oldPassword);
+//
+//        modifiedUser.setPassword(newPassword);
+//
+//        repository.save(modifiedUser);
+//    }
 
     public boolean userExists(String username) {
         return repository.findByUserName(username) != null;

@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,12 +18,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtFilter filter;
 
-    private final JpaUserDetailsManager manager;
+    private final UserDetailsService manager;
 
     private final DaoAuthenticationProvider provider;
 
     //number2
-    public SecurityConfig(JwtFilter filter, JpaUserDetailsManager manager, DaoAuthenticationProvider provider) {
+    public SecurityConfig(JwtFilter filter, UserDetailsService manager, DaoAuthenticationProvider provider) {
         this.filter = filter;
         this.manager = manager;
         this.provider = provider;

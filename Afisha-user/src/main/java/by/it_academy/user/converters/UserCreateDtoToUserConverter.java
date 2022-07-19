@@ -1,5 +1,6 @@
 package by.it_academy.user.converters;
 
+import by.it_academy.user.controllers.utils.LocalDateTimeUtils;
 import by.it_academy.user.converters.api.AbstractConverterWithEncoder;
 import by.it_academy.user.dao.entity.User;
 import by.it_academy.user.dto.request.UserCreateDto;
@@ -29,7 +30,7 @@ public class UserCreateDtoToUserConverter extends AbstractConverterWithEncoder<U
                 .setStatus(source.getStatus())
                 .setAuthorities(Set.of(source.getRole()))
                 .setDtCreate(now)
-                .setDtUpdate(now)
+                .setDtUpdate(LocalDateTimeUtils.convertNanosToMillis(now))
                 .setAccountNonLocked(true)
                 .setAccountNonExpired(true)
                 .setCredentialsNonExpired(true)

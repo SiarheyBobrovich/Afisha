@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Validated
-public interface IUserInformationService {
+public interface IAdministrationService {
 
     /**
      * Method to validate a new user and save in database

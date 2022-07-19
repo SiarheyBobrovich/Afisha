@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -21,9 +22,9 @@ import java.util.List;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final UserDetailsManager userManager;
+    private final UserDetailsService userManager;
 
-    public JwtFilter(UserDetailsManager userManager) {
+    public JwtFilter(UserDetailsService userManager) {
         this.userManager = userManager;
     }
 

@@ -1,5 +1,6 @@
 package by.it_academy.user.converters;
 
+import by.it_academy.user.controllers.utils.LocalDateTimeUtils;
 import by.it_academy.user.converters.api.AbstractConverterWithEncoder;
 import by.it_academy.user.dao.entity.User;
 import by.it_academy.user.dao.entity.Role;
@@ -30,7 +31,7 @@ public class UserRegistrationDtoToUserConverter extends AbstractConverterWithEnc
                 .setPassword(encoder.encode(source.getPassword()))
                 .setAuthorities(Set.of(Role.of(by.it_academy.user.dao.enums.Role.USER)))
                 .setDtCreate(now)
-                .setDtUpdate(now)
+                .setDtUpdate(LocalDateTimeUtils.convertNanosToMillis(now))
                 .setStatus(Status.ACTIVATED)
                 .setAccountNonLocked(true)
                 .setAccountNonExpired(true)

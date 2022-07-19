@@ -2,7 +2,7 @@ package by.it_academy.user.controllers;
 
 import by.it_academy.user.controllers.utils.LongToLocalDateTimeUtil;
 import by.it_academy.user.dto.request.UserCreateDto;
-import by.it_academy.user.services.api.IUserInformationService;
+import by.it_academy.user.services.api.IAdministrationService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -17,9 +17,9 @@ import java.util.UUID;
 @RequestMapping("/api/v1/users")
 public class AdministrationController {
 
-    private final IUserInformationService service;
+    private final IAdministrationService service;
 
-    public AdministrationController(IUserInformationService service) {
+    public AdministrationController(IAdministrationService service) {
         this.service = service;
     }
 

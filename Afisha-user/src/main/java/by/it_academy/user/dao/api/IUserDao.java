@@ -19,14 +19,4 @@ public interface IUserDao extends JpaRepository<User, UUID> {
         return findByMail(username);
     }
 
-    @Query
-    UUID deleteByMail(String mail);
-
-    default UUID deleteByUserName(String username) {
-        return deleteByMail(username);
-    }
-
-    @Query
-    User findFirstByPassword(String password);
-
 }

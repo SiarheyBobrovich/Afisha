@@ -5,9 +5,9 @@ import by.it_academy.user.dao.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class DetailsService implements UserDetailsService {
 
     private final IUserDao userDao;
@@ -20,8 +20,8 @@ public class DetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User currentUser = userDao.findByUserName(username);
 
-        if (currentUser == null) {
-            throw new UsernameNotFoundException("Не верный логин или пороль");
+        if (currentUser == null || currentUser.getAuthorities().isEmpty()) {
+            throw new UsernameNotFoundException("Не авторизирован");
         }
 
         return currentUser;

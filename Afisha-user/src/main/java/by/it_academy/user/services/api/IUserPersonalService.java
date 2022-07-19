@@ -1,4 +1,5 @@
 package by.it_academy.user.services.api;
+import by.it_academy.user.dao.entity.User;
 import by.it_academy.user.dto.request.UserLoginDto;
 import by.it_academy.user.dto.request.UserRegistrationDto;
 import by.it_academy.user.dto.response.ResponseUserDto;
@@ -20,7 +21,7 @@ public interface IUserPersonalService {
      * Method to login user
      * @param userLogin User's params for update
      */
-    UserDetails login(@Valid UserLoginDto userLogin);
+    User login(@Valid UserLoginDto userLogin);
 
     /**
      * Method to find user by mail

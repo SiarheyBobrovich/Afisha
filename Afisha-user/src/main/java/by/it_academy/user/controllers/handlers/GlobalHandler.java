@@ -2,11 +2,14 @@ package by.it_academy.user.controllers.handlers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.OptimisticLockException;
 import javax.validation.ConstraintViolationException;
 import java.util.*;
 
@@ -18,7 +21,34 @@ public class GlobalHandler {
     public Map<String, Object> handle(RuntimeException exception) {
         return Map.of(
                 "logref", "error",
-                "message", exception.getMessage()//"Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору"
+                "message", "Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору"
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Map<String, Object> handle(UsernameNotFoundException exception) {
+        return Map.of(
+                "logref", "error",
+                "message", exception.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, Object> handle(EntityExistsException exception) {
+        return Map.of(
+                "logref", "error",
+                "message", exception.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Map<String, Object> handle(OptimisticLockException exception) {
+        return Map.of(
+                "logref", "error",
+                "message", exception.getMessage()
         );
     }
 
