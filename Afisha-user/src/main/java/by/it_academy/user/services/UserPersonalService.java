@@ -36,6 +36,7 @@ public class UserPersonalService implements IUserPersonalService {
     }
 
     @Override
+    @Transactional
     public void save(UserRegistrationDto newUser) {
         if (userDao.existsByMail(newUser.getMail())) {
             throw new EntityExistsException("Пользователь уже существует");
@@ -52,7 +53,7 @@ public class UserPersonalService implements IUserPersonalService {
     public User login(UserLoginDto userLogin) {
         User currentUser = userDao.findByMail(userLogin.getMail());
 
-        if (currentUser == null &&
+        if (currentUser == null ||
                 !encoder.matches(userLogin.getPassword(), currentUser.getPassword())) {
             throw new SecurityException("Не верный логин или пороль");
         }

@@ -1,7 +1,6 @@
 package by.it_academy.user.spring_config;
 
 import by.it_academy.user.controllers.filters.JwtFilter;
-import by.it_academy.user.services.JpaUserDetailsManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -64,8 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Our public endpoints
                 .antMatchers("/api/v1/users/registration").anonymous()
                 .antMatchers("/api/v1/users/login").anonymous()
+                .antMatchers("/api/v1/users/me").authenticated()
                 // Our private endpoints
-                .anyRequest().hasAnyAuthority("ADMIN");
+                .anyRequest().hasAuthority("ADMIN");
 
         // Add JWT token filter
         http.addFilterBefore(

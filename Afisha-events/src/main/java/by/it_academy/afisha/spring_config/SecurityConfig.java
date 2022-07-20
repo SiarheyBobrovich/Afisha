@@ -1,6 +1,7 @@
 package by.it_academy.afisha.spring_config;
 
 import by.it_academy.afisha.controllers.filter.JwtFilter;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,7 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and();
 
-
         http = http
                 .exceptionHandling()
                 .authenticationEntryPoint(
@@ -40,8 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and();
 
         http.authorizeRequests()
+                .antMatchers(HttpMethod.POST).hasAuthority("ADMIN")
                 // Our public endpoints
-                .antMatchers("/api/v1/afisha/event/*").permitAll()
+                .antMatchers("/api/v1/afisha/event/**").authenticated()
                 // Our private endpoints
                 .anyRequest().hasAuthority("ADMIN");
 

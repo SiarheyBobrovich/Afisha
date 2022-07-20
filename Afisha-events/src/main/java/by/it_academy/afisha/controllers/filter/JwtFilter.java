@@ -9,7 +9,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
 import static org.apache.logging.log4j.util.Strings.isEmpty;
 
@@ -55,13 +59,15 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
+        //Going to the user-service and getting information
         ClientHttpRequest httpRequest = template.getRequestFactory()
                 .createRequest(URI.create("http://localhost:82/api/v1/users/me"), HttpMethod.GET);
 
         httpRequest.getHeaders()
-                .put("Authorization", List.of(header));
+                .put(HttpHeaders.AUTHORIZATION, List.of(header));
 
         UserDto user;
+
         try(ClientHttpResponse execute = httpRequest.execute()) {
             if (!execute.getStatusCode().is2xxSuccessful()) {
                 throw new SecurityException("Пользователь был удалён");

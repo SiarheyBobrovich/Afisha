@@ -18,5 +18,4 @@ public class ServiceApplicationMain {
 		SpringApplication.run(ServiceApplicationMain.class, args);
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 	}
-
 }
