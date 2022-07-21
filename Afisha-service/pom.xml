@@ -13,7 +13,7 @@
 	<artifactId>Afisha-classifiers</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 
-	<name>Classifiers</name>
+	<name>Afisha-classifiers</name>
 	<description>Classifiers service for afisha</description>
 	<url>http://localhost:81/api/v1/classifier/</url>
 	<packaging>jar</packaging>
@@ -70,7 +70,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>afisha-classifiers</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

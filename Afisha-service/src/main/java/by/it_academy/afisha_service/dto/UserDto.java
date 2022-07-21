@@ -1,5 +1,6 @@
 package by.it_academy.afisha_service.dto;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import org.springframework.security.core.GrantedAuthority;
@@ -81,10 +82,12 @@ public class UserDto implements UserDetails {
 
         private boolean isEnable;
 
+        @JsonSetter("nick")
         public void setUsername(String username) {
             this.username = username;
         }
 
+        @JsonSetter("role")
         public void setAuthorities(String authorities) {
             this.authorities = Arrays.stream(
                     authorities.replace(", ", " ")

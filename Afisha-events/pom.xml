@@ -5,10 +5,12 @@
 
   <groupId>by.it-academy</groupId>
   <artifactId>Afisha-events</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
 
-  <name>Afisha</name>
+  <name>Afisha-events</name>
+  <description>Classifiers service for afisha</description>
   <url>http://localhost/api/v1/afisha/event/</url>
+  <packaging>jar</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -66,13 +68,6 @@
       <version>${spring.boot.version}</version>
     </dependency>
 
-      <dependency>
-          <groupId>org.testng</groupId>
-          <artifactId>testng</artifactId>
-          <version>RELEASE</version>
-          <scope>test</scope>
-      </dependency>
-
     <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
     <dependency>
       <groupId>org.modelmapper</groupId>
@@ -83,15 +78,12 @@
   </dependencies>
 
   <build>
-    <finalName>afisha-events</finalName>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
-      <plugins>
-        <plugin>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-maven-plugin</artifactId>
-        </plugin>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
 
-      </plugins>
-    </pluginManagement>
+    </plugins>
   </build>
 </project>

@@ -61,7 +61,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         //Going to the user-service and getting information
         ClientHttpRequest httpRequest = template.getRequestFactory()
-                .createRequest(URI.create("http://localhost:82/api/v1/users/me"), HttpMethod.GET);
+                .createRequest(URI.create("http://user-service:82/api/v1/users/me"), HttpMethod.GET);
 
         httpRequest.getHeaders()
                 .put(HttpHeaders.AUTHORIZATION, List.of(header));

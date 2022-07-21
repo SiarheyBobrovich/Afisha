@@ -10,7 +10,7 @@ spring:
   datasource:
     username: postgres
     password: 172143
-    url: jdbc:postgresql://localhost:5432/classifiers?currentSchema=classifiers
+    url: jdbc:postgresql://db:5432/classifiers?currentSchema=classifiers
     port: 5432
     driver-class-name: org.postgresql.Driver
 

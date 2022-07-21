@@ -4,6 +4,7 @@ import by.it_academy.user.controllers.utils.LocalDateTimeUtils;
 import by.it_academy.user.converters.api.AbstractConverterWithEncoder;
 import by.it_academy.user.dao.entity.User;
 import by.it_academy.user.dao.entity.Role;
+import by.it_academy.user.dao.enums.Roles;
 import by.it_academy.user.dao.enums.Status;
 import by.it_academy.user.dto.request.UserRegistrationDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +30,7 @@ public class UserRegistrationDtoToUserConverter extends AbstractConverterWithEnc
                 .setNick(source.getNick())
                 .setMail(source.getMail())
                 .setPassword(encoder.encode(source.getPassword()))
-                .setAuthorities(Set.of(Role.of(by.it_academy.user.dao.enums.Role.USER)))
+                .setAuthorities(Set.of(Role.of(Roles.USER)))
                 .setDtCreate(now)
                 .setDtUpdate(LocalDateTimeUtils.convertNanosToMillis(now))
                 .setStatus(Status.ACTIVATED)

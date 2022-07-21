@@ -1,5 +1,6 @@
 package by.it_academy.user.dao.entity;
 
+import by.it_academy.user.dao.enums.Roles;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -77,7 +78,7 @@ public class Role implements GrantedAuthority {
                 '}';
     }
 
-    public static Role of(by.it_academy.user.dao.enums.Role role) {
+    public static Role of(Roles role) {
         return new Role(role.name());
     }
 

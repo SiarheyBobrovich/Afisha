@@ -4,6 +4,7 @@ import by.it_academy.user.dao.api.IRoleDao;
 import by.it_academy.user.dao.api.IUserDao;
 import by.it_academy.user.dao.entity.Role;
 import by.it_academy.user.dao.entity.User;
+import by.it_academy.user.dao.enums.Roles;
 import by.it_academy.user.dao.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -31,8 +32,13 @@ public class UsersStorageConfig {
 
             LocalDateTime now = LocalDateTime.now();
 
-            Role byAuthority = roleDao.findByAuthority(by.it_academy.user.dao.enums.Role.ADMIN.name());
-            Role byAuthority1 = roleDao.findByAuthority(by.it_academy.user.dao.enums.Role.USER.name());
+            try {
+                roleDao.save(Role.of(Roles.USER));
+                roleDao.save(Role.of(Roles.ADMIN));
+            }catch (DataIntegrityViolationException ignore) {}
+
+            Role byAuthority = roleDao.findByAuthority(Roles.ADMIN.name());
+            Role byAuthority1 = roleDao.findByAuthority(Roles.USER.name());
 
             User user = User.builder()
                     .setUuid(UUID.randomUUID())
