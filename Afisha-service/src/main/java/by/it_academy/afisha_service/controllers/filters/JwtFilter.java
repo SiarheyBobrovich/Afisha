@@ -3,6 +3,7 @@ package by.it_academy.afisha_service.controllers.filters;
 import by.it_academy.afisha_service.controllers.utils.JwtTokenUtil;
 import by.it_academy.afisha_service.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,12 +29,17 @@ import static org.apache.logging.log4j.util.Strings.isEmpty;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
+    private final String usersServiceUrl;
+
     private final RestTemplate template;
     private final ObjectMapper mapper;
 
-    public JwtFilter(RestTemplateBuilder template, ObjectMapper mapper) {
+    public JwtFilter(RestTemplateBuilder template,
+                     ObjectMapper mapper,
+                     @Value("${users.service.url}")String usersServiceUrl) {
         this.template = template.build();
         this.mapper = mapper;
+        this.usersServiceUrl = usersServiceUrl;
     }
 
     @Override
@@ -56,7 +62,7 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         ClientHttpRequest httpRequest = template.getRequestFactory()
-                .createRequest(URI.create("http://user-service:82/api/v1/users/me"), HttpMethod.GET);
+                .createRequest(URI.create(usersServiceUrl), HttpMethod.GET);
 
         httpRequest.getHeaders()
                 .put(HttpHeaders.AUTHORIZATION, List.of(header));

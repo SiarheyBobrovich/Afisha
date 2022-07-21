@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: default
   jpa:
     database: POSTGRESQL
     hibernate:
@@ -10,9 +12,23 @@ spring:
   datasource:
     username: postgres
     password: 172143
+    url: jdbc:postgresql://localhost:5432/users?currentSchema=security
+    port: 5432
+    driver-class-name: org.postgresql.Driver
+server:
+  port: 82
+
+---
+spring:
+  profiles: production
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  datasource:
+    username: postgres
+    password: 172143
     url: jdbc:postgresql://db:5432/users?currentSchema=security
     port: 5432
     driver-class-name: org.postgresql.Driver
-
-server:
-  port: 82

@@ -82,7 +82,7 @@ public class UserDto implements UserDetails {
 
         private boolean isEnable;
 
-        @JsonSetter("nick")
+        @JsonSetter("mail")
         public void setUsername(String username) {
             this.username = username;
         }

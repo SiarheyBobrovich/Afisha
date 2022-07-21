@@ -56,7 +56,7 @@ public class GlobalHandler {
     public Map<String, Object> handle(HttpMessageNotReadableException exception) {
         return Map.of(
                 "logref", "error",
-                "message", "JSON не поддерживается"
+                "message", "Тип данных не обслуживается"
         );
     }
 

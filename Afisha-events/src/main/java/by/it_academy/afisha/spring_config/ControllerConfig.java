@@ -29,11 +29,6 @@ public class ControllerConfig implements WebMvcConfigurer {
         converters.add(converter);
     }
 
-//    @Bean
-//    public ObjectMapper objectMapper(Jackson2ObjectMapperFactoryBean mapperFactoryBean) {
-//        return mapperFactoryBean.getObject();
-//    }
-
     @Bean
     public Jackson2ObjectMapperFactoryBean mapperFactoryBean() {
         Jackson2ObjectMapperFactoryBean factoryBean = new Jackson2ObjectMapperFactoryBean();
