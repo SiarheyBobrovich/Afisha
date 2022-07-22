@@ -1,6 +1,6 @@
 package by.it_academy.afisha.services;
 
-import by.it_academy.afisha.controllers.utils.JwtTokenUtil;
+import by.it_academy.afisha.utils.JwtTokenUtil;
 import by.it_academy.afisha.exceptions.EntityNotFoundException;
 import by.it_academy.afisha.services.api.IClassifiersConnectService;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,8 +36,8 @@ public class ClassifiersService implements IClassifiersConnectService {
     }
 
     @Override
-    public void isValidUuid(String url, UUID uuid) throws EntityNotFoundException {
-        HttpStatus statusCode;
+    public HttpStatus getHttpStatus(String url, UUID uuid) throws EntityNotFoundException {
+        HttpStatus statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
         ClientHttpRequest request;
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -46,7 +46,9 @@ public class ClassifiersService implements IClassifiersConnectService {
         try {
             request = template.getRequestFactory()
                 .createRequest(URI.create(url + uuid), HttpMethod.GET);
-            request.getHeaders().put(HttpHeaders.AUTHORIZATION, List.of("Bearer " + token));
+
+            request.getHeaders()
+                    .put(HttpHeaders.AUTHORIZATION, List.of("Bearer " + token));
 
             try (ClientHttpResponse response = request.execute()) {
                 statusCode = response.getStatusCode();
@@ -56,18 +58,16 @@ public class ClassifiersService implements IClassifiersConnectService {
             throw new RuntimeException(e);
         }
 
-        if (!statusCode.is2xxSuccessful()) {
-            throw new EntityNotFoundException(uuid, "В справочнике отсутствует uuid");
-        }
+        return statusCode;
     }
 
     @Override
-    public void isValidCountry(UUID uuid) {
-        isValidUuid(countryServiceUrl, uuid);
+    public boolean isValidCountry(UUID uuid) {
+        return getHttpStatus(countryServiceUrl, uuid).is2xxSuccessful();
     }
 
     @Override
-    public void isValidCategory(UUID uuid) {
-        isValidUuid(categoryServiceUrl, uuid);
+    public boolean isValidCategory(UUID uuid) {
+        return getHttpStatus(categoryServiceUrl, uuid).is2xxSuccessful();
     }
 }

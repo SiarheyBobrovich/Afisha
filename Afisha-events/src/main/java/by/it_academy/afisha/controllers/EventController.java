@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -32,15 +33,16 @@ public class EventController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void save(@RequestBody EventDto dto) {
+    public void save(@RequestBody EventDto dto, Principal userDetails) {
+        String name = userDetails.getName();
 
         switch (dto.getType()) {
             case FILMS:
-                service.save((EventFilmDto) dto);
+                service.save((EventFilmDto) dto, name);
                 break;
 
             case CONCERTS:
-                service.save((EventConcertDto) dto);
+                service.save((EventConcertDto) dto, name);
                 break;
 
             default: throw new TypeNotSupportedException(dto.getType());
@@ -51,17 +53,19 @@ public class EventController {
     @PutMapping("/{uuid}/dt_update/{dt_update}")
     public void update(@RequestBody EventDto dto,
                        @PathVariable UUID uuid,
-                       @PathVariable("dt_update") Long dtUpdate) {
+                       @PathVariable("dt_update") Long dtUpdate,
+                       Principal userDetails) {
+        String name = userDetails.getName();
 
         LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneId.of("UTC"));
 
         switch (dto.getType()) {
             case FILMS:
-                service.update((EventFilmDto) dto, uuid, date);
+                service.update((EventFilmDto) dto, uuid, date, name);
                 break;
 
             case CONCERTS:
-                service.update((EventConcertDto) dto, uuid, date);
+                service.update((EventConcertDto) dto, uuid, date, name);
                 break;
 
             default: throw new TypeNotSupportedException(dto.getType());
@@ -80,10 +84,10 @@ public class EventController {
         final ResponseEntity<Object> body;
 
         if (Type.FILMS.equals(type)) {
-            body = ResponseEntity.ok(service.getFilmEvents(pageRequest));
+            body = ResponseEntity.ok(service.getEventFilms(pageRequest));
 
         }else if (Type.CONCERTS.equals(type)) {
-            body = ResponseEntity.ok(service.getConcertEvents(pageRequest));
+            body = ResponseEntity.ok(service.getEventConcerts(pageRequest));
 
         }else {
             throw new TypeNotSupportedException(type);

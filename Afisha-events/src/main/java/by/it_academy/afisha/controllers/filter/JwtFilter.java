@@ -1,6 +1,6 @@
 package by.it_academy.afisha.controllers.filter;
 
-import by.it_academy.afisha.controllers.utils.JwtTokenUtil;
+import by.it_academy.afisha.utils.JwtTokenUtil;
 import by.it_academy.afisha.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;

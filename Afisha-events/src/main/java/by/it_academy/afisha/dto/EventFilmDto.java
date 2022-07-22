@@ -34,9 +34,9 @@ public class EventFilmDto extends EventDto {
                         LocalDateTime dtEndOfSale,
                         Status status,
                         UUID country,
-                        int releaseYear,
+                        Integer releaseYear,
                         LocalDate releaseDate,
-                        int duration) {
+                        Integer duration) {
         super(title, description, dtEvent, dtEndOfSale, status);
         this.country = country;
         this.releaseYear = releaseYear;

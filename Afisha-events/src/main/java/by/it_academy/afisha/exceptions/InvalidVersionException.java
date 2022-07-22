@@ -5,6 +5,6 @@ package by.it_academy.afisha.exceptions;
  */
 public class InvalidVersionException extends IllegalArgumentException {
     public InvalidVersionException() {
-        super("Обновите данные о событии");
+        super("Данные устарели: обновите данные");
     }
 }

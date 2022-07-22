@@ -1,4 +1,4 @@
-package by.it_academy.user.controllers.utils;
+package by.it_academy.afisha_service.utils;
 
 import io.jsonwebtoken.*;
 import org.springframework.security.core.userdetails.UserDetails;

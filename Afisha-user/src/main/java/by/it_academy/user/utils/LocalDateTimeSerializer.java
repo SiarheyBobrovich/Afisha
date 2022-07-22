@@ -1,4 +1,4 @@
-package by.it_academy.user.controllers.utils;
+package by.it_academy.user.utils;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

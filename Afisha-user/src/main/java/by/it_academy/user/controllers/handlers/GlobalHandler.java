@@ -16,30 +16,31 @@ import java.util.*;
 @RestControllerAdvice
 public class GlobalHandler {
 
+    private final String logref = "logref";
+    private final String message = "message";
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> handle(RuntimeException exception) {
         return Map.of(
-                "logref", "error",
-                "message", "Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору"
+                logref, "error",
+                message, "Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору"
         );
     }
-
     @ExceptionHandler
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Map<String, Object> handle(UsernameNotFoundException exception) {
         return Map.of(
-                "logref", "error",
-                "message", exception.getMessage()
+                logref, "error",
+                message, exception.getMessage()
         );
     }
-
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handle(EntityExistsException exception) {
         return Map.of(
-                "logref", "error",
-                "message", exception.getMessage()
+                logref, "error",
+                message, exception.getMessage()
         );
     }
 
@@ -47,8 +48,8 @@ public class GlobalHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public Map<String, Object> handle(OptimisticLockException exception) {
         return Map.of(
-                "logref", "error",
-                "message", exception.getMessage()
+                logref, "error",
+                message, exception.getMessage()
         );
     }
 
@@ -56,8 +57,8 @@ public class GlobalHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handle(EntityNotFoundException exception) {
         return Map.of(
-                "logref", "error",
-                "message", exception.getMessage()
+                logref, "error",
+                message, exception.getMessage()
         );
     }
 
@@ -65,17 +66,17 @@ public class GlobalHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public Map<String, Object> handle(SecurityException exception) {
         return Map.of(
-                "logref", "error",
-                "message", exception.getMessage()
+                logref, "error",
+                message, exception.getMessage()
         );
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handle(HttpMessageNotReadableException exception) {
         return Map.of(
-                "logref", "error",
-                "message", "JSON не поддерживается"
+                logref, "error",
+                message, "Запрос не корректен, проверьте запрос"
         );
     }
 
@@ -83,7 +84,7 @@ public class GlobalHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handle(ConstraintViolationException exception) {
         final Map<String, Object> map = new HashMap<>();
-        map.put("logref", "structured_error");
+        map.put(logref, "structured_error");
 
         final List<Map<String, Object>> errors = new ArrayList<>();
 
@@ -94,7 +95,7 @@ public class GlobalHandler {
 
             errors.add(Map.of(
                     "field", path.substring(pointIndex + 1),
-                    "message", x.getMessage()
+                    message, x.getMessage()
             ));
         });
 

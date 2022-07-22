@@ -1,4 +1,4 @@
-package by.it_academy.user.controllers.utils;
+package by.it_academy.user.utils;
 
 import java.time.LocalDateTime;
 

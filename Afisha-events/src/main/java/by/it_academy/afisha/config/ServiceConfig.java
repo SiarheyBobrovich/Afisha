@@ -1,4 +1,4 @@
-package by.it_academy.afisha.spring_config;
+package by.it_academy.afisha.config;
 
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;

@@ -1,6 +1,6 @@
 package by.it_academy.user.controllers;
 
-import by.it_academy.user.controllers.utils.LongToLocalDateTimeUtil;
+import by.it_academy.user.utils.LongToLocalDateTimeUtil;
 import by.it_academy.user.dto.request.UserCreateDto;
 import by.it_academy.user.services.api.IAdministrationService;
 import org.springframework.data.domain.PageRequest;

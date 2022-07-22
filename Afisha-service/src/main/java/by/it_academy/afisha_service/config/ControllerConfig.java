@@ -1,6 +1,6 @@
 package by.it_academy.afisha_service.config;
 
-import by.it_academy.afisha_service.controllers.utils.LocalDateTimeSerializer;
+import by.it_academy.afisha_service.utils.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,6 @@
 package by.it_academy.user.controllers;
 
-import by.it_academy.user.controllers.utils.JwtTokenUtil;
+import by.it_academy.user.utils.JwtTokenUtil;
 import by.it_academy.user.dto.request.UserLoginDto;
 import by.it_academy.user.dto.request.UserRegistrationDto;
 import by.it_academy.user.services.api.IUserPersonalService;

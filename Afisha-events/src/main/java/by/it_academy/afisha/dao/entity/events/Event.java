@@ -19,6 +19,9 @@ public abstract class Event implements Serializable {
     @Id
     private UUID uuid;
 
+    @Column(name = "author", nullable = false, length = 50)
+    private String author;
+
     @Column(name = "status", nullable = false, length = 9)
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -35,12 +38,21 @@ public abstract class Event implements Serializable {
     @Column(name = "dt_end_of_sale", nullable = false)
     private LocalDateTime dtEndOfSale;
 
+
     public UUID getUuid() {
         return uuid;
     }
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public Status getStatus() {

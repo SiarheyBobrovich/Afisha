@@ -1,7 +1,6 @@
-package by.it_academy.user.spring_config;
+package by.it_academy.user.config;
 
 import by.it_academy.user.services.DetailsService;
-import by.it_academy.user.services.JpaUserDetailsManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

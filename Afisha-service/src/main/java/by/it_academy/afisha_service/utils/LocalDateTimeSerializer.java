@@ -1,4 +1,4 @@
-package by.it_academy.afisha_service.controllers.utils;
+package by.it_academy.afisha_service.utils;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

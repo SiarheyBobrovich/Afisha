@@ -14,6 +14,7 @@ TABLESPACE pg_default;
 CREATE TABLE IF NOT EXISTS afisha.events
 (
     uuid uuid NOT NULL UNIQUE,
+    author VARCHAR(50) NOT NULL,
     dt_event timestamp without time zone NOT NULL,
     dt_end_of_sale timestamp without time zone NOT NULL,
     status character varying(9) COLLATE pg_catalog."default" NOT NULL,

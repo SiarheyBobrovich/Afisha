@@ -1,7 +1,7 @@
-package by.it_academy.user.spring_config;
+package by.it_academy.afisha.config;
 
-import by.it_academy.user.controllers.utils.LocalDateTimeDeserializer;
-import by.it_academy.user.controllers.utils.LocalDateTimeSerializer;
+import by.it_academy.afisha.utils.LocalDateTimeDeserializer;
+import by.it_academy.afisha.utils.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.*;
@@ -30,11 +30,6 @@ public class ControllerConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public ObjectMapper objectMapper(Jackson2ObjectMapperFactoryBean mapperFactoryBean) {
-        return mapperFactoryBean.getObject();
-    }
-
-    @Bean
     public Jackson2ObjectMapperFactoryBean mapperFactoryBean() {
         Jackson2ObjectMapperFactoryBean factoryBean = new Jackson2ObjectMapperFactoryBean();
 
@@ -57,7 +52,7 @@ public class ControllerConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public RequestMappingHandlerAdapter adapter(MappingJackson2HttpMessageConverter converter) {
+    public RequestMappingHandlerAdapter adapter( MappingJackson2HttpMessageConverter converter) {
         RequestMappingHandlerAdapter requestMappingHandlerAdapter = new RequestMappingHandlerAdapter();
         requestMappingHandlerAdapter.setMessageConverters(List.of(converter));
 

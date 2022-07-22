@@ -16,20 +16,22 @@ import java.time.LocalDateTime;
 })
 public abstract class EventDto {
 
-    @NotNull
+    private static final String NULL_MESSAGE = "Не должно быть пустым";
+
+    @NotNull(message = NULL_MESSAGE)
     @Pattern(regexp = "[\\p{L}\\d\\p{Punct}\\p{Blank}]++",
-            message = "не верно введён титульный лист")
+            message = "Не верно введён титульный лист")
     private final String title;
 
-    @NotNull
+    @NotNull(message = NULL_MESSAGE)
     @Pattern(regexp = "[\\p{L}\\d\\p{Punct}\\p{Blank}]++",
-            message = "не верно введено описание")
+            message = "Не верно введено описание")
     private final String description;
 
-    @NotNull(message = "введите дату мероприятия")
+    @NotNull(message = "Введите дату мероприятия")
     private final LocalDateTime dtEvent;
 
-    @NotNull
+    @NotNull(message = NULL_MESSAGE)
     private final LocalDateTime dtEndOfSale;
 
     @NotNull(message = "Не верно введён статус")

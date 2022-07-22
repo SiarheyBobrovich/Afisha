@@ -1,6 +1,6 @@
 package by.it_academy.user.converters;
 
-import by.it_academy.user.controllers.utils.LocalDateTimeUtils;
+import by.it_academy.user.utils.LocalDateTimeUtils;
 import by.it_academy.user.converters.api.AbstractConverterWithEncoder;
 import by.it_academy.user.dao.entity.User;
 import by.it_academy.user.dao.entity.Role;

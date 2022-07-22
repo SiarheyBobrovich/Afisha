@@ -7,7 +7,7 @@ import by.it_academy.afisha_service.dto.ResponseCountryDto;
 import by.it_academy.afisha_service.exceptions.ValidationException;
 import by.it_academy.afisha_service.pagination.ResponseCountryPage;
 import by.it_academy.afisha_service.services.api.IService;
-import by.it_academy.afisha_service.services.utils.DefaultParamsUtil;
+import by.it_academy.afisha_service.utils.DefaultParamsUtil;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package by.it_academy.afisha_service.controllers.utils;
+package by.it_academy.user.utils;
 
 import io.jsonwebtoken.*;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +10,6 @@ public class JwtTokenUtil {
 
     private static final String jwtSecret = "NDQ1ZjAzNjQtMzViZi00MDRjLTljZjQtNjNjYWIyZTU5ZDYw";
     private static final String jwtIssuer = "ITAcademy";
-
 
     public static String generateAccessToken(UserDetails user) {
         return Jwts.builder()

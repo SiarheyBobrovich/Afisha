@@ -3,6 +3,7 @@ package by.it_academy.user.services;
 import by.it_academy.user.dao.api.IRoleDao;
 import by.it_academy.user.dao.api.IUserDao;
 import by.it_academy.user.dao.entity.User;
+import by.it_academy.user.dao.enums.Status;
 import by.it_academy.user.dto.request.UserLoginDto;
 import by.it_academy.user.dto.request.UserRegistrationDto;
 import by.it_academy.user.dto.response.ResponseUserDto;
@@ -21,7 +22,6 @@ public class UserPersonalService implements IUserPersonalService {
 
     private final ConversionService conversionService;
     private final PasswordEncoder encoder;
-
     private final IUserDao userDao;
     private final IRoleDao roleDao;
 
@@ -56,6 +56,11 @@ public class UserPersonalService implements IUserPersonalService {
         if (currentUser == null ||
                 !encoder.matches(userLogin.getPassword(), currentUser.getPassword())) {
             throw new SecurityException("Не верный логин или пороль");
+        }
+
+        if (!currentUser.isEnabled() ||
+                !currentUser.getStatus().equals(Status.ACTIVATED)) {
+            throw new SecurityException("Аккаунт не активен, обратитесь к администратору");
         }
 
         return currentUser;

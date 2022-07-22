@@ -16,19 +16,20 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.OptimisticLockException;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
-public class AdministrationUserService implements IAdministrationService {
+public class AdministrationService implements IAdministrationService {
 
     private final ConversionService conversionService;
 
     private final IUserDao userDao;
     private final IRoleDao roleDao;
 
-    public AdministrationUserService(ConversionService service, IUserDao userDao, IRoleDao roleDao) {
+    public AdministrationService(ConversionService service, IUserDao userDao, IRoleDao roleDao) {
         this.conversionService = service;
         this.userDao = userDao;
         this.roleDao = roleDao;
@@ -51,10 +52,6 @@ public class AdministrationUserService implements IAdministrationService {
     @Override
     @Transactional
     public void update(UserCreateDto updateUser, UUID uuid, LocalDateTime dtUpdate) {
-        if (userDao.existsByMail(updateUser.getMail())) {
-            throw new EntityExistsException("Mail уже зарегестрирован");
-        }
-
         User currentUser = userDao.findById(uuid).orElseThrow(() ->
                 new EntityNotFoundException("Не корректный uuid")
         );
@@ -62,6 +59,13 @@ public class AdministrationUserService implements IAdministrationService {
         if (!currentUser.getDtUpdate().equals(dtUpdate)) {
             throw new OptimisticLockException("Кто-то уже успел обновить событие");
         }
+
+        if (!Objects.equals(currentUser.getMail(), updateUser.getMail()) &&
+                userDao.existsByMail(updateUser.getMail())) {
+
+            throw new EntityExistsException("Mail уже зарегестрирован");
+        }
+
 
         User updatedUser = conversionService.convert(updateUser, User.class);
 
