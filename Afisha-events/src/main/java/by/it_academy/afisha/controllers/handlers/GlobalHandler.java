@@ -81,6 +81,15 @@ public class GlobalHandler {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, Object> handle(EntityNotFoundException exception) {
+        return Map.of(
+                logref, "error",
+                message, exception.getMessage()
+        );
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handle(ConstraintViolationException exception) {
         final Map<String, Object> map = new HashMap<>();

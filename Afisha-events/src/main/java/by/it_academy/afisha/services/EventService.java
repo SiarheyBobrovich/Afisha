@@ -3,12 +3,10 @@ package by.it_academy.afisha.services;
 import by.it_academy.afisha.dao.api.IEvenConcertDao;
 import by.it_academy.afisha.dao.api.IEventFilmDao;
 import by.it_academy.afisha.dao.entity.enums.Status;
-import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dao.entity.events.Event;
 import by.it_academy.afisha.dao.entity.events.EventConcert;
 import by.it_academy.afisha.dao.entity.events.EventFilm;
 import by.it_academy.afisha.dto.*;
-import by.it_academy.afisha.exceptions.CategoryNotFoundException;
 import by.it_academy.afisha.exceptions.EntityNotFoundException;
 import by.it_academy.afisha.exceptions.InvalidVersionException;
 import by.it_academy.afisha.services.api.IAfishaService;
@@ -119,16 +117,16 @@ public class EventService implements IAfishaService {
         PageDtos<PageEventDto> eventFilmsPage;
 
         if (Objects.isNull(userInfo)) {
-            eventFilmsPage = new PageDtos<>(filmDao.findByFilmTypeAndStatus(Type.FILMS, Status.PUBLISHED, page)
+            eventFilmsPage = new PageDtos<>(filmDao.findByStatus(Status.PUBLISHED, page)
                     .map(eventFilm -> mapper.map(eventFilm, PageEventDto.class)));
 
         } else if (userInfo.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
-            eventFilmsPage = new PageDtos<>(filmDao.findAllByFilmType(Type.FILMS, page)
+            eventFilmsPage = new PageDtos<>(filmDao.findAllFilms(page)
                     .map(eventFilm -> mapper.map(eventFilm, PageEventDto.class)));
 
         } else {
             eventFilmsPage = new PageDtos<>(
-                    filmDao.findByFilmTypeAndStatusOrAuthor(Type.FILMS, Status.PUBLISHED, userInfo.getUsername(), page)
+                    filmDao.findByStatusOrAuthor(Status.PUBLISHED, userInfo.getUsername(), page)
                             .map(entity -> mapper.map(entity, PageEventDto.class)));
         }
 
@@ -142,17 +140,17 @@ public class EventService implements IAfishaService {
 
         if (userInfo == null) {
             eventConcertsPage = new PageDtos<>(
-                    concertDao.findByConcertTypeAndStatus(Type.CONCERTS, Status.PUBLISHED, page)
+                    concertDao.findByConcertTypeAndStatus(Status.PUBLISHED, page)
                             .map(entity -> mapper.map(entity, PageEventDto.class)));
 
         }else if (userInfo.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
             eventConcertsPage = new PageDtos<>(
-                    concertDao.findAllByConcertType(Type.CONCERTS, page)
+                    concertDao.findAllConcers(page)
                             .map(entity -> mapper.map(entity, PageEventDto.class)));
 
         }else {
             eventConcertsPage = new PageDtos<>(
-                    concertDao.findByConcertTypeAndStatusAndAuthor(Type.CONCERTS, Status.PUBLISHED, userInfo.getUsername(), page)
+                    concertDao.findByConcertTypeAndStatusAndAuthor(Status.PUBLISHED, userInfo.getUsername(), page)
                             .map(entity -> mapper.map(entity, PageEventDto.class)));
         }
 
@@ -161,19 +159,20 @@ public class EventService implements IAfishaService {
 
     @Override
     public PageEventDto getSingleEventFilm(UUID uuid) {
-        EventFilm eventFilm = filmDao.findById(uuid).orElseThrow(() ->
-                new EntityNotFoundException(uuid, "Фильма не обнаружено: проверьте uuid")
-        );
-
         UserDto user = userHolder.getUser();
+        EventFilm eventFilm;
 
-        if (!eventFilm.getStatus().equals(Status.PUBLISHED) && (
-                user == null || (
-                    !user.getUsername().equals(eventFilm.getAuthor()) &&
-                    !user.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))
-                )
-        )) {
-            throw new SecurityException("В доступе отказано");
+
+        if (user == null) {
+            eventFilm = filmDao.findByFilmTypeAndUuidAndStatus(uuid, Status.PUBLISHED)
+                    .orElseThrow(() -> new EntityNotFoundException(uuid, "Фильма не обнаружено: проверьте uuid"));
+
+        } else if (user.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+            eventFilm = filmDao.findByFilmTypeAndUuid(uuid)
+                    .orElseThrow(() -> new EntityNotFoundException(uuid, "Фильма не обнаружено: проверьте uuid"));
+        }else {
+            eventFilm = filmDao.findByUuidAndFilmTypeAndStatusOrAuthor(uuid,Status.PUBLISHED, user.getUsername())
+                    .orElseThrow(() -> new EntityNotFoundException(uuid, "Фильма не обнаружено: проверьте uuid"));
         }
 
         return mapper.map(eventFilm, PageEventDto.class);
@@ -181,19 +180,20 @@ public class EventService implements IAfishaService {
 
     @Override
     public PageEventDto getSingleEventConcert(UUID uuid) {
-        EventConcert eventConcert = concertDao.findById(uuid).orElseThrow(() ->
-                new EntityNotFoundException(uuid, "Концерта не обнаружено: проверьте uuid")
-        );
-
         UserDto user = userHolder.getUser();
+        EventConcert eventConcert;
 
-        if (!eventConcert.getStatus().equals(Status.PUBLISHED) && (
-                user == null || (
-                        !user.getUsername().equals(eventConcert.getAuthor()) &&
-                                !user.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))
-                )
-        )) {
-            throw new SecurityException("В доступе отказано");
+        if (user == null) {
+            eventConcert = concertDao.findByUuidAndAndStatus(uuid, Status.PUBLISHED)
+                    .orElseThrow(() -> new EntityNotFoundException(uuid, "Фильма не обнаружено: проверьте uuid"));
+
+        } else if (user.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+            eventConcert = concertDao.findByUuid(uuid)
+                    .orElseThrow(() -> new EntityNotFoundException(uuid, "Фильма не обнаружено: проверьте uuid"));
+
+        }else {
+            eventConcert = concertDao.findByUuidAndStatusOrAuthor(uuid, Status.PUBLISHED, user.getUsername())
+                    .orElseThrow(() -> new EntityNotFoundException(uuid, "Фильма не обнаружено: проверьте uuid"));
         }
 
         return mapper.map(eventConcert, PageEventDto.class);
