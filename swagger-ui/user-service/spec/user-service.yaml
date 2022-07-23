@@ -23,15 +23,14 @@ tags:
   - name: "Личный кабинет"
     description: "Доступ к личному кабинету"
 
-security:
-  - bearerAuth: []
-
 paths:
   /api/v1/users:
     post:
       tags:
         - "Пользователи"
       summary: "Добавление нового пользователя"
+      security:
+        - bearerAuth: [ROLE_ADMIN]
       requestBody:
         $ref: "#/components/requestBodies/CreateUser"
       responses:
@@ -49,6 +48,8 @@ paths:
       tags:
         - "Пользователи"
       summary: "Получить страницу пользователей"
+      security:
+        - bearerAuth: [ROLE_ADMIN]
       parameters:
         - in: query
           name: page
@@ -86,6 +87,8 @@ paths:
       tags:
         - "Пользователи"
       summary: "Получить информацию о пользователе"
+      security:
+        - bearerAuth: [ROLE_ADMIN]
       parameters:
         - in: path
           name: uuid
@@ -114,6 +117,8 @@ paths:
       tags:
         - "Пользователи"
       summary: "Редактировать информацию о пользователе"
+      security:
+        - bearerAuth: [ROLE_ADMIN]
       parameters:
         - in: path
           name: uuid
@@ -179,6 +184,8 @@ paths:
       tags:
         - "Личный кабинет"
       summary: "Получить информацию о себе"
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -263,22 +270,22 @@ components:
               message:  Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору
   schemas:
     UserRole:
-        type: string
-        description: |
-              Роль пользователя:
-                * `ADMIN` - Администратор
-                * `USER` - Пользователь
-        enum:
+      type: string
+      description: |
+        Роль пользователя:
+          * `ADMIN` - Администратор
+          * `USER` - Пользователь
+      enum:
         - "ADMIN"
         - "USER"
     UserStatus:
-        type: string
-        description: |
-              Статус пользователя:
-                * `WAITING_ACTIVATION` - Ожидает активации
-                * `ACTIVATED` - Активирован
-                * `DEACTIVATED` - Деактивирован
-        enum:
+      type: string
+      description: |
+        Статус пользователя:
+          * `WAITING_ACTIVATION` - Ожидает активации
+          * `ACTIVATED` - Активирован
+          * `DEACTIVATED` - Деактивирован
+      enum:
         - "WAITING_ACTIVATION"
         - "ACTIVATED"
         - "DEACTIVATED"
@@ -341,7 +348,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
-        
+
     t_base_essence:
       type: object
       description: Описание базовой сущности.

@@ -27,6 +27,8 @@ paths:
       tags:
         - "Справочники"
       summary: Добавление новой страны
+      security:
+        - bearerAuth: [ROLE_ADMIN]
       requestBody:
         $ref: "#/components/requestBodies/CreateCountry"
       responses:
@@ -49,12 +51,16 @@ paths:
           name: page
           schema:
             type: integer
+            minimum: 0
+            default: 0
           description: Номер страницы
           required: false
         - in: query
           name: size
           schema:
             type: integer
+            minimum: 1
+            default: 20
           description: Размер страницы
           required: false
       responses:
@@ -77,6 +83,8 @@ paths:
       tags:
         - "Справочники"
       summary: Добавление новой категории концерта
+      security:
+        - bearerAuth: [ROLE_ADMIN]
       requestBody:
         $ref: "#/components/requestBodies/CreateConcertCategory"
       responses:
@@ -99,12 +107,16 @@ paths:
           name: page
           schema:
             type: integer
+            minimum: 0
+            default: 0
           description: Номер страницы
           required: false
         - in: query
           name: size
           schema:
             type: integer
+            minimum: 1
+            default: 20
           description: Размер страницы
           required: false
       responses:
@@ -139,6 +151,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ConcertCategory'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 
   responses:
     Bad_Request:
