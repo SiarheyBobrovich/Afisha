@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.persistence.OptimisticLockException;
 import javax.validation.ConstraintViolationException;
 import java.util.*;
 
@@ -64,7 +65,7 @@ public class GlobalHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, Object> handle(InvalidVersionException exception) {
+    public Map<String, Object> handle(OptimisticLockException exception) {
         return Map.of(
                 logref, "error",
                 message, exception.getMessage()
@@ -76,7 +77,7 @@ public class GlobalHandler {
     public Map<String, Object> handle(HttpMessageNotReadableException exception) {
         return Map.of(
                 logref, "error",
-                message, "Запрос не корректен, проверьте запрос"
+                message, "Запрос содержит некорретные данные. Измените запрос и отправьте его ещё раз"
         );
     }
 

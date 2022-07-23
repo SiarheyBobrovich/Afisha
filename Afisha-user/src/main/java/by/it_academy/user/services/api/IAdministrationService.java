@@ -1,5 +1,6 @@
 package by.it_academy.user.services.api;
 
+import by.it_academy.user.dao.entity.User;
 import by.it_academy.user.dto.request.UserCreateDto;
 import by.it_academy.user.dto.response.ResponseUserDto;
 import by.it_academy.user.pagination.ResponseUserDtoPage;
@@ -39,5 +40,5 @@ public interface IAdministrationService {
      * @param uuid Current user's uuid to find
      * @return The saved user
      */
-    ResponseUserDto get(UUID uuid);
+    User get(UUID uuid);
 }

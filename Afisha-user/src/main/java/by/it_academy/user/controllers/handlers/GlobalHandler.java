@@ -54,11 +54,11 @@ public class GlobalHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, Object> handle(EntityNotFoundException exception) {
         return Map.of(
                 logref, "error",
-                message, exception.getMessage()
+                message, "Не найдена"
         );
     }
 

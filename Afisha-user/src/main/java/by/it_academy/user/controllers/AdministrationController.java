@@ -1,8 +1,10 @@
 package by.it_academy.user.controllers;
 
+import by.it_academy.user.dto.response.ResponseUserDto;
 import by.it_academy.user.utils.LongToLocalDateTimeUtil;
 import by.it_academy.user.dto.request.UserCreateDto;
 import by.it_academy.user.services.api.IAdministrationService;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -17,9 +19,12 @@ import java.util.UUID;
 public class AdministrationController {
 
     private final IAdministrationService service;
+    private final ConversionService conversionService;
 
-    public AdministrationController(IAdministrationService service) {
+    public AdministrationController(IAdministrationService service,
+                                    ConversionService conversionService) {
         this.service = service;
+        this.conversionService = conversionService;
     }
 
     @PostMapping
@@ -49,8 +54,8 @@ public class AdministrationController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<Object> getById(@PathVariable UUID uuid) {
-
-        return ResponseEntity.ok().body(service.get(uuid));
+    @ResponseBody
+    public ResponseUserDto getById(@PathVariable UUID uuid) {
+        return conversionService.convert(service.get(uuid), ResponseUserDto.class);
     }
 }

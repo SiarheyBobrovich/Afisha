@@ -17,6 +17,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.OptimisticLockException;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -52,8 +53,8 @@ public class AdministrationService implements IAdministrationService {
     @Override
     @Transactional
     public void update(UserCreateDto updateUser, UUID uuid, LocalDateTime dtUpdate) {
-        User currentUser = userDao.findById(uuid).orElseThrow(() ->
-                new EntityNotFoundException("Не корректный uuid")
+        User currentUser = userDao.findById(uuid)
+                .orElseThrow(EntityNotFoundException::new
         );
 
         if (!currentUser.getDtUpdate().equals(dtUpdate)) {
@@ -84,10 +85,9 @@ public class AdministrationService implements IAdministrationService {
     }
 
     @Override
-    public ResponseUserDto get(UUID uuid) {
-        return conversionService.convert(
-                userDao.findById(uuid), ResponseUserDto.class
-        );
+    public User get(UUID uuid) {
+        return userDao.findById(uuid)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     private void setAuthoritiesFromDao(User user) {
