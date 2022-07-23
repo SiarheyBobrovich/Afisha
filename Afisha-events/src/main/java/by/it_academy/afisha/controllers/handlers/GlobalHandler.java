@@ -28,6 +28,15 @@ public class GlobalHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, Object> handle(SecurityException exception) {
+        return Map.of(
+                logref, "error",
+                message, exception.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> handle(JwtException exception) {
         return Map.of(
                 logref, "error",
@@ -37,7 +46,7 @@ public class GlobalHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, Object> handle(EntityNotFoundException exception) {
+    public Map<String, Object> handle(IllegalStateException exception) {
         return Map.of(
                 logref, "error",
                 message, exception.getMessage()
@@ -68,24 +77,6 @@ public class GlobalHandler {
         return Map.of(
                 logref, "error",
                 message, "Запрос не корректен, проверьте запрос"
-        );
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, Object> handle(CategoryNotFoundException exception) {
-        return Map.of(
-                logref, "error",
-                message, exception.getMessage()
-        );
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, Object> handle(CountryNotFoundException exception) {
-        return Map.of(
-                logref, "error",
-                message, exception.getMessage()
         );
     }
 

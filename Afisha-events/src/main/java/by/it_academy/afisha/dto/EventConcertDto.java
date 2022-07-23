@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JsonDeserialize(builder = EventConcertDto.Builder.class)
-public class EventConcertDto extends EventDto  {
+public class EventConcertDto extends RequestEventDto {
 
     @NotNull(message = "Введите uuid категории")
     private final UUID category;

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
         @JsonSubTypes.Type(value = EventFilmDto.class, name = "FILMS"),
         @JsonSubTypes.Type(value = EventConcertDto.class, name = "CONCERTS")
 })
-public abstract class EventDto {
+public abstract class RequestEventDto {
 
     private static final String NULL_MESSAGE = "Не должно быть пустым";
 
@@ -37,11 +37,11 @@ public abstract class EventDto {
     @NotNull(message = "Не верно введён статус")
     private final Status status;
 
-    protected EventDto(String title,
-                    String description,
-                    LocalDateTime dtEvent,
-                    LocalDateTime dtEndOfSale,
-                    Status status) {
+    protected RequestEventDto(String title,
+                              String description,
+                              LocalDateTime dtEvent,
+                              LocalDateTime dtEndOfSale,
+                              Status status) {
         this.title = title;
         this.description = description;
         this.dtEvent = dtEvent;

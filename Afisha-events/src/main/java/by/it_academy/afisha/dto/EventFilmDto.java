@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JsonDeserialize(builder = EventFilmDto.Builder.class)
-public class EventFilmDto extends EventDto {
+public class EventFilmDto extends RequestEventDto {
 
     @NotNull(message = "Введите uuid страны")
     private final UUID country;

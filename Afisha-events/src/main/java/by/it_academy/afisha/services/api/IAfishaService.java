@@ -71,4 +71,17 @@ public interface IAfishaService {
      */
     PageDtos<PageEventDto> getEventConcerts(Pageable pageable);
 
+    /**
+     * Method to get an Event(film) from database
+     * @param uuid Film's uuid
+     * @return Current Event(film) from database
+     */
+    PageEventDto getSingleEventFilm(UUID uuid);
+
+    /**
+     * Method to get an Event(concert) from database
+     * @param uuid Film's uuid
+     * @return Current Event(concert) from database
+     */
+    PageEventDto getSingleEventConcert(UUID uuid);
 }

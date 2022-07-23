@@ -101,9 +101,7 @@ public class EventService implements IAfishaService {
                 new EntityNotFoundException(uuid, "Концерта не обнаружено: Проверьте uuid.")
         );
 
-        if (!classifiersService.isValidCategory(updateSource.getCategory())) {
-            throw new CategoryNotFoundException();
-        }
+        classifiersService.isValidCategory(updateSource.getCategory());
 
 
         if (!eventConcert.getDtUpdate().equals(dtUpdate)) {
@@ -159,6 +157,46 @@ public class EventService implements IAfishaService {
         }
 
         return eventConcertsPage;
+    }
+
+    @Override
+    public PageEventDto getSingleEventFilm(UUID uuid) {
+        EventFilm eventFilm = filmDao.findById(uuid).orElseThrow(() ->
+                new EntityNotFoundException(uuid, "Фильма не обнаружено: проверьте uuid")
+        );
+
+        UserDto user = userHolder.getUser();
+
+        if (!eventFilm.getStatus().equals(Status.PUBLISHED) && (
+                user == null || (
+                    !user.getUsername().equals(eventFilm.getAuthor()) &&
+                    !user.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))
+                )
+        )) {
+            throw new SecurityException("В доступе отказано");
+        }
+
+        return mapper.map(eventFilm, PageEventDto.class);
+    }
+
+    @Override
+    public PageEventDto getSingleEventConcert(UUID uuid) {
+        EventConcert eventConcert = concertDao.findById(uuid).orElseThrow(() ->
+                new EntityNotFoundException(uuid, "Концерта не обнаружено: проверьте uuid")
+        );
+
+        UserDto user = userHolder.getUser();
+
+        if (!eventConcert.getStatus().equals(Status.PUBLISHED) && (
+                user == null || (
+                        !user.getUsername().equals(eventConcert.getAuthor()) &&
+                                !user.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))
+                )
+        )) {
+            throw new SecurityException("В доступе отказано");
+        }
+
+        return mapper.map(eventConcert, PageEventDto.class);
     }
 
     /**

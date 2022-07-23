@@ -2,7 +2,7 @@ package by.it_academy.afisha.controllers;
 
 import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dto.EventConcertDto;
-import by.it_academy.afisha.dto.EventDto;
+import by.it_academy.afisha.dto.RequestEventDto;
 import by.it_academy.afisha.dto.EventFilmDto;
 import by.it_academy.afisha.exceptions.TypeNotSupportedException;
 import by.it_academy.afisha.services.api.IAfishaService;
@@ -33,7 +33,7 @@ public class EventController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void save(@RequestBody EventDto dto, Principal userDetails) {
+    public void save(@RequestBody RequestEventDto dto, Principal userDetails) {
         String name = userDetails.getName();
 
         switch (dto.getType()) {
@@ -51,7 +51,7 @@ public class EventController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/{uuid}/dt_update/{dt_update}")
-    public void update(@RequestBody EventDto dto,
+    public void update(@RequestBody RequestEventDto dto,
                        @PathVariable UUID uuid,
                        @PathVariable("dt_update") Long dtUpdate,
                        Principal userDetails) {
@@ -73,9 +73,9 @@ public class EventController {
     }
 
     @GetMapping("/{type}")
-    public ResponseEntity<Object> get(@PathVariable Type type,
+    public ResponseEntity<Object> getAll(@PathVariable Type type,
                                       @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                      @RequestParam(value = "size", defaultValue = "25") Integer size) {
+                                      @RequestParam(value = "size", defaultValue = "20") Integer size) {
 
         final PageRequest pageRequest = PageRequest.of(
                 page, size, Sort.by("uuid")
@@ -88,6 +88,25 @@ public class EventController {
 
         }else if (Type.CONCERTS.equals(type)) {
             body = ResponseEntity.ok(service.getEventConcerts(pageRequest));
+
+        }else {
+            throw new TypeNotSupportedException(type);
+        }
+
+        return body;
+    }
+
+    @GetMapping("/{type}/{uuid}")
+    public ResponseEntity<Object> getByUUID(@PathVariable Type type,
+                                      @PathVariable UUID uuid) {
+
+        final ResponseEntity<Object> body;
+
+        if (Type.FILMS.equals(type)) {
+            body = ResponseEntity.ok().body(service.getSingleEventFilm(uuid));
+
+        }else if (Type.CONCERTS.equals(type)) {
+            body = ResponseEntity.ok().body(service.getSingleEventConcert(uuid));
 
         }else {
             throw new TypeNotSupportedException(type);

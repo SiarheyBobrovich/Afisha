@@ -6,7 +6,7 @@ import by.it_academy.afisha.dao.entity.enums.Type;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class PageEventDto extends EventDto{
+public class PageEventDto extends ResponseEventDto {
     private final UUID uuid;
     private final LocalDateTime dtCreate;
     private final LocalDateTime dtUpdate;

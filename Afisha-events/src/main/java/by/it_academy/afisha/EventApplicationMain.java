@@ -22,8 +22,4 @@ public class EventApplicationMain {
         Locale.setDefault(new Locale("ru", "RU"));
         SpringApplication.run(EventApplicationMain.class, args);
     }
-
-    //ДОБАВИТЬ в евенты Автора и сделать возврат если юзер авторизирован то все PUBLISHED и все его
-    //Если не авторизирован то только все PUBLISHED
-    //Редактировать можно только СВОИ записи и админ может редактировать все записи
 }

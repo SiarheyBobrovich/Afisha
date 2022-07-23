@@ -5,7 +5,7 @@ import java.util.UUID;
 /**
  * Thrown to indicate that a method has been passed an illegal classifier argument
  */
-public class EntityNotFoundException extends IllegalArgumentException {
+public class EntityNotFoundException extends IllegalStateException {
 
     private final UUID uuid;
 
