@@ -32,7 +32,7 @@ public class ConcertCategoryController {
     @GetMapping
     public ResponseEntity<Object> getCategory(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "25") Integer size) {
+            @RequestParam(value = "size", defaultValue = "20") Integer size) {
 
         PageRequest pageRequest = PageRequest.of(
                 page, size, Sort.by("title")

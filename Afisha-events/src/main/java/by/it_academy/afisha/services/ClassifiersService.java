@@ -1,5 +1,7 @@
 package by.it_academy.afisha.services;
 
+import by.it_academy.afisha.exceptions.CategoryNotFoundException;
+import by.it_academy.afisha.exceptions.CountryNotFoundException;
 import by.it_academy.afisha.utils.JwtTokenUtil;
 import by.it_academy.afisha.exceptions.EntityNotFoundException;
 import by.it_academy.afisha.services.api.IClassifiersConnectService;
@@ -37,7 +39,7 @@ public class ClassifiersService implements IClassifiersConnectService {
 
     @Override
     public HttpStatus getHttpStatus(String url, UUID uuid) throws EntityNotFoundException {
-        HttpStatus statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus statusCode;
         ClientHttpRequest request;
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -62,12 +64,16 @@ public class ClassifiersService implements IClassifiersConnectService {
     }
 
     @Override
-    public boolean isValidCountry(UUID uuid) {
-        return getHttpStatus(countryServiceUrl, uuid).is2xxSuccessful();
+    public void isValidCountry(UUID uuid) {
+        if (!getHttpStatus(countryServiceUrl, uuid).is2xxSuccessful()) {
+            throw new CountryNotFoundException();
+        }
     }
 
     @Override
-    public boolean isValidCategory(UUID uuid) {
-        return getHttpStatus(categoryServiceUrl, uuid).is2xxSuccessful();
+    public void isValidCategory(UUID uuid) {
+        if (!getHttpStatus(categoryServiceUrl, uuid).is2xxSuccessful()) {
+            throw new CategoryNotFoundException();
+        }
     }
 }
