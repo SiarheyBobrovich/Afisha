@@ -8,8 +8,8 @@ CREATE SCHEMA IF NOT EXISTS classifiers
 
 CREATE TABLE IF NOT EXISTS classifiers.categories
 (
-    uuid uuid NOT NULL,
-    title text COLLATE pg_catalog."default" NOT NULL,
+    uuid uuid NOT NULL UNIQUE,
+    title text COLLATE pg_catalog."default" NOT NULL UNIQUE,
     dt_create timestamp without time zone NOT NULL,
     dt_update time without time zone NOT NULL
 )
@@ -18,8 +18,8 @@ TABLESPACE pg_default;
 
 CREATE TABLE IF NOT EXISTS classifiers.countries
 (
-    uuid uuid NOT NULL,
-    title text COLLATE pg_catalog."default" NOT NULL,
+    uuid uuid NOT NULL UNIQUE,
+    title text COLLATE pg_catalog."default" NOT NULL UNIQUE,
     description text COLLATE pg_catalog."default" NOT NULL,
     dt_create timestamp without time zone NOT NULL,
     dt_update timestamp without time zone NOT NULL
