@@ -59,7 +59,7 @@ public class User implements UserDetails {
     }
 
     @Override
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     public Set<Role> getAuthorities() {
         return authorities;
     }
