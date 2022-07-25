@@ -11,11 +11,13 @@ import by.it_academy.afisha_service.utils.DefaultParamsUtil;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 public class CategoryService implements IService<CategoryDto, ResponseCategoryDto> {
 
     private final ConversionService conversionService;
@@ -27,6 +29,7 @@ public class CategoryService implements IService<CategoryDto, ResponseCategoryDt
     }
 
     @Override
+    @Transactional
     public void save(CategoryDto categoryDto) {
         if (!categoryDto.getTitle().matches("[\\p{L}\\d\\p{Punct}\\p{Blank}]++")) {
             ValidationException exception = new ValidationException();

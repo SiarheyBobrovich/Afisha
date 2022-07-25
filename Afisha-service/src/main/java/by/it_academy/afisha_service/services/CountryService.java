@@ -11,11 +11,13 @@ import by.it_academy.afisha_service.utils.DefaultParamsUtil;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 public class CountryService implements IService<CountryDto, ResponseCountryDto> {
 
     private final ConversionService conversionService;
@@ -27,6 +29,7 @@ public class CountryService implements IService<CountryDto, ResponseCountryDto> 
     }
 
     @Override
+    @Transactional
     public void save(CountryDto countryDto) {
         ValidationException exception = new ValidationException();
 

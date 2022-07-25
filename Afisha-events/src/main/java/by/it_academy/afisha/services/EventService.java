@@ -15,6 +15,7 @@ import org.modelmapper.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ import java.util.UUID;
 
 @Service
 @Validated
+@Transactional(readOnly = true)
 public class EventService implements IAfishaService {
 
     private final IEvenConcertDao concertDao;
@@ -45,6 +47,7 @@ public class EventService implements IAfishaService {
     }
 
     @Override
+    @Transactional
     public void save(EventFilmDto eventFilmDto, String author) {
         EventFilm newEventFilm = mapper.map(eventFilmDto, EventFilm.class);
 
@@ -58,6 +61,7 @@ public class EventService implements IAfishaService {
     }
 
     @Override
+    @Transactional
     public void save(EventConcertDto eventConcertDto, String author) {
         EventConcert newEventConcert = mapper.map(eventConcertDto, EventConcert.class);
 
@@ -71,6 +75,7 @@ public class EventService implements IAfishaService {
     }
 
     @Override
+    @Transactional
     public void update(EventFilmDto updateSource,
                        UUID uuid,
                        LocalDateTime dtUpdate,
@@ -91,6 +96,7 @@ public class EventService implements IAfishaService {
     }
 
     @Override
+    @Transactional
     public void update(EventConcertDto updateSource,
                        UUID uuid,
                        LocalDateTime dtUpdate,
