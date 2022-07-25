@@ -32,7 +32,7 @@ TABLESPACE pg_default;
 
 CREATE TABLE IF NOT EXISTS security.users_authorities (
     authorities_id bigint NOT NULL,
-    users_uuid uuid NOT NULL
+    user_uuid uuid NOT NULL
 )
 TABLESPACE pg_default;
 
@@ -52,4 +52,4 @@ ALTER TABLE security.users_authorities
     ADD CONSTRAINT fk_useaut_on_authority FOREIGN KEY (authorities_id) REFERENCES security.roles (id);
 
 ALTER TABLE security.users_authorities
-    ADD CONSTRAINT fk_useaut_on_user FOREIGN KEY (users_uuid) REFERENCES security.users (uuid);
+    ADD CONSTRAINT fk_useaut_on_user FOREIGN KEY (user_uuid) REFERENCES security.users (uuid);

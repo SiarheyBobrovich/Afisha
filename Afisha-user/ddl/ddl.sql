@@ -33,10 +33,10 @@ TABLESPACE pg_default;
 
 CREATE TABLE IF NOT EXISTS security.users_authorities (
     authorities_id bigint NOT NULL,
-    users_uuid uuid NOT NULL,
-    CONSTRAINT pk_users_authorities PRIMARY KEY (authorities_id, users_uuid),
+    user_uuid uuid NOT NULL,
+    CONSTRAINT pk_users_authorities PRIMARY KEY (authorities_id, user_uuid),
     CONSTRAINT fk_useaut_on_authority FOREIGN KEY (authorities_id) REFERENCES security.roles (id) MATCH SIMPLE,
-    CONSTRAINT fk_useaut_on_user FOREIGN KEY (users_uuid) REFERENCES security.users (uuid) MATCH SIMPLE
+    CONSTRAINT fk_useaut_on_user FOREIGN KEY (user_uuid) REFERENCES security.users (uuid) MATCH SIMPLE
 )
 TABLESPACE pg_default;
 

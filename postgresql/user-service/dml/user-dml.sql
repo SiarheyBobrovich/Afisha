@@ -33,7 +33,7 @@ VALUES (
 
 INSERT INTO security.users_authorities (
     authorities_id,
-    users_uuid)
+    user_uuid)
 VALUES ( (
         SELECT
             id
@@ -44,7 +44,7 @@ VALUES ( (
 
 INSERT INTO security.users_authorities (
     authorities_id,
-    users_uuid)
+    user_uuid)
 VALUES ( (
         SELECT
             id
