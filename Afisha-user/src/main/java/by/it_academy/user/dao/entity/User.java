@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,10 +21,6 @@ public class User implements UserDetails {
     private String nick;
     private Set<Role> authorities;
     private Status status;
-    private boolean accountNonExpired;
-    private boolean accountNonLocked;
-    private boolean credentialsNonExpired;
-    private boolean enabled;
     private LocalDateTime dtCreate;
     private LocalDateTime dtUpdate;
 
@@ -71,27 +68,27 @@ public class User implements UserDetails {
     }
 
     @Override
-    @Column(name = "account_non_expired")
+    @Transient
     public boolean isAccountNonExpired() {
-        return this.accountNonExpired;
+        return true;
     }
 
     @Override
-    @Column(name = "account_non_locked")
+    @Transient
     public boolean isAccountNonLocked() {
-        return this.accountNonLocked;
+        return !status.equals(Status.WAITING_ACTIVATION);
     }
 
     @Override
-    @Column(name = "credentials_non_expired")
+    @Transient
     public boolean isCredentialsNonExpired() {
-        return this.credentialsNonExpired;
+        return true;
     }
 
     @Override
-    @Column(name = "enabled")
+    @Transient
     public boolean isEnabled() {
-        return this.enabled;
+        return !status.equals(Status.DEACTIVATED);
     }
 
     @Column(name = "dt_create", nullable = false, updatable = false)
@@ -129,28 +126,40 @@ public class User implements UserDetails {
         this.status = status;
     }
 
-    public void setAccountNonExpired(boolean accountNonExpired) {
-        this.accountNonExpired = accountNonExpired;
-    }
-
-    public void setAccountNonLocked(boolean accountNonLocked) {
-        this.accountNonLocked = accountNonLocked;
-    }
-
-    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
-        this.credentialsNonExpired = credentialsNonExpired;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
     public void setDtCreate(LocalDateTime dtCreate) {
         this.dtCreate = dtCreate;
     }
 
     public void setDtUpdate(LocalDateTime dtUpdate) {
         this.dtUpdate = dtUpdate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(uuid, user.uuid) &&
+                Objects.equals(mail, user.mail) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(nick, user.nick) &&
+                Objects.equals(authorities, user.authorities) &&
+                status == user.status &&
+                Objects.equals(dtCreate, user.dtCreate) &&
+                Objects.equals(dtUpdate, user.dtUpdate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid,
+                mail,
+                password,
+                nick,
+                authorities,
+                status,
+                dtCreate,
+                dtUpdate
+        );
     }
 
     public static Builder builder() {
@@ -165,10 +174,6 @@ public class User implements UserDetails {
         private String nick;
         private Set<Role> authorities;
         private Status status;
-        private boolean accountNonExpired;
-        private boolean accountNonLocked;
-        private boolean credentialsNonExpired;
-        private boolean enabled;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
 
@@ -202,26 +207,6 @@ public class User implements UserDetails {
             return this;
         }
 
-        public Builder setAccountNonExpired(boolean accountNonExpired) {
-            this.accountNonExpired = accountNonExpired;
-            return this;
-        }
-
-        public Builder setAccountNonLocked(boolean accountNonLocked) {
-            this.accountNonLocked = accountNonLocked;
-            return this;
-        }
-
-        public Builder setCredentialsNonExpired(boolean credentialsNonExpired) {
-            this.credentialsNonExpired = credentialsNonExpired;
-            return this;
-        }
-
-        public Builder setEnabled(boolean enabled) {
-            this.enabled = enabled;
-            return this;
-        }
-
         public Builder setDtCreate(LocalDateTime dtCreate) {
             this.dtCreate = dtCreate;
             return this;
@@ -241,10 +226,6 @@ public class User implements UserDetails {
             user.setNick(this.nick);
             user.setAuthorities(this.authorities);
             user.setStatus(this.status);
-            user.setAccountNonExpired(this.accountNonExpired);
-            user.setAccountNonLocked(this.accountNonLocked);
-            user.setCredentialsNonExpired(this.credentialsNonExpired);
-            user.setEnabled(this.enabled);
             user.setDtCreate(this.dtCreate);
             user.setDtUpdate(this.dtUpdate);
 

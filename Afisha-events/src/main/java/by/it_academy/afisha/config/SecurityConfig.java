@@ -41,10 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET).permitAll()
-                // Our public endpoints
                 .antMatchers(HttpMethod.POST).authenticated()
                 .antMatchers(HttpMethod.PUT).authenticated()
-                // Our private endpoints
                 .anyRequest().hasAuthority("ADMIN");
 
         // Add JWT token filter

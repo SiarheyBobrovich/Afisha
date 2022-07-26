@@ -34,10 +34,6 @@ public class UserRegistrationDtoToUserConverter extends AbstractConverterWithEnc
                 .setDtCreate(now)
                 .setDtUpdate(LocalDateTimeUtils.convertNanosToMillis(now))
                 .setStatus(Status.ACTIVATED)
-                .setAccountNonLocked(true)
-                .setAccountNonExpired(true)
-                .setCredentialsNonExpired(true)
-                .setEnabled(true)
                 .build();
     }
 }

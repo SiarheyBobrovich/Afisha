@@ -1,5 +1,6 @@
 package by.it_academy.afisha_service.controllers.handlers;
 
+import by.it_academy.afisha_service.exceptions.CategoryExistsException;
 import by.it_academy.afisha_service.exceptions.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +36,15 @@ public class GlobalHandler {
         return Map.of(
                 logref, "error",
                 message, "Запрос не корректен, проверьте запрос"
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, Object> handle(CategoryExistsException exception) {
+        return Map.of(
+                logref, "error",
+                message, exception.getMessage()
         );
     }
 

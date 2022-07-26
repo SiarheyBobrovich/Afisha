@@ -4,6 +4,8 @@ import by.it_academy.afisha_service.dao.api.ICountryDao;
 import by.it_academy.afisha_service.dao.entity.Country;
 import by.it_academy.afisha_service.dto.CountryDto;
 import by.it_academy.afisha_service.dto.ResponseCountryDto;
+import by.it_academy.afisha_service.exceptions.ConcertCategoryExistsException;
+import by.it_academy.afisha_service.exceptions.CountryExistsException;
 import by.it_academy.afisha_service.exceptions.ValidationException;
 import by.it_academy.afisha_service.pagination.ResponseCountryPage;
 import by.it_academy.afisha_service.services.api.IService;
@@ -43,6 +45,10 @@ public class CountryService implements IService<CountryDto, ResponseCountryDto> 
 
         if (!exception.getErrors().isEmpty()) {
             throw exception;
+        }
+
+        if (dao.existsByTitle(countryDto.getTitle())) {
+            throw new CountryExistsException();
         }
 
         Country country = conversionService.convert(countryDto, Country.class);

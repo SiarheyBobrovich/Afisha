@@ -4,6 +4,7 @@ import by.it_academy.afisha_service.dao.api.ICategoryDao;
 import by.it_academy.afisha_service.dao.entity.Category;
 import by.it_academy.afisha_service.dto.CategoryDto;
 import by.it_academy.afisha_service.dto.ResponseCategoryDto;
+import by.it_academy.afisha_service.exceptions.ConcertCategoryExistsException;
 import by.it_academy.afisha_service.exceptions.ValidationException;
 import by.it_academy.afisha_service.pagination.ResponseCategoryPage;
 import by.it_academy.afisha_service.services.api.IService;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityExistsException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -36,6 +38,10 @@ public class CategoryService implements IService<CategoryDto, ResponseCategoryDt
             exception.add(Map.entry("title", "не верный формат."));
 
             throw exception;
+        }
+
+        if (dao.existsByTitle(categoryDto.getTitle())) {
+            throw new ConcertCategoryExistsException();
         }
 
         Category newCategory = conversionService.convert(categoryDto, Category.class);

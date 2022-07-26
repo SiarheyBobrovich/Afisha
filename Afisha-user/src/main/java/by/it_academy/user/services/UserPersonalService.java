@@ -58,8 +58,7 @@ public class UserPersonalService implements IUserPersonalService {
             throw new SecurityException("Не верный логин или пороль");
         }
 
-        if (!currentUser.isEnabled() ||
-                !currentUser.getStatus().equals(Status.ACTIVATED)) {
+        if (!currentUser.getStatus().equals(Status.ACTIVATED)) {
             throw new SecurityException("Аккаунт не активен, обратитесь к администратору");
         }
 

@@ -17,10 +17,6 @@ TABLESPACE pg_default;
 
 CREATE TABLE IF NOT EXISTS security.users (
     uuid uuid NOT NULL UNIQUE,
-    account_non_expired boolean NOT NULL,
-    account_non_locked boolean NOT NULL,
-    credentials_non_expired boolean NOT NULL,
-    enabled boolean NOT NULL,
     username text COLLATE pg_catalog."default" NOT NULL UNIQUE,
     PASSWORD text COLLATE pg_catalog."default" NOT NULL,
     nick text COLLATE pg_catalog."default" NOT NULL,

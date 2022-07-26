@@ -8,10 +8,6 @@ VALUES (
 
 INSERT INTO security.users (
     uuid,
-    account_non_expired,
-    account_non_locked,
-    credentials_non_expired,
-    enabled,
     username,
     PASSWORD,
     nick,
@@ -20,10 +16,6 @@ INSERT INTO security.users (
     dt_update)
 VALUES (
     '3f99c70b-386e-40b0-a718-1c720360d857',
-    TRUE,
-    TRUE,
-    TRUE,
-    TRUE,
     'admin@admin.admin',
     '$2a$10$7DjJGKOWShTdhHfBgPCjI.9OP/BScn88in1lStMQX5AdHhYE.crnG',
     'admin',

@@ -31,10 +31,6 @@ public class UserCreateDtoToUserConverter extends AbstractConverterWithEncoder<U
                 .setAuthorities(Set.of(source.getRole()))
                 .setDtCreate(now)
                 .setDtUpdate(LocalDateTimeUtils.convertNanosToMillis(now))
-                .setAccountNonLocked(true)
-                .setAccountNonExpired(true)
-                .setCredentialsNonExpired(true)
-                .setEnabled(true)
                 .build();
     }
 }
