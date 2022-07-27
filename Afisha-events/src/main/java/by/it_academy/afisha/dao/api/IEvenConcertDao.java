@@ -1,6 +1,7 @@
 package by.it_academy.afisha.dao.api;
 
 import by.it_academy.afisha.dao.entity.enums.Status;
+import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dao.entity.events.EventConcert;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,56 +17,62 @@ public interface IEvenConcertDao extends JpaRepository<EventConcert, UUID> {
 
     /**
      * Method to get page of Events(concert)
+     * @param type Type of concert
      * @param uuid Current concert's uuid
      * @return Page of Events(concert) that are found
      */
-    @Query("select e from EventConcert e where e.uuid = ?1 and e.concert.type = 'CONCERTS'")
-    Optional<EventConcert> findByUuid(UUID uuid);
+    @Query("SELECT e FROM EventConcert e WHERE e.concert.type = ?1 AND e.uuid = ?2")
+    Optional<EventConcert> findByUuid(Type type, UUID uuid);
 
     /**
      * Method to get page of Events(concert)
+     * @param type Type of concert
      * @param uuid Current concert's uuid
      * @param author Current author
      * @return Page of Events(concert) that are found
      */
-    @Query("select e from EventConcert e where e.concert.type = 'CONCERTS' and e.uuid = ?1 and e.author = ?2")
-    Optional<EventConcert> findByUuidAndAuthor(UUID uuid, String author);
+    @Query("SELECT e FROM EventConcert e WHERE e.concert.type = ?1 AND e.uuid = ?2 AND e.author = ?3")
+    Optional<EventConcert> findByUuidAndAuthor(Type type, UUID uuid, String author);
 
     /**
      * Method to get page of Events(concert)
      * @param uuid Current concert's uuid
+     * @param type Type of concert
      * @param status Current concert's status
      * @return Page of Events(concert) that are found
      */
-    @Query("select e from EventConcert e where e.uuid = ?1 and e.concert.type = 'CONCERTS' and e.status = ?2")
-    Optional<EventConcert> findByUuidAndAndStatus(UUID uuid, Status status);
+    @Query("SELECT e FROM EventConcert e WHERE e.uuid = ?1 AND e.concert.type = ?2 AND e.status = ?3")
+    Optional<EventConcert> findByUuidAndAndStatus(UUID uuid, Type type, Status status);
 
     /**
      * Method to get page of Events(concert)
      * @param uuid Current concert's uuid
+     * @param type Type of concert
      * @param status Current concert's status
      * @param author Current author
      * @return Page of Events(concert) that are found
      */
-    @Query("select e from EventConcert e where e.uuid = ?1 and e.concert.type = 'CONCERTS' and (e.status = ?2 or e.author = ?3)")
-    Optional<EventConcert> findByUuidAndStatusOrAuthor(UUID uuid, Status status, String author);
+    @Query("SELECT e FROM EventConcert e WHERE e.uuid = ?1 AND e.concert.type = ?2 AND (e.status = ?3 or e.author = ?4)")
+    Optional<EventConcert> findByUuidAndStatusOrAuthor(UUID uuid, Type type, Status status, String author);
 
     /**
      * Method to get page of Events(concert)
+     * @param type Type of concert
      * @param pageable Current page
      * @return Page of Events(concert) that are found
      */
-    @Query("select e from EventConcert e where e.concert.type = 'CONCERTS'")
-    Page<EventConcert> findAllConcers(Pageable pageable);
+    @Query("SELECT e FROM EventConcert e WHERE e.concert.type = ?1 ORDER BY e.concert.title")
+    Page<EventConcert> findAllConcertsType(Type type, Pageable pageable);
 
     /**
      * Method to get page of Events(concert)
+     * @param type Type of concert
      * @param status Current concert's status
      * @param pageable Current page
      * @return Page of Events(concert) that are found
      */
-    @Query("select e from EventConcert e where e.concert.type = 'CONCERTS' and e.status = ?1")
-    Page<EventConcert> findByConcertTypeAndStatus(Status status, Pageable pageable);
+    @Query("SELECT e FROM EventConcert e WHERE e.concert.type = ?1 AND e.status = ?2 ORDER BY e.concert.title")
+    Page<EventConcert> findByConcertTypeAndStatus(Type type, Status status, Pageable pageable);
 
     /**
      * Method to get page of Events(concert)
@@ -74,6 +81,6 @@ public interface IEvenConcertDao extends JpaRepository<EventConcert, UUID> {
      * @param pageable Current page
      * @return Page of Events(concert) that are found
      */
-    @Query("SELECT e FROM EventConcert e WHERE e.concert.type = 'CONCERTS' AND (e.status = ?1 OR e.author = ?2)")
-    Page<EventConcert> findByConcertTypeAndStatusAndAuthor(Status status, String author, Pageable pageable);
+    @Query("SELECT e FROM EventConcert e WHERE e.concert.type = ?1 AND (e.status = ?2 OR e.author = ?3) ORDER BY e.concert.title")
+    Page<EventConcert> findByConcertTypeAndStatusAndAuthor(Type type, Status status, String author, Pageable pageable);
 }

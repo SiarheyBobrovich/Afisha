@@ -2,9 +2,9 @@ package by.it_academy.afisha.services.api;
 
 import by.it_academy.afisha.exceptions.CategoryNotFoundException;
 import by.it_academy.afisha.exceptions.CountryNotFoundException;
-import by.it_academy.afisha.exceptions.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.UUID;
 
 public interface IClassifiersConnectService {

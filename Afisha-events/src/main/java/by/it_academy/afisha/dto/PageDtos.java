@@ -75,4 +75,16 @@ public class PageDtos<T> {
         return content;
     }
 
+    public static <T> PageDtos<T> of(Page<T> page) {
+        return new PageDtos<>(page.getNumber(),
+                page.getSize(),
+                page.getTotalPages(),
+                page.getTotalElements(),
+                page.isFirst(),
+                page.getNumberOfElements(),
+                page.isLast(),
+                page.getContent()
+        );
+    }
+
 }

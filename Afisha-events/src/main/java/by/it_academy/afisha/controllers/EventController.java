@@ -1,11 +1,9 @@
 package by.it_academy.afisha.controllers;
 
 import by.it_academy.afisha.dao.entity.enums.Type;
-import by.it_academy.afisha.dto.EventConcertDto;
+import by.it_academy.afisha.dto.PageDtos;
 import by.it_academy.afisha.dto.RequestEventDto;
-import by.it_academy.afisha.dto.EventFilmDto;
-import by.it_academy.afisha.exceptions.TypeNotSupportedException;
-import by.it_academy.afisha.services.api.IAfishaService;
+import by.it_academy.afisha.services.EventServiceSwitcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -25,28 +23,18 @@ import java.util.UUID;
 @RequestMapping("/api/v1/afisha/event")
 public class EventController {
 
-    private final IAfishaService service;
+    private final EventServiceSwitcher switcher;
 
-    public EventController(IAfishaService service) {
-        this.service = service;
+    public EventController(EventServiceSwitcher switcher) {
+        this.switcher = switcher;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void save(@RequestBody RequestEventDto dto, Principal userDetails) {
-        String name = userDetails.getName();
+        String userName = userDetails.getName();
 
-        switch (dto.getType()) {
-            case FILMS:
-                service.save((EventFilmDto) dto, name);
-                break;
-
-            case CONCERTS:
-                service.save((EventConcertDto) dto, name);
-                break;
-
-            default: throw new TypeNotSupportedException(dto.getType());
-        }
+        switcher.save(dto, userName);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -55,21 +43,11 @@ public class EventController {
                        @PathVariable UUID uuid,
                        @PathVariable("dt_update") Long dtUpdate,
                        Principal userDetails) {
-        String name = userDetails.getName();
+        String userName = userDetails.getName();
 
-        LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneId.of("UTC"));
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneId.of("UTC"));
 
-        switch (dto.getType()) {
-            case FILMS:
-                service.update((EventFilmDto) dto, uuid, date, name);
-                break;
-
-            case CONCERTS:
-                service.update((EventConcertDto) dto, uuid, date, name);
-                break;
-
-            default: throw new TypeNotSupportedException(dto.getType());
-        }
+        switcher.update(dto, uuid, localDateTime, userName);
     }
 
     @GetMapping("/{type}")
@@ -78,40 +56,18 @@ public class EventController {
                                       @RequestParam(value = "size", defaultValue = "20") Integer size) {
 
         final PageRequest pageRequest = PageRequest.of(
-                page, size, Sort.by("uuid")
+                page, size
         );
 
-        final ResponseEntity<Object> body;
-
-        if (Type.FILMS.equals(type)) {
-            body = ResponseEntity.ok(service.getEventFilms(pageRequest));
-
-        }else if (Type.CONCERTS.equals(type)) {
-            body = ResponseEntity.ok(service.getEventConcerts(pageRequest));
-
-        }else {
-            throw new TypeNotSupportedException(type);
-        }
-
-        return body;
+        return ResponseEntity.ok()
+                .body(PageDtos.of(switcher.getAllEvents(type, pageRequest)));
     }
 
     @GetMapping("/{type}/{uuid}")
     public ResponseEntity<Object> getByUUID(@PathVariable Type type,
                                       @PathVariable UUID uuid) {
 
-        final ResponseEntity<Object> body;
-
-        if (Type.FILMS.equals(type)) {
-            body = ResponseEntity.ok().body(service.getSingleEventFilm(uuid));
-
-        }else if (Type.CONCERTS.equals(type)) {
-            body = ResponseEntity.ok().body(service.getSingleEventConcert(uuid));
-
-        }else {
-            throw new TypeNotSupportedException(type);
-        }
-
-        return body;
+        return ResponseEntity.ok()
+                .body(switcher.getSingleEvent(type, uuid));
     }
 }

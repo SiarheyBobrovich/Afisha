@@ -3,7 +3,6 @@ package by.it_academy.afisha.services;
 import by.it_academy.afisha.exceptions.CategoryNotFoundException;
 import by.it_academy.afisha.exceptions.CountryNotFoundException;
 import by.it_academy.afisha.utils.JwtTokenUtil;
-import by.it_academy.afisha.exceptions.EntityNotFoundException;
 import by.it_academy.afisha.services.api.IClassifiersConnectService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -17,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;

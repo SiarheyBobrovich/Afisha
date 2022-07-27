@@ -62,26 +62,26 @@ public interface IAfishaService {
      * @param pageable Page to get
      * @return Current page from database
      */
-    PageDtos<PageEventDto> getEventFilms(Pageable pageable);
+    PageDtos<ResponseEventDto> getEventFilms(Pageable pageable);
 
     /**
      * Method to get page of Events(concert) from database
      * @param pageable page to get
      * @return Current page from database
      */
-    PageDtos<PageEventDto> getEventConcerts(Pageable pageable);
+    PageDtos<ResponseEventDto> getEventConcerts(Pageable pageable);
 
     /**
      * Method to get an Event(film) from database
      * @param uuid Film's uuid
      * @return Current Event(film) from database
      */
-    PageEventDto getSingleEventFilm(UUID uuid);
+    ResponseEventDto getSingleEventFilm(UUID uuid);
 
     /**
      * Method to get an Event(concert) from database
      * @param uuid Film's uuid
      * @return Current Event(concert) from database
      */
-    PageEventDto getSingleEventConcert(UUID uuid);
+    ResponseEventDto getSingleEventConcert(UUID uuid);
 }

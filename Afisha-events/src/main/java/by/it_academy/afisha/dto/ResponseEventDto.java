@@ -4,51 +4,44 @@ import by.it_academy.afisha.dao.entity.enums.Status;
 import by.it_academy.afisha.dao.entity.enums.Type;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-public abstract class ResponseEventDto {
+public class ResponseEventDto extends AbstractResponseEventDto {
+    private final UUID uuid;
+    private final LocalDateTime dtCreate;
+    private final LocalDateTime dtUpdate;
+    private final Type type;
 
-
-    private final String title;
-    private final String description;
-
-    private final LocalDateTime dtEvent;
-
-    private final LocalDateTime dtEndOfSale;
-
-    private final Status status;
-
-    protected ResponseEventDto(String title,
-                               String description,
-                               LocalDateTime dtEvent,
-                               LocalDateTime dtEndOfSale,
-                               Status status) {
-        this.title = title;
-        this.description = description;
-        this.dtEvent = dtEvent;
-        this.dtEndOfSale = dtEndOfSale;
-        this.status = status;
+    public ResponseEventDto(String title,
+                            String description,
+                            LocalDateTime dtEvent,
+                            LocalDateTime dtEndOfSale,
+                            Status status,
+                            UUID uuid,
+                            LocalDateTime dtCreate,
+                            LocalDateTime dtUpdate,
+                            Type type) {
+        super(title, description, dtEvent, dtEndOfSale, status);
+        this.uuid = uuid;
+        this.dtCreate = dtCreate;
+        this.dtUpdate = dtUpdate;
+        this.type = type;
     }
 
-    public String getTitle() {
-        return title;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public String getDescription() {
-        return description;
+    public LocalDateTime getDtCreate() {
+        return dtCreate;
     }
 
-    public LocalDateTime getDtEvent() {
-        return dtEvent;
+    public LocalDateTime getDtUpdate() {
+        return dtUpdate;
     }
 
-    public LocalDateTime getDtEndOfSale() {
-        return dtEndOfSale;
+    public Type getType() {
+        return type;
     }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public abstract Type getType();
 
 }
