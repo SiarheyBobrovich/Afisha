@@ -1,6 +1,6 @@
 package by.it_academy.user.dto.request;
 
-import by.it_academy.user.dao.entity.Role;
+import by.it_academy.user.dao.enums.Roles;
 import by.it_academy.user.dao.enums.Status;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,20 +11,21 @@ import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 public class UserCreateDto {
+    private static final String NULL_MESSAGE = "Не должно быть пустым";
 
-    @NotNull
-    @Pattern(regexp = "[\\p{L}\\d\\p{Blank}]++",
+    @NotNull(message = NULL_MESSAGE)
+    @Pattern(regexp = "[\\p{L}\\d]{5,20}",
             message = "Не верно введён nick")
     private final String nick;
 
-    @NotNull
+    @NotNull(message = NULL_MESSAGE)
     @Email(regexp = "^[\\p{Alpha}\\d]+?@[\\p{Alpha}]+?\\.[\\p{Alpha}]+", message = "Не верно введён mail")
     private final String mail;
     @Pattern(regexp = "[\\p{Alpha}\\d]++",
             message = "Не верно введён password")
     private final String password;
     @NotNull(message = "Не верно введена role")
-    private final Role role;
+    private final Roles role;
     @NotNull(message = "Не верно введён status")
     private final Status status;
 
@@ -32,7 +33,7 @@ public class UserCreateDto {
     public UserCreateDto(@JsonProperty("nick") String nick,
                          @JsonProperty("mail") String mail,
                          @JsonProperty("password") String password,
-                         @JsonProperty("role") Role role,
+                         @JsonProperty("role") Roles role,
                          @JsonProperty("status") Status status) {
         this.nick = nick;
         this.mail = mail;
@@ -53,7 +54,7 @@ public class UserCreateDto {
         return password;
     }
 
-    public Role getRole() {
+    public Roles getRole() {
         return role;
     }
 

@@ -1,6 +1,7 @@
 package by.it_academy.user.dto.response;
 
 import by.it_academy.user.dao.enums.Status;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -11,7 +12,10 @@ public class ResponseUserDto {
     private final String mail;
     private final String role;
     private final Status status;
+
+    @Schema(implementation = Long.class)
     private final LocalDateTime dtCreate;
+    @Schema(implementation = Long.class)
     private final LocalDateTime dtUpdate;
 
     public ResponseUserDto(UUID uuid,

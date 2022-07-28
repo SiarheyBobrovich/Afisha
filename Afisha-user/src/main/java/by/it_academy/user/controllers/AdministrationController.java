@@ -1,9 +1,11 @@
 package by.it_academy.user.controllers;
 
 import by.it_academy.user.dto.response.ResponseUserDto;
+import by.it_academy.user.pagination.ResponseUserDtoPage;
 import by.it_academy.user.utils.LongToLocalDateTimeUtil;
 import by.it_academy.user.dto.request.UserCreateDto;
 import by.it_academy.user.services.api.IAdministrationService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -45,8 +47,8 @@ public class AdministrationController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getAll(@RequestParam(defaultValue = "0") Integer page,
-                                         @RequestParam(defaultValue = "20") Integer size) {
+    public ResponseEntity<ResponseUserDtoPage> getAll(@RequestParam(defaultValue = "0") Integer page,
+                                                      @RequestParam(defaultValue = "20") Integer size) {
 
         PageRequest pageable = PageRequest.of(page, size, Sort.by("nick"));
 
@@ -55,7 +57,8 @@ public class AdministrationController {
 
     @GetMapping("/{uuid}")
     @ResponseBody
-    public ResponseUserDto getById(@PathVariable UUID uuid) {
-        return conversionService.convert(service.get(uuid), ResponseUserDto.class);
+    public ResponseEntity<ResponseUserDto> getById(@PathVariable UUID uuid) {
+        return ResponseEntity.ok()
+                .body(conversionService.convert(service.get(uuid), ResponseUserDto.class));
     }
 }
