@@ -27,14 +27,7 @@ public class GlobalHandler {
                 message, "Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору"
         );
     }
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Map<String, Object> handle(UsernameNotFoundException exception) {
-        return Map.of(
-                logref, "error",
-                message, exception.getMessage()
-        );
-    }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handle(EntityExistsException exception) {

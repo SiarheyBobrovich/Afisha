@@ -72,7 +72,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
         try(ClientHttpResponse execute = httpRequest.execute()) {
             if (!execute.getStatusCode().is2xxSuccessful()) {
-                throw new SecurityException("Пользователь был удалён");
+                response.setStatus(401);
+                return;
             }
 
             user = mapper.readValue(execute.getBody(), UserDto.class);

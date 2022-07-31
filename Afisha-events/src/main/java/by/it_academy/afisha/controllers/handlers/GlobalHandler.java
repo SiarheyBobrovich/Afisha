@@ -30,15 +30,6 @@ public class GlobalHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Map<String, Object> handle(SecurityException exception) {
-        return Map.of(
-                LOGREF, "error",
-                MESSAGE, exception.getMessage()
-        );
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Map<String, Object> handle(JwtException exception) {
         return Map.of(
                 LOGREF, "error",

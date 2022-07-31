@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(schema = "afisha", name = "events")
 public class EventConcert extends Event {
 
-    @OneToOne(targetEntity = Concert.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Concert.class, cascade = {CascadeType.PERSIST})
     @JoinTable(name = "events_actions",
             joinColumns = @JoinColumn(name = "event_uuid", referencedColumnName = "uuid"),
             inverseJoinColumns = @JoinColumn(name = "action_uuid", referencedColumnName = "uuid")
