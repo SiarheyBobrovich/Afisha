@@ -2,7 +2,7 @@ package by.it_academy.user.converters;
 
 import by.it_academy.user.dao.entity.User;
 import by.it_academy.user.dto.response.ResponseUserDto;
-import by.it_academy.user.pagination.ResponseUserDtoPage;
+import by.it_academy.user.dto.response.ResponseUserDtoPage;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;

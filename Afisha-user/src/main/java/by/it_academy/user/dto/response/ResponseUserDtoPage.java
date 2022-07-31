@@ -1,6 +1,4 @@
-package by.it_academy.user.pagination;
-
-import by.it_academy.user.dto.response.ResponseUserDto;
+package by.it_academy.user.dto.response;
 
 import java.util.List;
 

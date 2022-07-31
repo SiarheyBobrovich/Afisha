@@ -4,8 +4,7 @@ import by.it_academy.user.dao.api.IRoleDao;
 import by.it_academy.user.dao.api.IUserDao;
 import by.it_academy.user.dao.entity.User;
 import by.it_academy.user.dto.request.UserCreateDto;
-import by.it_academy.user.dto.response.ResponseUserDto;
-import by.it_academy.user.pagination.ResponseUserDtoPage;
+import by.it_academy.user.dto.response.ResponseUserDtoPage;
 import by.it_academy.user.services.api.IAdministrationService;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +16,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.OptimisticLockException;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
