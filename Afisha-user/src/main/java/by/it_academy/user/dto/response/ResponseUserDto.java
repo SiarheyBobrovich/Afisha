@@ -1,6 +1,9 @@
 package by.it_academy.user.dto.response;
 
+import by.it_academy.user.dao.enums.Roles;
 import by.it_academy.user.dao.enums.Status;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
@@ -10,6 +13,7 @@ public class ResponseUserDto {
     private final UUID uuid;
     private final String nick;
     private final String mail;
+
     private final String role;
     private final Status status;
 

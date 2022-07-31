@@ -106,7 +106,7 @@ public class EventFilmService implements IEventService<EventFilmDto, EventFilm> 
             eventFilm = filmDao.findByFilmTypeAndUuid(type, uuid)
                     .orElseThrow(FilmNotFoundException::new);
         }else {
-            eventFilm = filmDao.findByFilmTypeAndFilmUuidAndStatusOrAuthor(type, uuid,Status.PUBLISHED, user.getUsername())
+            eventFilm = filmDao.findByFilmTypeAndUuidAndStatusOrAuthor(type, uuid,Status.PUBLISHED, user.getUsername())
                     .orElseThrow(FilmNotFoundException::new);
         }
 

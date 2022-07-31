@@ -4,6 +4,8 @@ import by.it_academy.afisha_service.converters.CategoryToResponseCategoryDtoConv
 import by.it_academy.afisha_service.dao.entity.Category;
 import by.it_academy.afisha_service.dto.CategoryDto;
 import by.it_academy.afisha_service.dto.ResponseCategoryDto;
+import by.it_academy.afisha_service.pagination.ResponseCategoryPage;
+import by.it_academy.afisha_service.pagination.ResponsePage;
 import by.it_academy.afisha_service.services.api.IService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -30,7 +32,7 @@ public class ConcertCategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getCategory(
+    public ResponseEntity<ResponsePage<ResponseCategoryDto>> getCategory(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "20") Integer size) {
 
@@ -43,7 +45,7 @@ public class ConcertCategoryController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<Object> isValidCategory(@PathVariable UUID uuid) {
+    public ResponseEntity<ResponseCategoryDto> isValidCategory(@PathVariable UUID uuid) {
         ResponseCategoryDto outDto = new CategoryToResponseCategoryDtoConverter().convert((Category) service.get(uuid));
         return ResponseEntity.ok(outDto);
     }

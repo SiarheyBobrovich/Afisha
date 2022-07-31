@@ -3,9 +3,9 @@ package by.it_academy.afisha.controllers;
 import by.it_academy.afisha.dao.entity.enums.Type;
 import by.it_academy.afisha.dto.PageDtos;
 import by.it_academy.afisha.dto.RequestEventDto;
+import by.it_academy.afisha.dto.ResponseEventDto;
 import by.it_academy.afisha.services.EventServiceSwitcher;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,9 +51,9 @@ public class EventController {
     }
 
     @GetMapping("/{type}")
-    public ResponseEntity<Object> getAll(@PathVariable Type type,
-                                      @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                      @RequestParam(value = "size", defaultValue = "20") Integer size) {
+    public ResponseEntity<PageDtos<ResponseEventDto>> getAll(@PathVariable Type type,
+                                                         @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                         @RequestParam(value = "size", defaultValue = "20") Integer size) {
 
         final PageRequest pageRequest = PageRequest.of(
                 page, size
@@ -64,7 +64,7 @@ public class EventController {
     }
 
     @GetMapping("/{type}/{uuid}")
-    public ResponseEntity<Object> getByUUID(@PathVariable Type type,
+    public ResponseEntity<ResponseEventDto> getByUUID(@PathVariable Type type,
                                       @PathVariable UUID uuid) {
 
         return ResponseEntity.ok()

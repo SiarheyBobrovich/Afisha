@@ -4,6 +4,7 @@ import by.it_academy.afisha_service.converters.CountryToResponseCountryDtoDtoCon
 import by.it_academy.afisha_service.dao.entity.Country;
 import by.it_academy.afisha_service.dto.CountryDto;
 import by.it_academy.afisha_service.dto.ResponseCountryDto;
+import by.it_academy.afisha_service.pagination.ResponsePage;
 import by.it_academy.afisha_service.services.api.IService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -30,7 +31,7 @@ public class CountryController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getCountry(
+    public ResponseEntity<ResponsePage<ResponseCountryDto>> getAllCountries(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "20") Integer size) {
 

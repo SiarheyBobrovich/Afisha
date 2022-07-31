@@ -1,9 +1,13 @@
 package by.it_academy.user.controllers;
 
+import by.it_academy.user.dto.response.ResponseUserDto;
 import by.it_academy.user.utils.JwtTokenUtil;
 import by.it_academy.user.dto.request.UserLoginDto;
 import by.it_academy.user.dto.request.UserRegistrationDto;
 import by.it_academy.user.services.api.IUserPersonalService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +33,7 @@ public class PersonalController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login (@RequestBody UserLoginDto login) {
+    public ResponseEntity<Void> login (@RequestBody UserLoginDto login) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION,
                 JwtTokenUtil.generateAccessToken(service.login(login))
@@ -38,9 +42,19 @@ public class PersonalController {
         return ResponseEntity.ok().headers(headers).build();
     }
 
-    @GetMapping("/me")
-    public ResponseEntity<Object> getInformationAbout(Principal principal) {
-
-        return ResponseEntity.ok().body(service.getByMail(principal.getName()));
+    @ApiOperation(value = "Получить сведения о себе",
+            response = ResponseUserDto.class,
+            produces = "application/json", consumes = "application/json"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "Запрос некорректен. Сервер не может обработать запрос"),
+            @ApiResponse(responseCode = "401", description = "Для выполнения запроса на данный адрес требуется передать токен авторизации"),
+            @ApiResponse(responseCode = "403", description = "Данному токенту авторизации запрещено выполнять запроса на данный адрес"),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера. Сервер не смог корректно обработать запрос")
+    })
+    @GetMapping(value = "/me", produces = "application/json")
+    @ResponseBody
+    public ResponseUserDto getInformationAbout(Principal principal) {
+        return service.getByMail(principal.getName());
     }
 }

@@ -96,8 +96,9 @@ public class UserDto implements UserDetails {
                     .collect(Collectors.toSet());
         }
 
-        public void setEnable(boolean enable) {
-            isEnable = enable;
+        @JsonSetter("status")
+        public void setEnable(String status) {
+            isEnable = "ACTIVATED".equals(status);
         }
 
         public UserDto build() {

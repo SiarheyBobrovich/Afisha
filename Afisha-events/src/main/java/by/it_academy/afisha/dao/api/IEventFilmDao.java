@@ -54,8 +54,8 @@ public interface IEventFilmDao extends JpaRepository<EventFilm, UUID> {
      * @param author Current author
      * @return An event(film) that is found
      */
-    @Query("SELECT e FROM EventFilm e WHERE e.film.type = ?1 AND e.film.uuid = ?2 AND (e.status = ?3 OR e.author = ?4)")
-    Optional<EventFilm> findByFilmTypeAndFilmUuidAndStatusOrAuthor(Type type, UUID uuid, Status status, String author);
+    @Query("SELECT e FROM EventFilm e WHERE e.film.type = ?1 AND e.uuid = ?2 AND (e.status = ?3 OR e.author = ?4)")
+    Optional<EventFilm> findByFilmTypeAndUuidAndStatusOrAuthor(Type type, UUID uuid, Status status, String author);
 
     /**
      * Method to get page of events(film)
