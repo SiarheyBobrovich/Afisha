@@ -29,7 +29,7 @@ public class GlobalHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Map<String, Object> handle(SecurityException exception) {
         return Map.of(
                 LOGREF, "error",
@@ -38,7 +38,7 @@ public class GlobalHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Map<String, Object> handle(JwtException exception) {
         return Map.of(
                 LOGREF, "error",
